@@ -196,3 +196,26 @@ def test_guidance_rule_uses_existing_outputs_only():
     cl = {r["unit"]: r["class"] or make_tables.DASH for r in formats.read_csv(ROOT, "outputs/chain_class.csv")
           if r["spec"] == "p75" and r["year"] == "2023"}
     assert {r[0]: r[1] for r in s14.rows} == cl
+
+
+def test_audit_refuses_a_submitted_folder(tmp_path):
+    from tools import audit_references
+    (tmp_path / "SUBMITTED_2026-11-22.txt").write_text("sent", encoding="utf-8")
+    with pytest.raises(SystemExit) as e:
+        audit_references.main(["--manuscript-dir", str(tmp_path)])
+    assert "refusing to write" in str(e.value.code)
+    assert not (tmp_path / "reference_audit.md").exists()
+
+
+def test_layout_settings_of_the_build(tmp_path):
+    docx = pytest.importorskip("docx")
+    path = tmp_path / "x.docx"
+    docx.Document().save(str(path))
+    build_submission.load_docx()
+    doc = docx.Document(str(path))
+    build_submission.page_setup(doc, line_numbers=True)
+    build_submission.no_hyphenation(doc)
+    doc.save(str(path))
+    assert check_docx_tie.part(path, "word/document.xml").find(f".//{check_docx_tie.W}lnNumType") is not None
+    ah = check_docx_tie.part(path, "word/settings.xml").find(f"{check_docx_tie.W}autoHyphenation")
+    assert ah is not None and ah.get(f"{check_docx_tie.W}val") == "false"

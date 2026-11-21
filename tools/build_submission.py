@@ -51,15 +51,6 @@ import tempfile
 import zipfile
 from pathlib import Path
 
-from docx import Document
-from docx.enum.section import WD_ORIENT
-from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_COLOR_INDEX
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
-from docx.shared import Cm, Pt
-from docx.text.run import Run
-
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -79,6 +70,19 @@ SUBMITTED = re.compile(r"^SUBMITTED_")
 PAGEBREAK = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n'
 PANDOC_FROM = ("markdown+pipe_tables+superscript+fenced_divs+raw_attribute-smart-subscript-citations"
                "-tex_math_dollars-raw_html-auto_identifiers-implicit_figures-link_attributes")
+
+
+def load_docx() -> None:
+    """Import python-docx when a document is built (importing this module does not need it)."""
+    global Document, WD_ORIENT, WD_STYLE_TYPE, WD_ALIGN_PARAGRAPH, WD_COLOR_INDEX, OxmlElement, qn, Cm, Pt, Run
+    from docx import Document
+    from docx.enum.section import WD_ORIENT
+    from docx.enum.style import WD_STYLE_TYPE
+    from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_COLOR_INDEX
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    from docx.shared import Cm, Pt
+    from docx.text.run import Run
 
 
 def configure(ms_dir: Path) -> None:
@@ -220,6 +224,7 @@ def set_font(obj, size: float | None = 12) -> None:
 
 
 def make_reference(path: Path) -> None:
+    load_docx()
     raw = subprocess.run(["pandoc", "--print-default-data-file", "reference.docx"],
                          capture_output=True, check=True).stdout
     path.write_bytes(raw)
@@ -596,6 +601,7 @@ def scrub_app_xml(path: Path) -> None:
 
 def postprocess(path: Path, *, landscape: bool = False, line_numbers: bool = False, table_pt: float = 10,
                 placeholder: bool = False) -> None:
+    load_docx()
     doc = Document(str(path))
     page_setup(doc, landscape=landscape, line_numbers=line_numbers)
     move_page_breaks(doc)

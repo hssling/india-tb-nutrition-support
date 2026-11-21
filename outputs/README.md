@@ -40,7 +40,7 @@ One row per unit-year (99 rows, `level` = `unit`) and one national row per year
 - `U` = D - Q, `U_acc` = D - B (lost before bank details), `U_pay` = B - Q (lost after bank
   details). A ratio above 1 makes that step, its split and its class NA; C and U are kept
   when Q <= D (plan section 3.6).
-- `interval` (Jeffreys or Wilson); `n_units`, `n_units_A`, `n_units_P`, `n_units_C`,
+- `interval` (Jeffreys or Wilson); `n_units_A`, `n_units_P`, `n_units_C`,
   `n_units_U`, `n_units_U_acc`, `n_units_U_pay` (national rows: units used);
   `na_steps` (the NA steps with their reason), `note` (units excluded from a national
   value), `flag` (extraction flags), `source_file`, `pdf_page`, `table_id`.

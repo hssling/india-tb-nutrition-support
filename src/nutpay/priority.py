@@ -77,6 +77,8 @@ def draw_set(chain_rows: list[dict], year: int, rng: np.random.Generator,
         if str(e).startswith("no non-NA cell"):
             return DrawSet(year, [], {}, {}, None, None, "no usable unit", False, True,
                            {}, {}, {}, {}, excluded, why)
+        if not str(e).startswith("beta_binomial"):
+            raise
         # the shrinkage cannot be fitted; tbprio raised before drawing, so the stream is
         # untouched
         sy = tbharm.estimate(rows, STEP, year, "p75", False, rng)

@@ -52,10 +52,12 @@ module, extracted value or output was committed before the registration commit.
 
 ### Changes after registration (plan section 12)
 
-Section 12 of the plan holds one dated entry, 2026-11-22: an implementation note on two
-edge rules the plan does not state (an NA NFHS-5 cell in a merged unit; an NA covariate in
-an adjusted H3 entry). Neither applies to the data used, so neither changes a reported
-number. `verification/check_deviations.py` (plan section 12) checks that every labelled
+Section 12 of the plan holds two dated entries, both of 22 November 2026. The first is an
+implementation note on two edge rules the plan does not state (an NA NFHS-5 cell in a merged
+unit; an NA covariate in an adjusted H3 entry); neither applies to the data used, so neither
+changes a reported number. The second records two descriptive additions that affect no label,
+tier or class: the budget's cost interval (`cost_lo`, `cost_hi`) and the model-based Wald
+intervals printed for every H3 grid entry. `verification/check_deviations.py` (plan section 12) checks that every labelled
 line and every reference to a dated entry in the outputs, this README and the extracted
 data names an entry that exists.
 
@@ -71,7 +73,9 @@ of about 62-66% from the literature; Jeyashree et al. 2024, in which patients no
 the private sector more often went unpaid (so H2 expects a negative sign); the widely
 published NFHS-5 State underweight shares; and the female share of notified patients and
 the Annexure 1.2 notified totals, which companion studies had already published. H1 and H2
-are therefore not blind to the 2023 State coverage.
+are therefore not blind to the 2023 State coverage. One commit of the public history made
+before registration briefly named the two units whose printed bank-details percentage
+exceeded 100 in the TB Annual Report 2022; the note was removed before registration.
 
 ## Key results
 
@@ -139,11 +143,9 @@ alphabetically.
   with the programme, and should not be read as programme performance. Punjab's "act now"
   tier and its 94,985 per 100,000 eligible beneficiaries rest on this printed value. The
   leave-one-out output (`leave_one_out.csv`, the without-Punjab rows) shows its influence
-  on the associations: without Punjab, H1 is -0.008467741935483872 (main
-  0.01906158357771261), H2 -0.3407258064516129 (main -0.3053519061583578), H3 success
-  0.17973282935525503 (main 0.1778386247214988), H3 died 0.1131492205385424 (main
-  0.09278393179827536) and H3 lost to follow-up -0.20697304365191618 (main
-  -0.19636082000595786). Without Punjab the 2023 "act now" set changes by one unit for the
+  on the associations: without Punjab, H1 is -0.008 (main 0.019), H2 -0.341 (main -0.305),
+  H3 success 0.180 (main 0.178), H3 died 0.113 (main 0.093) and H3 lost to follow-up -0.207
+  (main -0.196). Without Punjab the 2023 "act now" set changes by one unit for the
   unpaid count (Telangana enters) and by one unit for the need-weighted count (Madhya
   Pradesh enters).
 
@@ -205,11 +207,37 @@ Python 3.14 on any platform; versions in [`ENVIRONMENT.md`](ENVIRONMENT.md). Eve
 is run as `python -I <script>` from the repository root, with LF line endings. Seed
 20261123, numpy `default_rng` reset per analysis, 10,000 draws.
 
+Clone the full history (`git clone https://github.com/hssling/india-tb-nutrition-support`,
+not a shallow clone): `check_plan_order` reads every commit to confirm the registration order.
+
+The source PDFs are not distributed. Download each from the upstream URL recorded in
+[`data/source_manifest.csv`](data/source_manifest.csv) and save it at the path listed there:
+
+- `data_raw/india_tb_report/TBAnnaulReport2022.pdf`:
+  https://tbcindia.mohfw.gov.in/wp-content/uploads/2023/05/TBAnnaulReport2022.pdf
+- `data_raw/india_tb_report/ITR2023.pdf`:
+  https://tbcindia.mohfw.gov.in/wp-content/uploads/2023/05/5646719104TB_AR_2023_04-04-2023_LRP_final.pdf
+- `data_raw/india_tb_report/ITR2024.pdf`:
+  https://tbcindia.mohfw.gov.in/wp-content/uploads/2024/10/TB-Report_for-Web_08_10-2024-1.pdf
+- `data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf`:
+  https://dhsprogram.com/pubs/pdf/OF43/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf
+- `data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf`:
+  https://dhsprogram.com/pubs/pdf/OF43/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf
+- `data_raw/india_tb_report/India-TB-Report-2019.pdf` and `data_raw/india_tb_report/ITR2020.pdf`
+  (URLs in the manifest) are needed only for the manifest check: they print no State-wise NPY
+  table and supply no value.
+
+Then `python -I tools/fetch_sources.py` verifies the files in place against their pinned
+SHA-256 digests and writes the manifest; it copies a missing file from a sibling folder only
+if that folder exists, and otherwise names the URL to download and the path to save it at.
+
 ```sh
 python -I -m pip install numpy==2.3.5 scipy==1.16.3 pdfplumber==0.11.8 pytest==9.0.0
 python -I -m pip install "tbprio @ git+https://github.com/hssling/india-tb-priority-tool@v1.0.1"
+# for the exhibits and the manuscript tooling only:
+python -I -m pip install matplotlib==3.10.7 python-docx==1.2.0 pillow==11.3.0 pymupdf==1.27.2.3
 
-# The source PDFs (not distributed): copy them into data_raw/ and verify their digests
+# Verify the source PDFs saved in data_raw/ and write the manifest
 python -I tools/fetch_sources.py
 
 # Extraction (data/extracted/), optional: the extracts are committed
@@ -302,6 +330,6 @@ Cite as in [`CITATION.cff`](CITATION.cff). Author: Siddalingaiah H S (ORCID
 Medicine, Shridevi Institute of Medical Sciences and Research Hospital, Tumkur 572106,
 Karnataka, India (hssling@yahoo.com).
 
-Code (`src/`, `tools/`, `tests/`, `verification/`): MIT ([`LICENSE`](LICENSE)). Derived
+Code (`src/`, `exhibits/`, `tools/`, `tests/`, `verification/`): MIT ([`LICENSE`](LICENSE)). Derived
 data (`data/`, `outputs/`): CC BY 4.0 ([`LICENSE-DATA`](LICENSE-DATA)). The source
 publications remain the property of their publishers and should also be cited.

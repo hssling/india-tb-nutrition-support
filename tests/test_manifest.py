@@ -55,3 +55,13 @@ def test_manifest_digests_match():
         assert path.is_file(), f"missing: {r['path']}"
         assert path.stat().st_size == int(r["bytes"]), r["path"]
         assert _sha256(path) == r["sha256"], r["path"]
+
+
+def test_manifest_digests_equal_the_pinned_digests():
+    from tools import fetch_sources
+    pins = {path: (pinned, upstream) for path, _sib, upstream, pinned in fetch_sources.SOURCES}
+    rows = _rows()
+    assert {r["path"] for r in rows} == set(pins)
+    for r in rows:
+        assert r["sha256"] == pins[r["path"]][0], r["path"]
+        assert ("upstream " + pins[r["path"]][1].split(" (")[0]) in r["origin"], r["path"]

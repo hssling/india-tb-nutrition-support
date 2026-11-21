@@ -23,7 +23,7 @@ Assertions:
    moved.
 3. The registration commit named in that file is an ancestor of HEAD.
 4. No commit that is not a strict descendant of the registration commit touches outputs/,
-   data/extracted/ (any file) or src/nutpay/ (any file except the explicit allow-list
+   data/extracted/ (any file), src/run_all.py or src/nutpay/ (any file except the explicit allow-list
    ALLOWED, empty).
    Full history, deletions and renames included (--no-renames lists a rename as a
    deletion and an addition), and merges listed against each parent
@@ -47,8 +47,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GUARDED = ("outputs", "data/extracted", "src/nutpay")
-GUARDED_TEXT = "outputs/, data/extracted/ or src/nutpay/"
+GUARDED = ("outputs", "data/extracted", "src/nutpay", "src/run_all.py")
+GUARDED_TEXT = "outputs/, data/extracted/, src/nutpay/ or src/run_all.py"
 FULL_SHA = re.compile(r"[0-9a-f]{40}")
 # Loader modules that may be committed before registration (repository paths, e.g.
 # "src/nutpay/panel.py"). Empty: none is allowed.

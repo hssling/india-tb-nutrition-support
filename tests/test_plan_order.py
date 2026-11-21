@@ -39,8 +39,8 @@ def repo(tmp_path):
     return tmp_path
 
 
-def test_guarded_paths_are_nutpay_extracted_and_outputs_with_no_allow_list():
-    assert check_plan_order.GUARDED == ("outputs", "data/extracted", "src/nutpay")
+def test_guarded_paths_are_nutpay_extracted_outputs_and_run_all_with_no_allow_list():
+    assert check_plan_order.GUARDED == ("outputs", "data/extracted", "src/nutpay", "src/run_all.py")
     assert check_plan_order.ALLOWED == ()
 
 
@@ -147,12 +147,18 @@ def test_nutpay_module_in_registration_commit_is_flagged(repo):
 
 def test_extraction_code_before_registration_passes(repo):
     """Extraction code, the source manifest and the verification scripts may precede
-    registration; only src/nutpay/, data/extracted/ and outputs/ are guarded."""
+    registration; only src/nutpay/, src/run_all.py, data/extracted/ and outputs/ are guarded."""
     commit(repo, {"src/extract/itr_npy.py": "y = 1\n", "data/source_manifest.csv": "p\n",
-                  "verification/check_plan_order.py": "z = 1\n",
-                  "src/run_all.py": "w = 1\n"}, "extraction code first")
+                  "verification/check_plan_order.py": "z = 1\n"}, "extraction code first")
     reg = commit(repo, {"docs/analysis_plan.md": PLAN}, "plan")
     assert check_plan_order.problems(repo, reg) == []
+
+
+def test_run_all_before_registration_is_flagged(repo):
+    commit(repo, {"src/run_all.py": "w = 1\n"}, "analysis driver first")
+    reg = commit(repo, {"docs/analysis_plan.md": PLAN}, "plan")
+    bad = check_plan_order.problems(repo, reg)
+    assert len(bad) == 1 and "src/run_all.py" in bad[0]
 
 
 @pytest.mark.parametrize("name", ["npy_panel.csv", "nfhs_bmi.csv", "outcomes_cohorts.csv"])

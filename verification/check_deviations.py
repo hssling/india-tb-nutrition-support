@@ -34,7 +34,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PLAN = Path("docs") / "analysis_plan.md"
 HEADING = "## 12. Deviations (dated)"
 # Entries logged so far (by date); extend this set when a new dated entry is added.
-REQUIRED_ENTRIES = {"2026-11-22"}
+REQUIRED_ENTRIES = {"2026-11-22", "2026-11-22#2"}  # two entries dated 2026-11-22
 ENTRY = re.compile(r"^###\s+(\S+?)\.?\s+(.*)$")
 DATE = re.compile(r"^(20\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$")
 # A reference to one entry: "section 12 ... 2026-11-22" (also §12, plan 12, plan_12).

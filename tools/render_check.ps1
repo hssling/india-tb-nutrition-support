@@ -3,6 +3,12 @@
 # Usage: powershell -NoProfile -File tools\render_check.ps1 [<submission dir>]   (default: manuscript\submission)
 # PDFs go to <submission dir>\_render, one line per file, then the pages each table spans.
 param([string]$Sub = (Join-Path (Split-Path $PSScriptRoot -Parent) "manuscript\submission"))
+# Refuses to write when the folder or its parent (the manuscript folder) holds a SUBMITTED_* file.
+$frozen = @(Get-ChildItem -Path $Sub, (Split-Path $Sub -Parent) -File -Filter "SUBMITTED_*" -ErrorAction SilentlyContinue)
+if ($frozen.Count -gt 0) {
+  Write-Error "refusing to write: $($frozen[0].Name) marks the set as submitted; put post-submission changes in a new folder"
+  exit 1
+}
 $rd = Join-Path $Sub "_render"
 New-Item -ItemType Directory -Force $rd | Out-Null
 $word = New-Object -ComObject Word.Application

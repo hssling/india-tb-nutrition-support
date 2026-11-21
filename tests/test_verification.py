@@ -394,7 +394,7 @@ def test_removed_section12_entry_fails(root):
     text = plan.read_text(encoding="utf-8")
     plan.write_text(text.replace("### 2026-11-22.", "### 2026-11-21.", 1), encoding="utf-8")
     bad, _ = check_deviations.problems(root)
-    assert any("2026-11-22 is missing" in b for b in bad), bad
+    assert any("2026-11-22" in b and "is missing" in b for b in bad), bad
 
 
 def test_post_hoc_line_covered_by_a_dated_post_hoc_entry_passes(root):

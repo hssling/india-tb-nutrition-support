@@ -57,6 +57,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime, timedelta
 import re
 import sys
 from functools import lru_cache
@@ -116,6 +117,9 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     put("date.registration", day(reg["pushed_at"]), "docs/registration_event.json: pushed_at")
     put("reg.time", reg["pushed_at"][11:19] + " UTC", "docs/registration_event.json: pushed_at")
     put("reg.commit", reg["registered_commit"][:7], "docs/registration_event.json: registered_commit")
+    ist = datetime.fromisoformat(reg["pushed_at"].replace("Z", "+00:00")) + timedelta(hours=5, minutes=30)
+    put("reg.ist", f"{ist:%H:%M} IST, {ist.day} {MONTHS[ist.month - 1]}",
+        "docs/registration_event.json: pushed_at in India Standard Time (UTC+5:30)")
     put("plan.draws", plan_has(root, "10,000", "§5.3, §10.1"), "docs/analysis_plan.md §5.3, §10.1")
     for lab, s in (("t80", "0.80"), ("t50", "0.50"), ("t20", "0.20")):
         put(f"plan.{lab}", plan_has(root, s, "§6"), "docs/analysis_plan.md §6 tiers")
@@ -143,6 +147,11 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     plan_has(root, "8 months", "§9")
     put("plan.m6", "6 months", "docs/analysis_plan.md §9 (main)")
     put("plan.m68", "from 6 to 8 months", "docs/analysis_plan.md §9 (range)")
+    put("plan.wins", plan_has(root, "10%-winsorised", "§8.3").split("-")[0], "docs/analysis_plan.md §8.3 funnel")
+    put("lit.jey761", "76.1%", "literature: Jeyashree et al. 2024 (ref 9), abstract via Crossref: 76.1% received at least one "
+        "instalment in 2022")
+    put("lit.jey91", "91 days", "literature: Jeyashree et al. 2024 (ref 9), abstract via Crossref: median 91 days to the first "
+        "instalment in 2022")
     put("lit.asha15", "15 days", "literature: India TB Report 2023, PDF p. 114 (ASHA incentive for seeding within 15 days)")
 
     # ---- the national chain (outputs/chain.csv) ------------------------------------------
@@ -175,6 +184,9 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     put("pb.D", count(pb["D_denominator"]), "outputs/chain.csv: Punjab 2023 D")
     put("pb.B", count(pb["B_bank_available"]), "outputs/chain.csv: Punjab 2023 B")
     pr = {r["unit"]: r for r in read_csv(root, "outputs/priority.csv") if r["year"] == MAIN_YEAR and r["spec"] == "unweighted"}
+    for y in ("2021", "2022"):
+        r = one(unit_rows(ch, y), f"Punjab {y}", unit="Punjab")
+        put(f"pb.C.{y}", pct(r["C"]), f"outputs/chain.csv: Punjab {y} C")
     put("pb.per100k", count(pr["Punjab"]["harm_per_100000"]), "outputs/priority.csv: Punjab 2023 unweighted harm_per_100000")
     sf = [r for r in read_csv(root, "outputs/shortfall.csv") if r["year"] == MAIN_YEAR and r["spec"] == "p75" and r["A_bench"]]
     put("bench.A", pct(sf[0]["A_bench"]), "outputs/shortfall.csv: 2023 p75 A_bench")
@@ -192,6 +204,8 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     tiered = [r for r in pt if r["share_unchanged"]]
     put("pert.all", f"{count(sum(float(r['share_unchanged']) == 1.0 for r in tiered))} of {count(len(tiered))}",
         "outputs/perturbation.csv: units with share_unchanged = 1")
+    for u, lab in (("Punjab", "pert.pb"), ("Rajasthan", "pert.rj")):
+        put(lab, pct(one(tiered, u, unit=u)["share_unchanged"]), f"outputs/perturbation.csv: {u} share_unchanged")
     lo = min(tiered, key=lambda r: float(r["share_unchanged"]))
     put("pert.min", f"{lo['unit']} kept it in {pct(lo['share_unchanged'])}", "outputs/perturbation.csv: lowest share_unchanged")
 
@@ -309,6 +323,11 @@ def claims(root: Path) -> list[str]:
         need(cl[u] == k, f"{u} is {k} in 2023")
     for u in ("Chhattisgarh", "Jharkhand", "Madhya Pradesh"):
         need(float(nw[u]["wt_u"]) > 1, f"{u} has a need weight above the mean")
+    for spec, out_u in (("need_weighted_women", "Punjab"), ("need_weighted_men", "Rajasthan")):
+        got = {r["unit"] for r in pri if r["spec"] == spec and r["tier"] == "act now"}
+        need(got == (five - {out_u}) | {"Madhya Pradesh"}, f"the {spec} act-now set has Madhya Pradesh in place of {out_u}")
+    need(all(float(national(ch, y)["C"]) > float(one(unit_rows(ch, y), "pb", unit="Punjab")["C"]) > 0.10
+             for y in ("2021", "2022")), "Punjab's coverage was low in 2021 and 2022 but far above its 2023 value")
     fu = read_csv(root, "outputs/funnel.csv")
     need({r["unit"] for r in fu if r["position"] == "below the 99.8% limit"} == {"Bihar", "Punjab"},
          "Bihar and Punjab are the units below the 99.8% limit")

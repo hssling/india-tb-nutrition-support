@@ -1,8 +1,11 @@
-"""Copy the source documents into data_raw/ and verify their SHA-256 digests.
+"""Verify the source documents in data_raw/ against their SHA-256 digests and write the manifest.
 
 Run as: python -I tools/fetch_sources.py   (stdlib only; from the repository root)
 
-No file is downloaded. The India TB Reports are copied from the sibling
+No file is downloaded. Outside the author's workspace, download each source from its upstream
+URL (listed below and in data/source_manifest.csv), save it at the listed path under data_raw/,
+and run this script: it verifies the files already in place. A file that is missing is copied
+from a sibling folder only if that folder exists. The India TB Reports are copied from the sibling
 repository ../tb_priority_tool/data_raw/india_tb_report/, which holds them as
 downloaded from tbcindia.mohfw.gov.in; the pinned digests below are those in that
 repository's manifest (../tb_priority_tool/data/source_manifest.csv), and when that
@@ -33,11 +36,11 @@ MANIFEST = ROOT / "data" / "source_manifest.csv"
 FIELDS = ["path", "origin", "bytes", "sha256"]
 CHUNK = 1 << 20
 
-NFHS_ORIGIN = ("https://dhsprogram.com/pubs/pdf/OF43/ (NFHS-5 India and State fact sheet "
+NFHS_ORIGIN = ("https://dhsprogram.com/pubs/pdf/OF43/{name} (NFHS-5 India and State fact sheet "
                "compendium, {phase})")
 
 # (path in this repo, sibling copy relative to the parent folder (None only for
-#  author-supplied, upstream origin, pinned sha256)
+#  author-supplied files), upstream origin, pinned sha256)
 SOURCES: list[tuple[str, str | None, str, str]] = [
     ("data_raw/india_tb_report/India-TB-Report-2019.pdf",
      "tb_priority_tool/data_raw/india_tb_report/India-TB-Report-2019.pdf",
@@ -61,11 +64,11 @@ SOURCES: list[tuple[str, str | None, str, str]] = [
      "e37f9f406153b5e9a19726538c3f4d09dc4c470281c34fe511adaa56a0e22765"),
     ("data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf",
      "tb_diabetes_gap/data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf",
-     NFHS_ORIGIN.format(phase="Phase I"),
+     NFHS_ORIGIN.format(name="NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf", phase="Phase I"),
      "5bcc2a37b13ffc0203d736803f72aece88b4beb0bc168d1f069e110178ab2bd7"),
     ("data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf",
      "tb_diabetes_gap/data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf",
-     NFHS_ORIGIN.format(phase="Phase II"),
+     NFHS_ORIGIN.format(name="NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf", phase="Phase II"),
      "3e8ee12bb4a59e9ec2e7bebc736b2252d61e9ed98ce322717debe11dd73c52b7"),
 ]
 
@@ -93,6 +96,9 @@ def sibling_digests() -> dict[str, str]:
 
 def check_pins(recorded: dict[str, str]) -> None:
     """Each pinned digest of a sibling copy must equal the sibling manifest's."""
+    if not recorded:
+        print("sibling manifests absent; using pinned digests")
+        return
     for _path, sibling, _upstream, pinned in SOURCES:
         if sibling is None or not recorded:
             continue
@@ -102,7 +108,7 @@ def check_pins(recorded: dict[str, str]) -> None:
             raise ValueError(f"pinned digest differs from the sibling manifest: {sibling}")
 
 
-def bring(path: str, sibling: str | None, pinned: str) -> str:
+def bring(path: str, sibling: str | None, pinned: str, upstream: str = "") -> str:
     """Copy (if missing) and verify one source; return a status line.
     Raises ValueError on a digest mismatch, FileNotFoundError if absent."""
     dest = ROOT / path
@@ -112,7 +118,8 @@ def bring(path: str, sibling: str | None, pinned: str) -> str:
             raise FileNotFoundError(f"author-supplied file missing: {path}")
         src = SIBLINGS / sibling
         if not src.is_file():
-            raise FileNotFoundError(f"sibling copy missing: {src}")
+            raise FileNotFoundError(f"sibling copy missing: {src}; download {upstream.split(' (')[0]} "
+                                    f"and save it as {path}, then rerun")
         dest.parent.mkdir(parents=True, exist_ok=True)
         part = dest.with_name(dest.name + ".part")
         try:
@@ -144,7 +151,7 @@ def main() -> int:
     rows, failed = [], 0
     for path, sibling, upstream, pinned in SOURCES:
         try:
-            print(bring(path, sibling, pinned))
+            print(bring(path, sibling, pinned, upstream))
         except (ValueError, OSError) as e:
             failed += 1
             print(f"FAILED {path}: {e}", file=sys.stderr)

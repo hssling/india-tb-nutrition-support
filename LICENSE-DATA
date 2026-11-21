@@ -2,15 +2,16 @@ Derived data licence
 
 The derived data in this repository, namely
 
-  - data/ (the source manifest and, once extracted, the values taken from the
-    source reports with their sources), and
+  - data/ (the source manifest and the values taken from the source reports with
+    their sources), and
   - outputs/ (the results of the analyses),
 
 are licensed under the Creative Commons Attribution 4.0 International licence
 (CC BY 4.0): https://creativecommons.org/licenses/by/4.0/
 
 Attribution: Siddalingaiah H S, "Who misses the TB nutrition payment, and where it
-matters most: a State-level analysis of the Ni-kshay Poshan Yojana chain in India".
+matters most: a pre-registered State-level analysis of the Ni-kshay Poshan Yojana
+payment chain".
 
 The underlying figures come from Government of India publications: the India TB
 Reports and the TB Annual Report 2022 of the Central TB Division, Ministry of
@@ -21,5 +22,5 @@ documents remain the property of their publishers; they are not redistributed
 in this repository and are not covered by this licence. Users of the derived
 data should also cite the source publications.
 
-The code (src/, tools/, tests/ and, once added, verification/) is licensed
+The code (src/, exhibits/, tools/, tests/ and verification/) is licensed
 separately under the MIT licence: see LICENSE.

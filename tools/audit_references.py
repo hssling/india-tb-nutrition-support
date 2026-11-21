@@ -21,8 +21,10 @@ Run as: python -I tools/audit_references.py [--manuscript-dir DIR]   (default: m
   hold the release placeholder; the [software] entry must name its version.
 - A reference without a DOI: its URL must be the upstream address of a file in
   data/source_manifest.csv, whose SHA-256 is re-verified when data_raw/ holds the file; the facts
-  the manuscript cites from that report (FACTS) are found on their pages.
-Nothing is downloaded except Crossref's JSON records. Exit 1 if any reference fails.
+  the manuscript cites from that report (FACTS) are found on their pages. An official web page
+  without a local copy must be listed in WEB_PAGES with what was read on it.
+Nothing is downloaded except Crossref's JSON records. Refuses to write into a folder (or its
+submission/) holding a SUBMITTED_* file. Exit 1 if any reference fails.
 """
 from __future__ import annotations
 
@@ -43,6 +45,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 UA = "reference-audit/1.0"
 MS_NAME = "manuscript.md"
+# Official web pages cited without a local copy: read online (read only, nothing downloaded) on the
+# accessed date, with what was found on them.
+WEB_PAGES = {
+    "https://tbcindia.mohfw.gov.in/press-release-link-on-pib-4/":
+        "official Central TB Division page reproducing the press release of 7 December 2024, read online (not "
+        "downloaded); it states that the Ni-kshay Poshan amount was increased from Rs 500 to Rs 1000 per month "
+        "for all TB patients; it gives no effective date. The release of 7 October 2024 on pib.gov.in did not open",
+}
 # Facts the text cites from a report: (file name, 1-based PDF page, phrase found on the page).
 FACTS = {
     "ITR2023.pdf": [(113, "launched the NPY scheme in April 2018"), (114, "Rs 500 per month"),
@@ -194,6 +204,8 @@ def non_doi_check(n: int, entry: str, root: Path) -> tuple[str, bool]:
     if not url:
         return f"| {n} | none | {entry[:70]} | no DOI, no URL with an [accessed ...] date | — | NO |", False
     hit = [r for r in man if ("upstream " + url.group(1)) in r["origin"]]
+    if not hit and url.group(1) in WEB_PAGES:
+        return (f"| {n} | none | {url.group(1)} | {WEB_PAGES[url.group(1)]}; accessed {url.group(2)} | — | yes |"), True
     if not hit:
         return f"| {n} | none | {entry[:70]} | URL not in data/source_manifest.csv | — | NO |", False
     states = []
@@ -209,12 +221,25 @@ def non_doi_check(n: int, entry: str, root: Path) -> tuple[str, bool]:
             f"{'; '.join(states)}; accessed {url.group(2)} | — | {'yes' if ok else 'NO'} |"), ok
 
 
+def submitted_markers(ms_dir: Path) -> list[Path]:
+    """SUBMITTED_* files in the folder or its submission/ (a frozen, submitted set)."""
+    out = []
+    for d in (ms_dir, ms_dir / "submission"):
+        if d.is_dir():
+            out += [p for p in d.iterdir() if p.is_file() and p.name.startswith("SUBMITTED_")]
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0], allow_abbrev=False)
     ap.add_argument("--manuscript-dir", default="manuscript")
     a = ap.parse_args(argv)
     ms_dir = Path(a.manuscript_dir)
     ms_dir = ms_dir if ms_dir.is_absolute() else ROOT / ms_dir
+    frozen = submitted_markers(ms_dir)
+    if frozen:
+        raise SystemExit(f"refusing to write: {', '.join(p.name for p in frozen)} marks {ms_dir} as submitted; "
+                         f"put post-submission changes in a new folder (for example a _v2 folder)")
     rows, bad = [], 0
     for n, entry in sorted(cited(ms_dir).items()):
         d = re.search(r"https://doi\.org/(\S+?)\.?$", entry)

@@ -49,7 +49,9 @@ def prior(x, n) -> tuple[float, float, str]:
     try:
         a, b = shrink.beta_binomial(np.asarray(x, dtype=float), np.asarray(n, dtype=float))
         return a, b, ""
-    except ValueError:
+    except ValueError as e:
+        if not str(e).startswith("beta_binomial"):
+            raise
         a, b = shrink.JEFFREYS_BINOMIAL
         return a, b, FALLBACK
 

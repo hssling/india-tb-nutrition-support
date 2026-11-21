@@ -539,3 +539,10 @@ The plan does not state these two cases. The analysis code applies the rules bel
 
 - **An NA NFHS-5 cell in a merged unit (§4.2).** If one member sheet of a merged unit has an NA Total cell for item 86 or 87, that sheet adds nothing to the unit's weighted mean for that item, as an NA member row adds nothing to a merged count (§3.5). The unit carries the flag `nfhs_member_na`. If every member sheet is NA for the item, the item is NA for the unit. No NFHS-5 Total cell used in this study is NA.
 - **An NA covariate in an adjusted H3 grid entry (§8.2, §8.4).** If an observation's private-sector share or previous-year success share is NA, that observation is left out of that grid entry only (complete cases). It stays in every other entry. No private-sector share or previous-year success share of the H3 observations is NA.
+
+### 2026-11-22. Descriptive additions (no label, tier or class affected)
+
+Two descriptive columns are written that the plan does not name. Neither enters a label, tier, class or flag, and neither changes any registered estimate.
+
+- **Budget cost interval (§9).** `outputs/budget.csv` gives `cost_lo` and `cost_hi`, the 95% interval of U(2023) multiplied by the rate and the months. The plan names only the interval of U.
+- **Wald intervals for every H3 grid entry (§8.2, §8.4).** `outputs/spec_curve.csv` prints the model-based Wald interval for each of the eight entries of each H3 outcome. §8.2 computes the interval for the main entry only; the extra intervals are descriptive and are not used for the label, which rests on the main entry's cluster bootstrap interval and the sign agreement of the grid.

@@ -94,7 +94,7 @@ class Analysis:
                 "paid_over_validated": r["PV"], "paid_over_validated_lo": r["PV_lo"],
                 "paid_over_validated_hi": r["PV_hi"],
                 "U": r["U"], "U_acc": r["U_acc"], "U_pay": r["U_pay"],
-                "interval": "Jeffreys", "n_units": None, "na_steps": r["na_steps"],
+                "interval": "Jeffreys", "na_steps": r["na_steps"],
                 "note": "", "flag": r["flag"], "source_file": r["source_file"],
                 "pdf_page": r["pdf_page"], "table_id": r["table_id"]})
         for t in YEARS:
@@ -124,7 +124,7 @@ class Analysis:
                   "B_bank_available", "Q_paid_at_least_once", "bank_validated", "A", "A_lo",
                   "A_hi", "P", "P_lo", "P_hi", "C", "C_lo", "C_hi", "V", "V_lo", "V_hi",
                   "paid_over_validated", "paid_over_validated_lo", "paid_over_validated_hi",
-                  "U", "U_acc", "U_pay", "interval", "n_units", "n_units_A", "n_units_P",
+                  "U", "U_acc", "U_pay", "interval", "n_units_A", "n_units_P",
                   "n_units_C", "n_units_U", "n_units_U_acc", "n_units_U_pay", "na_steps",
                   "note", "flag", "source_file", "pdf_page", "table_id"]
 
