@@ -1,6 +1,7 @@
 # Adapted from hssling/india-tb-diabetes-gap v1.0.0 (MIT), verification/check_all.py.
-# Changes: the steps of this repository (analysis plan section 10.3); the manuscript steps are
-# skipped until manuscript/manuscript.md exists (the manuscript is private and git-ignored).
+# Changes: the steps of this repository (analysis plan section 10.3); the manuscript steps
+# (check_manuscript_numbers and check_docx_tie) are skipped until manuscript/manuscript.md exists
+# (the manuscript is private and git-ignored).
 """Run the whole verification (analysis plan section 10.3).
 
 Run as: python -I verification/check_all.py   (steps run from the repository root)
@@ -13,8 +14,8 @@ Steps, each a `python -I ...` subprocess:
 5. check_rounding            no count is derived from a percentage (plan 8.9)
 6. check_outputs             independent standard-library recompute
 7. check_rerun               byte-for-byte rerun of the extraction and of outputs/
-8. check_manuscript_numbers  SKIP until manuscript/manuscript.md exists (the manuscript is
-                             private and git-ignored)
+8. check_manuscript_numbers  }  SKIP until manuscript/manuscript.md exists (the manuscript is
+9. check_docx_tie            }  private and git-ignored)
 
 Each step prints PASS, FAIL or SKIP. A step that exits 0 and prints only lines beginning
 "SKIPPED" counts as skipped; one that also prints other lines passes, with the number of
@@ -40,8 +41,9 @@ STEPS = [
     ("check_rerun", PY + ["verification/check_rerun.py"]),
     ("check_manuscript_numbers", PY + ["verification/check_manuscript_numbers.py",
                                        "--manuscript-dir", MANUSCRIPT_DIR]),
+    ("check_docx_tie", PY + ["verification/check_docx_tie.py", "--manuscript-dir", MANUSCRIPT_DIR]),
 ]
-MANUSCRIPT_STEPS = ("check_manuscript_numbers",)
+MANUSCRIPT_STEPS = ("check_manuscript_numbers", "check_docx_tie")
 
 
 def run(cmd: list[str]) -> subprocess.CompletedProcess:

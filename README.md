@@ -230,9 +230,12 @@ python -I verification/check_all.py
 percentage, so the rounding rerun has nothing to move), `check_outputs` (an independent
 recompute with the Python standard library only: the chain, the need weight, the
 shortfalls and class shares, the budget, H1 to H3 by its own IRLS, and the labels) and
-`check_rerun` (the extraction and the analysis rerun and compared byte for byte). The
-manuscript check is skipped until the private manuscript exists. Each check was shown to
-fail on a deliberate break: [`verification/MUTATIONS.md`](verification/MUTATIONS.md).
+`check_rerun` (the extraction and the analysis rerun and compared byte for byte). The two
+manuscript checks, `check_manuscript_numbers` (every number of the manuscript traced to
+`outputs/`, the journal's limits and the wording rules) and `check_docx_tie` (the submission
+files tied to their sources), are skipped in a clone, because the manuscript is kept private.
+Each check was shown to fail on a deliberate break:
+[`verification/MUTATIONS.md`](verification/MUTATIONS.md).
 Without `data_raw/`, the extraction rerun is skipped and everything else runs on the
 committed extracts.
 
@@ -287,6 +290,10 @@ every row; printed totals are checked.
   imports the author's TB priority tool package `tbprio` pinned to v1.0.1.
 - `outputs/`: the results (columns in [`outputs/README.md`](outputs/README.md));
   `verification/`: the checks; `tests/`.
+- `exhibits/`: the manuscript's tables, figures and graphical abstract, built from `outputs/`
+  only; `tools/build_submission.py`, `tools/audit_references.py`, `tools/word_count_word.ps1` and
+  `tools/render_check.ps1`: the submission build and its checks (they need the private
+  manuscript folder).
 
 ## Citation and licences
 

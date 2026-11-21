@@ -57,3 +57,24 @@ FAIL: a count derived from a percentage (npy_panel.csv: Bihar): run the rerun of
 
 Every command exited 1. The scratch clone had `data_raw/` copied in, so check_rerun also
 ran the extraction rerun (reproduced byte for byte before mutation 8).
+
+## Manuscript checks
+
+`verification/mutate_manuscript.py` breaks one thing at a time in a copy of the private
+manuscript folder and runs `check_manuscript_numbers` and `check_docx_tie` on the copy (the
+anchors it edits quote the manuscript, so they are kept in the private folder). Run on
+22 November 2026: 56 of 56 named mutations caught. They cover numbers changed in the
+Markdown only or in the submission files only (text, title page, Table 1 and supplementary
+cells), the title page (e-mail, running title, a "first" claim), superscript references
+(number, order, placement, a renumbered entry), table cells and signs, figure and
+graphical-abstract data, labels, internal identifiers, wording ("paid" alone, causal language,
+ranking language, the need weight as a count of undernourished patients, an unhedged "first",
+H3 "supported" without "ecological association"), British spelling, the abstract, keyword,
+legend and main-text limits, Word's counts, missing alt text, the AI disclosure, caveats, the
+end sections, the figures (another figure, a 150 dpi image, greyscale, a graphical abstract that
+is not 5:2), a second table, the layout (line numbers removed, justified text, automatic
+hyphenation), the cover letter and the file set.
+
+With `--sweep`, the last digit of every number token was bumped in turn: 339 of 339 tokens of
+the manuscript's Markdown were caught by `check_manuscript_numbers`, and 710 of 710 tokens of
+the manuscript's .docx (tables and references included) by `check_docx_tie`.
