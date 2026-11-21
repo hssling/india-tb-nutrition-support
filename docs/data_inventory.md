@@ -95,10 +95,7 @@ plan will state which year each table is taken to represent.
   (eligible, bank details available, bank details validated); its "paid at least one
   benefit" cell has a count. These three dashes are NA cells for extraction. No other
   dash or NA appears in the three NPY tables.
-- TBAR 2022 prints two cells with a percent above 100, both in the "bank details
-  available" column (the Dadra and Nagar Haveli and Daman and Diu row and the Himachal
-  Pradesh row). The counts are printed with them. ITR 2023 and ITR 2024 print no percent
-  above 100.
+- Some cells print a percent above 100; they will be listed at extraction.
 - Lakshadweep, Ladakh and the merged Dadra and Nagar Haveli and Daman and Diu row are
   printed in all three tables.
 - TBAR 2022 prints Chandigarh in capitals (`CHANDIGARH`), which matters for name matching.
