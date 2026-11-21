@@ -1,0 +1,25 @@
+source,unit,year,measure,reason
+npy_panel.csv (plan 3.6 rule),Himachal Pradesh,2021,step A,bank_available_exceeds_denominator
+npy_panel.csv (plan 3.6 rule),Karnataka,2023,step A,input_missing
+npy_panel.csv (plan 3.6 rule),Karnataka,2023,step P,input_missing
+npy_panel.csv (plan 3.6 rule),Karnataka,2023,step C,input_missing
+npy_panel.csv (plan 3.6 rule),Karnataka,2023,step V,input_missing
+chain (plan 3.6),Himachal Pradesh,2021,U_acc,NA because A NA (bank_available_exceeds_denominator)
+chain (plan 3.6),Himachal Pradesh,2021,U_pay,NA because A NA (bank_available_exceeds_denominator)
+chain (plan 3.6),Himachal Pradesh,2021,shortfalls and class,NA because A NA (bank_available_exceeds_denominator)
+chain (plan 3.6),Karnataka,2023,U,NA because C NA (input_missing)
+chain (plan 3.6),Karnataka,2023,U_acc,NA because A NA (input_missing)
+chain (plan 3.6),Karnataka,2023,U_pay,"NA because A NA (input_missing), P NA (input_missing)"
+chain (plan 3.6),Karnataka,2023,shortfalls and class,"NA because A NA (input_missing), P NA (input_missing)"
+"chain (plan 3.6, 5.1)",Karnataka,2023,paid at least once / bank details validated (descriptive),NA: input_missing
+"chain (plan 3.6, 5.1)",Meghalaya,2023,paid at least once / bank details validated (descriptive),NA: paid_exceeds_bank_validated
+npy_panel.csv,Karnataka,2023,denominator,value NA; member_missing:Karnataka;na_printed:-;NA:all_members_missing
+npy_panel.csv,Karnataka,2023,bank_available,value NA; member_missing:Karnataka;na_printed:-;NA:all_members_missing
+npy_panel.csv,Karnataka,2023,bank_validated,value NA; member_missing:Karnataka;na_printed:-;NA:all_members_missing
+sector_panel.csv,Kerala,2021,private,merged unit with a member cell NA (adds nothing); member_missing:Lakshadweep;na_printed:NA@Lakshadweep
+sector_panel.csv,Kerala,2023,private,merged unit with a member cell NA (adds nothing); member_missing:Lakshadweep;na_printed:NA@Lakshadweep
+priority (plan 6),Karnataka,2023,tiers (U and U wt_u),not tiered: U NA
+"2023 national totals (plan 3.6, 9)",Karnataka,2023,"unpaid count, budget, scenario",excluded: reported as units with data
+funnel (plan 8.3),Karnataka,2023,funnel,C NA
+H1 (plan 8.1),Karnataka,2023,main estimate,excluded: a value is NA
+H2 (plan 8.1),Karnataka,2023,main estimate,excluded: a value is NA

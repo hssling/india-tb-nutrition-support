@@ -1,0 +1,6 @@
+hypothesis,grid,n_entries,n_agree,n_required,share_agree,main_sign,interval_excludes_null,label
+H1,"weighting {sex-weighted, women, men, simple} x year {2021, 2022, 2023}",12,8,10,0.6666666666666666,1,False,not established
+H2,"year {2021, 2022, 2023} x {Spearman, Kendall tau-b}",6,6,5,1.0,-1,False,not established
+H3_success,"year set {pooled, 2021, 2022} x adjustment {none, private-sector share}, plus 2022 with previous-year success (alone; with the private-sector share)",8,8,7,1.0,1,True,supported
+H3_died,"year set {pooled, 2021, 2022} x adjustment {none, private-sector share}, plus 2022 with previous-year success (alone; with the private-sector share)",8,8,7,1.0,1,False,not established
+H3_ltfu,"year set {pooled, 2021, 2022} x adjustment {none, private-sector share}, plus 2022 with previous-year success (alone; with the private-sector share)",8,6,7,0.75,-1,False,not established

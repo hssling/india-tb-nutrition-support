@@ -1,0 +1,43 @@
+hypothesis,entry,main,weighting,year,method,year_set,adjustment,estimate,sign,agrees_with_main,n,n_obs,phi,wald_lo,wald_hi,status
+H1,1,False,sex_weighted,2021,spearman,,,0.2553475935828877,1,True,33,,,,,estimated
+H1,2,False,sex_weighted,2022,spearman,,,-0.08188502673796791,-1,False,33,,,,,estimated
+H1,3,True,sex_weighted,2023,spearman,,,0.01906158357771261,1,True,32,,,,,estimated
+H1,4,False,women,2021,spearman,,,0.27563728405067645,1,True,33,,,,,estimated
+H1,5,False,women,2022,spearman,,,0.04663602319596041,1,True,33,,,,,estimated
+H1,6,False,women,2023,spearman,,,0.07865065839615616,1,True,32,,,,,estimated
+H1,7,False,men,2021,spearman,,,0.22138620963720954,1,True,33,,,,,estimated
+H1,8,False,men,2022,spearman,,,-0.163865925562285,-1,False,33,,,,,estimated
+H1,9,False,men,2023,spearman,,,-0.01247134598982802,-1,False,32,,,,,estimated
+H1,10,False,simple,2021,spearman,,,0.2570187165775401,1,True,33,,,,,estimated
+H1,11,False,simple,2022,spearman,,,-0.06149732620320856,-1,False,33,,,,,estimated
+H1,12,False,simple,2023,spearman,,,0.03812316715542522,1,True,32,,,,,estimated
+H2,1,False,,2021,spearman,,,-0.0006684491978609625,-1,True,33,,,,,estimated
+H2,2,False,,2021,kendall,,,-0.011363636363636364,-1,True,33,,,,,estimated
+H2,3,False,,2022,spearman,,,-0.27406417112299464,-1,True,33,,,,,estimated
+H2,4,False,,2022,kendall,,,-0.20454545454545456,-1,True,33,,,,,estimated
+H2,5,True,,2023,spearman,,,-0.3053519061583578,-1,True,32,,,,,estimated
+H2,6,False,,2023,kendall,,,-0.217741935483871,-1,True,32,,,,,estimated
+H3_success,1,True,,,quasi-binomial IRLS,pooled 2021+2022,none,0.1778386247214988,1,True,33,66,583.1803893439894,0.08417870502311152,0.2714985444198861,estimated
+H3_success,2,False,,,quasi-binomial IRLS,pooled 2021+2022,private-sector share,0.17990855291338692,1,True,33,66,592.1575524914862,0.07853130239664369,0.28128580343013015,estimated
+H3_success,3,False,,,quasi-binomial IRLS,2021,none,0.16173736505786915,1,True,33,33,504.4898332146606,0.0585489508063123,0.264925779309426,estimated
+H3_success,4,False,,,quasi-binomial IRLS,2021,private-sector share,0.1643188056356823,1,True,33,33,520.9293611076831,0.05180243789870857,0.276835173372656,estimated
+H3_success,5,False,,,quasi-binomial IRLS,2022,none,0.21727511085006979,1,True,33,33,670.7902797995316,0.030547890373253478,0.4040023313268861,estimated
+H3_success,6,False,,,quasi-binomial IRLS,2022,private-sector share,0.22140513365316544,1,True,33,33,691.9912463393903,0.016061972188076312,0.4267482951182546,estimated
+H3_success,7,False,,,quasi-binomial IRLS,2022,previous-year success,0.03047735688967193,1,True,33,33,111.7139439387017,-0.04913930070380665,0.11009401448315051,estimated
+H3_success,8,False,,,quasi-binomial IRLS,2022,previous-year success + private-sector share,0.014017083902459796,1,True,33,33,112.88793621679918,-0.07359251588680903,0.10162668369172863,estimated
+H3_died,1,True,,,quasi-binomial IRLS,pooled 2021+2022,none,0.09278393179827536,1,True,33,66,250.83746145477727,-0.011179654605858513,0.19674751820240924,estimated
+H3_died,2,False,,,quasi-binomial IRLS,pooled 2021+2022,private-sector share,0.058450523115940484,1,True,33,66,241.81160120202188,-0.052935394488035775,0.16983644071991674,estimated
+H3_died,3,False,,,quasi-binomial IRLS,2021,none,0.07886726327457028,1,True,33,33,209.97356994668155,-0.03360312567641137,0.19133765222555194,estimated
+H3_died,4,False,,,quasi-binomial IRLS,2021,private-sector share,0.04202277846779384,1,True,33,33,197.1153377874917,-0.07617217274726953,0.16021772968285722,estimated
+H3_died,5,False,,,quasi-binomial IRLS,2022,none,0.12803305471014334,1,True,33,33,298.92778183062467,-0.08466586480973956,0.3407319742300262,estimated
+H3_died,6,False,,,quasi-binomial IRLS,2022,private-sector share,0.09729291085804745,1,True,33,33,301.64191719595453,-0.14124659759383412,0.335832419309929,estimated
+H3_died,7,False,,,quasi-binomial IRLS,2022,previous-year success,0.18711737836946712,1,True,33,33,267.3867886796392,-0.020574500012833674,0.3948092567517679,estimated
+H3_died,8,False,,,quasi-binomial IRLS,2022,previous-year success + private-sector share,0.1631703254939256,1,True,33,33,272.06176527175006,-0.07135924042497455,0.39769989141282575,estimated
+H3_ltfu,1,True,,,quasi-binomial IRLS,pooled 2021+2022,none,-0.19636082000595786,-1,True,33,66,417.4305716121791,-0.3746773323719734,-0.018044307639942303,estimated
+H3_ltfu,2,False,,,quasi-binomial IRLS,pooled 2021+2022,private-sector share,-0.15570642184284728,-1,True,33,66,407.48903188958485,-0.3483907677218042,0.036977924036109694,estimated
+H3_ltfu,3,False,,,quasi-binomial IRLS,2021,none,-0.18450612192381752,-1,True,33,33,364.97877283228877,-0.3799125799358583,0.010900336088223272,estimated
+H3_ltfu,4,False,,,quasi-binomial IRLS,2021,private-sector share,-0.1602913639648563,-1,True,33,33,366.97113898326774,-0.3724786268466036,0.051895898916891,estimated
+H3_ltfu,5,False,,,quasi-binomial IRLS,2022,none,-0.22779174300724933,-1,True,33,33,480.16257414366515,-0.5929804766627558,0.13739699064825714,estimated
+H3_ltfu,6,False,,,quasi-binomial IRLS,2022,private-sector share,-0.15111419826557235,-1,True,33,33,473.8873687452318,-0.5595632039273584,0.2573348073962136,estimated
+H3_ltfu,7,False,,,quasi-binomial IRLS,2022,previous-year success,0.12676916093126384,1,False,33,33,208.06176813712506,-0.12474494149346288,0.37828326335599055,estimated
+H3_ltfu,8,False,,,quasi-binomial IRLS,2022,previous-year success + private-sector share,0.26778813297069487,1,False,33,33,178.69246935183088,0.0018179887601761369,0.5337582771812136,estimated

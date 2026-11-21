@@ -1,0 +1,5 @@
+check,compared,derived_counts,result,note
+rounding check (plan section 8.9),"every tier (U and U wt_u, all years)",no derived counts,unchanged,"no count is back-calculated from a percentage, so the rerun is unchanged by construction"
+rounding check (plan section 8.9),every class,no derived counts,unchanged,"no count is back-calculated from a percentage, so the rerun is unchanged by construction"
+rounding check (plan section 8.9),"every H1, H2 and H3 label",no derived counts,unchanged,"no count is back-calculated from a percentage, so the rerun is unchanged by construction"
+rounding check (plan section 8.9),the falling-coverage flags,no derived counts,unchanged,"no count is back-calculated from a percentage, so the rerun is unchanged by construction"
