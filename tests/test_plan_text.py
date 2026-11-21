@@ -48,6 +48,9 @@ VERBATIM = [
     "95% and 99.8% limits.",
     "Units below the 99.8% limit are flagged.",
     "divided by all 10,000 draws",
+    'The `step` string is "unpaid", and it is never "S1"',
+    "`numerator` (= U), `denominator` (= D) and `na`",
+    "that year has no tiers",
 ]
 
 FORBIDDEN = [r"docs/superpowers", r"implementation plan", r"\bTask\s*\d", r"\bcontroller\b", r"\bRuling\s*P?\d", r"\bsubagent\b",
