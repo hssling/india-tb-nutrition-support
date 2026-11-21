@@ -14,10 +14,10 @@ are observational and ecological; none is a causal estimate.
 
 ## Status
 
-Scaffold only. The source manifest (`data/source_manifest.csv`) and a structure-only
-inventory of the source tables (`docs/data_inventory.md`) are in place. No estimate has
-been computed. The analysis plan has not yet been registered; the design is in
-`docs/superpowers/specs/`.
+Registration stage. The source manifest (`data/source_manifest.csv`), a structure-only
+inventory of the source tables (`docs/data_inventory.md`) and the analysis plan
+(`docs/analysis_plan.md`) are in place. The plan is registered by its first public push,
+recorded in `docs/registration_event.json`, before any estimate is computed.
 
 ## Reproducing the source copies
 
