@@ -9,7 +9,8 @@ Which steps are NA is decided by the extraction's single rule, src.extract.itr_n
 (plan section 3.6), and by nothing in this module:
 - A NA (B > D, D = 0 or a missing input): A, U_acc and U_pay are NA;
 - P NA (Q > B, B = 0 or a missing input): P and U_pay are NA (U_acc is kept);
-- C NA (Q > D, D = 0 or a missing input): C and U are NA.
+- C NA (Q > D, D = 0 or a missing input): C is NA; U is NA unless Q <= D (with D = 0,
+  only D = Q = 0, which gives U = 0).
 paid/validated applies the same rule to (validated, paid), through chain_na's first step.
 Counts are never altered and nothing is imputed.
 
@@ -71,6 +72,15 @@ def _pv_reason(d_validated, q) -> str | None:
     return r.replace("bank_available", "paid").replace("denominator", "bank_validated")
 
 
+def _u_valid(na: dict[str, str], q: int | None) -> bool:
+    """U = D - Q is kept whenever Q <= D (plan section 3.6: a unit with the chain NA still
+    enters the unpaid count if Q <= D). From chain_na's C step: C not NA means Q <= D;
+    C NA for a zero denominator means D = 0, where Q <= D holds only for Q = 0."""
+    if "C" not in na:
+        return True
+    return na["C"] == "denominator_zero" and q == 0
+
+
 def compute(npy_rows: list[dict]) -> list[dict]:
     """One row per unit-year (sorted by year, then unit): the counts, the ratios with
     Jeffreys intervals, the unpaid counts, the NA steps and the provenance."""
@@ -102,7 +112,7 @@ def compute(npy_rows: list[dict]) -> list[dict]:
             x, n = row[num], row[den]
             row[step] = x / n
             row[f"{step}_lo"], row[f"{step}_hi"] = jeffreys(x, n)
-        row["U"] = None if "C" in na else D - Q
+        row["U"] = D - Q if _u_valid(na, Q) else None
         row["U_acc"] = None if "A" in na else D - B
         row["U_pay"] = None if ("A" in na or "P" in na) else B - Q
         row["na"] = na

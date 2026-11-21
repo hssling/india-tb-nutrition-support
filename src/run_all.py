@@ -32,6 +32,8 @@ EXTRACTED = ROOT / "data" / "extracted"
 SEX = need.SEX_WEIGHTED
 BENCH_SPECS = {"p75": 75.0, "p50": 50.0, "p90": 90.0}
 DERIVED = "derived_from_percent"
+COST_NOTE = (budget.NOTE + "; cost_lo and cost_hi: descriptive addition; the plan names "
+             "only the interval of U")
 OUTCOME_LABEL = {"success": "treatment success", "died": "died",
                  "ltfu": "lost to follow-up"}
 
@@ -186,7 +188,8 @@ class Analysis:
                              "months": budget.MONTHS_MAIN, "count": main["U_total"],
                              "count_lo": lo, "count_hi": hi, "cost": main["cost"],
                              "cost_lo": lo * budget.RATE_MAIN * budget.MONTHS_MAIN,
-                             "cost_hi": hi * budget.RATE_MAIN * budget.MONTHS_MAIN})
+                             "cost_hi": hi * budget.RATE_MAIN * budget.MONTHS_MAIN,
+                             "note": COST_NOTE})
         for rate in budget.RATES:
             for months in budget.MONTHS:
                 b = budget.compute(self.chain, {}, rate, months)
@@ -195,7 +198,7 @@ class Analysis:
                                      "rate_per_month": rate, "months": months,
                                      "count": b["U_total"], "count_lo": lo, "count_hi": hi,
                                      "cost": b["cost"], "cost_lo": lo * rate * months,
-                                     "cost_hi": hi * rate * months})
+                                     "cost_hi": hi * rate * months, "note": COST_NOTE})
         for spec in BENCH_SPECS:
             sc = main["scenarios"][spec]
             base = common | {"spec": spec, "C_bench": sc["C_bench"],
@@ -397,7 +400,8 @@ class Analysis:
             if ds.flag:
                 add("priority (plan 5.3)", None, t, "unpaid-rate prior", ds.flag)
             for u in ds.excluded:
-                add("priority (plan 6)", u, t, "tiers (U and U wt_u)", "not tiered: U NA")
+                add("priority (plan 6)", u, t, "tiers (U and U wt_u)",
+                    "not tiered: " + ds.excluded_reason[u])
         for r in pri:
             if r["status"] == "not tiered: wt_u NA":
                 add("priority (plan 6)", r["unit"], r["year"], f"tier, {r['spec']}",

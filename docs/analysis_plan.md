@@ -533,4 +533,9 @@ The NFHS-5 fact sheets print no confidence interval, so n_u has no sampling inte
 
 ## 12. Deviations (dated)
 
-No deviation has been recorded.
+### 2026-11-22. Implementation note: two edge rules not exercised by these data
+
+The plan does not state these two cases. The analysis code applies the rules below. Neither applies to the data used, so neither changes any reported number.
+
+- **An NA NFHS-5 cell in a merged unit (§4.2).** If one member sheet of a merged unit has an NA Total cell for item 86 or 87, that sheet adds nothing to the unit's weighted mean for that item, as an NA member row adds nothing to a merged count (§3.5). The unit carries the flag `nfhs_member_na`. If every member sheet is NA for the item, the item is NA for the unit. No NFHS-5 Total cell used in this study is NA.
+- **An NA covariate in an adjusted H3 grid entry (§8.2, §8.4).** If an observation's private-sector share or previous-year success share is NA, that observation is left out of that grid entry only (complete cases). It stays in every other entry. No private-sector share or previous-year success share of the H3 observations is NA.

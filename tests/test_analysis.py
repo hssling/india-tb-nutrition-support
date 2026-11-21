@@ -1,7 +1,7 @@
 """Analysis tests (analysis plan sections 4-10).
 
-The two pinned Review Focus tests (test_shortfall_floor_zero_and_no_shortfall_class,
-test_tbprio_pinned_version), the label, class, need-weight, budget and rerun tests, the
+The shortfall floor and "no shortfall" class (test_shortfall_floor_zero_and_no_shortfall_class),
+the tbprio version and source pin (test_tbprio_pinned_version), the label, class, need-weight, budget and rerun tests, the
 NFHS-5 merge of plan section 4.2, the single NA rule of plan section 3.6 (consumed from
 src.extract.itr_npy, never re-implemented), and unit tests of the intervals, the IRLS, the
 draw streams and the tbprio calls.
@@ -73,7 +73,7 @@ def npy_rows(cells: dict) -> list[dict]:
 UNITS10 = [f"Unit {c}" for c in "ABCDEFGHIJ"]
 
 
-# ---- Review Focus 5 -------------------------------------------------------------------
+# ---- tbprio pinned to v1.0.1 ----------------------------------------------------------
 
 def test_tbprio_pinned_version():
     assert importlib.metadata.version("tbprio") == "1.0.1"
@@ -94,7 +94,7 @@ def test_check_tbprio_stops_on_a_changed_file(monkeypatch):
         nutpay.check_tbprio()
 
 
-# ---- Review Focus 4 -------------------------------------------------------------------
+# ---- a unit above the benchmark on both steps -----------------------------------------
 
 def _floor_rows():
     cells = {}
@@ -305,6 +305,37 @@ def test_chain_validity_rules():
     # U = U_acc + U_pay when both are valid
     ok = chain.compute(npy_rows({("A6", 2022): (1000, 900, 700)}))[0]
     assert ok["U"] == ok["U_acc"] + ok["U_pay"] == 300
+
+
+def test_zero_denominator_keeps_u_when_q_not_above_d():
+    # plan 3.6: a unit with the chain NA still enters the unpaid count if Q <= D
+    rows = chain.compute(npy_rows({
+        ("Goa", 2023): (0, 0, 0),           # D = Q = 0: C NA, U = 0
+        ("Bihar", 2023): (0, 0, 5),         # D = 0 < Q: U NA
+        ("Assam", 2023): (1000, 800, 600),
+        ("Delhi", 2023): (2000, 1900, 1500),
+    }))
+    r = {x["unit"]: x for x in rows}
+    assert r["Goa"]["C"] is None and r["Goa"]["U"] == 0
+    assert r["Bihar"]["C"] is None and r["Bihar"]["U"] is None
+    res = budget.compute(rows, {"p75": 0.9}, 1000, 6)
+    assert res["U_total"] == 400 + 500
+    assert res["units_with_data"] == ["Assam", "Delhi", "Goa"]
+    assert res["units_excluded"] == ["Bihar"]
+    assert res["scenarios"]["p75"]["number_paid"] == pytest.approx(900 + 1800)
+    # the D = 0 unit has no rate: it is left out of the draws and not tiered
+    ds = priority.draw_set(rows, 2023, np.random.default_rng(SEED))
+    assert ds.units == ["Assam", "Delhi"]
+    assert ds.excluded_reason == {"Bihar": "U NA", "Goa": "D = 0 (U = 0; rate undefined)"}
+    t = {x["unit"]: x for x in priority.tiers(ds, None, all_units=["Assam", "Delhi", "Goa"])}
+    assert t["Goa"]["status"] == "not tiered: D = 0 (U = 0; rate undefined)"
+
+
+def test_nfhs_merge_raises_on_an_unmatched_sheet():
+    nf = _nfhs("Kerala", "20.0", "10.0") + _nfhs("Lakshadweep", "40.0", "30.0")
+    sx = [_sex("Kerala", "Kerala", "200", "100", "0")]   # no Lakshadweep row
+    with pytest.raises(KeyError, match="Lakshadweep"):
+        need.merge_nfhs(nf, sx)
 
 
 def test_chain_on_the_extracted_panel():

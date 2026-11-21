@@ -48,6 +48,7 @@ class DrawSet:
     rate_draws: dict[str, np.ndarray] = field(repr=False)
     U_draws: dict[str, np.ndarray] = field(repr=False)
     excluded: list[str] = field(default_factory=list)
+    excluded_reason: dict[str, str] = field(default_factory=dict)
 
 
 def unpaid_rows(chain_rows: list[dict], year: int, omit: str | None = None) -> list[dict]:
@@ -57,21 +58,25 @@ def unpaid_rows(chain_rows: list[dict], year: int, omit: str | None = None) -> l
         if r["unit"] == omit:
             continue
         out.append({"unit": r["unit"], "year": int(year), "step": STEP,
-                    "numerator": r["U"], "denominator": r["D"], "na": r["U"] is None})
+                    "numerator": r["U"], "denominator": r["D"],
+                    "na": r["U"] is None or r["C"] is None})
     return out
 
 
 def draw_set(chain_rows: list[dict], year: int, rng: np.random.Generator,
              omit: str | None = None) -> DrawSet:
     rows = unpaid_rows(chain_rows, year, omit)
+    # U NA, or D = 0 (U = 0 but the rate U/D is undefined): no draws, no tier
     excluded = [r["unit"] for r in rows if r["na"]]
+    why = {r["unit"]: ("U NA" if r["numerator"] is None else "D = 0 (U = 0; rate undefined)")
+           for r in rows if r["na"]}
     flag = ""
     try:
         sy = tbharm.estimate(rows, STEP, year, "p75", True, rng)
     except ValueError as e:
         if str(e).startswith("no non-NA cell"):
             return DrawSet(year, [], {}, {}, None, None, "no usable unit", False, True,
-                           {}, {}, {}, {}, excluded)
+                           {}, {}, {}, {}, excluded, why)
         # the shrinkage cannot be fitted; tbprio raised before drawing, so the stream is
         # untouched
         sy = tbharm.estimate(rows, STEP, year, "p75", False, rng)
@@ -85,7 +90,7 @@ def draw_set(chain_rows: list[dict], year: int, rng: np.random.Generator,
     post = dict(sy.post_mean)
     return DrawSet(year, units, D, U, alpha, beta, flag, bool(sy.no_harm), False, post,
                    {u: 1.0 - post[u] for u in units}, dict(sy.rate_draws), U_draws,
-                   excluded)
+                   excluded, why)
 
 
 def harm_draws(ds: DrawSet, weights: dict[str, float | None] | None) -> dict[str, np.ndarray]:
@@ -128,7 +133,7 @@ def tiers(ds: DrawSet, weights: dict[str, float | None] | None, spec: str = UNWE
         elif ds.absent:
             row["status"] = "not tiered: the year has no unit with data"
         elif u not in ds.units:
-            row["status"] = "not tiered: U NA"
+            row["status"] = "not tiered: " + ds.excluded_reason.get(u, "U NA")
         else:
             row["status"] = "not tiered: wt_u NA"
         out.append(row)

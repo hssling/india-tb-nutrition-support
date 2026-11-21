@@ -46,8 +46,10 @@ def compute(chain_rows: list[dict], bench: dict[str, float], rate: int, months: 
            "rate": rate, "months": months, "cost": U_total * rate * months,
            "scenarios": {}}
     for spec, cb in bench.items():
-        inc_by = {r["unit"]: r["D"] * max(0.0, cb - r["Q"] / r["D"]) for r in use}
-        number = sum(r["D"] * max(r["Q"] / r["D"], cb) for r in use)
+        # a unit with U = 0 and D = 0 (C NA) adds D x (...) = 0 to both sums
+        withc = [r for r in use if r["C"] is not None]
+        inc_by = {r["unit"]: r["D"] * max(0.0, cb - r["Q"] / r["D"]) for r in withc}
+        number = sum(r["D"] * max(r["Q"] / r["D"], cb) for r in withc)
         inc = sum(inc_by.values())
         out["scenarios"][spec] = {
             "C_bench": cb, "current_number_paid": sum(r["Q"] for r in use),

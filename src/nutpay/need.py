@@ -103,6 +103,9 @@ def merge_nfhs(nfhs_rows: list[dict], sex_rows: list[dict]) -> dict[str, dict]:
     A member sheet whose cell is NA adds nothing to that item (as a merged count does,
     section 3.5) and the unit is flagged; a unit whose member cells are all NA is NA."""
     W = {r["printed_unit"]: member_weight(r) for r in state_rows(sex_rows)}
+    unmatched = sorted({r["unit"] for r in nfhs_rows} - set(W))
+    if unmatched:
+        raise KeyError(f"NFHS-5 sheet(s) with no Annexure 1.6 row: {unmatched}")
     sheets: dict[str, dict[str, dict]] = {}
     for r in nfhs_rows:
         printed = r["unit"]
@@ -136,9 +139,9 @@ def merge_nfhs(nfhs_rows: list[dict], sex_rows: list[dict]) -> dict[str, dict]:
             elif len(members) == 1:
                 res[sex] = vals[0][1]
             else:
-                wsum = sum(W.get(j, 0) for j, _ in vals)
+                wsum = sum(W[j] for j, _ in vals)
                 if wsum > 0:
-                    res[sex] = sum(W.get(j, 0) * v for j, v in vals) / wsum
+                    res[sex] = sum(W[j] * v for j, v in vals) / wsum
                 else:
                     res[sex] = sum(v for _, v in vals) / len(vals)
                     if "nfhs_merge_unweighted" not in res["flags"]:

@@ -1,4 +1,4 @@
-"""Extraction: the three pinned Review Focus tests, the printed-total and coarsening
+"""Extraction: the impossible-chain, percent-only and unit-name tests, the printed-total and coarsening
 checks, and the structure of the extracted files.
 
 No PDF is needed except for the byte-identical rerun (skipped when data_raw/ is absent):
@@ -44,7 +44,7 @@ def _panel(tables, vals) -> dict[tuple[str, int, str], dict]:
     return {(r["unit"], r["year"], r["measure"]): r for r in itr_npy.panel_rows(tables, vals)}
 
 
-# ---- Review Focus 1: impossible chains ----------------------------------------------
+# ---- impossible chains ----------------------------------------------------------------
 
 def test_impossible_chain_becomes_na():
     # The rule (plan section 3.6), one step at a time: A = B/D, P = Q/B, C = Q/D.
@@ -142,7 +142,7 @@ def test_real_panel_flags_match_the_rule():
         ("Karnataka", "2023", m) for m in ("denominator", "bank_available", "bank_validated")}
 
 
-# ---- Review Focus 2: percent-only cells ---------------------------------------------
+# ---- percent-only cells ---------------------------------------------------------------
 
 def test_percent_only_cell_derivation_flagged():
     # A printed count is used, not its percentage.
@@ -212,7 +212,7 @@ def test_real_percent_above_100_cells_are_listed():
     assert not any("percent_above_100" in r["flag"] for r in _read("sector_cells.csv"))
 
 
-# ---- Review Focus 3: unit-name drift --------------------------------------------------
+# ---- unit-name drift ------------------------------------------------------------------
 
 def test_unmatched_unit_raises():
     # An unmatched printed name stops extraction with an error that names it.

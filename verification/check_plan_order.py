@@ -14,7 +14,7 @@ Run as: python -I verification/check_plan_order.py
 
 Assertions:
 
-1. docs/registration_event.json exists. Before the controller records the public push it
+1. docs/registration_event.json exists. Before the public push is recorded it
    does not, and the check FAILS with "NOT REGISTERED YET": a missing registration record
    never switches the other checks off.
    It must name the registration commit as a full 40-character hexadecimal SHA.
