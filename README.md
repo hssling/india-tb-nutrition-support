@@ -129,9 +129,23 @@ alphabetically.
   replicates for every unit except Gujarat (87%), Madhya Pradesh (47%), Punjab (57%),
   Rajasthan (71%) and Telangana (94%).
 - **Funnel.** Against the pooled coverage of 74.0% and each unit's size, Bihar (60.4%
-  paid at least once) and Punjab (5.0% paid at least once: 2,796 of 55,824, and 6.1% of
-  those with bank details available) lie below the 99.8% limit ("coverage well below the pooled level for its
-  size"). This describes programme data and may reflect recording or definitions.
+  paid at least once) and Punjab lie below the 99.8% limit ("coverage well below the
+  pooled level for its size"). This describes programme data and may reflect recording or
+  definitions.
+- **Punjab 2023, as printed.** India TB Report 2024 (PDF p. 309, printed p. 278) prints
+  2,796 paid at least once out of 55,824 eligible beneficiaries (5.0%; 6.1% of the people
+  with bank details available). The value is consistent with the printed India total of
+  1,875,510 paid at least once. It is probably a source reporting anomaly, to be verified
+  with the programme, and should not be read as programme performance. Punjab's "act now"
+  tier and its 94,985 per 100,000 eligible beneficiaries rest on this printed value. The
+  leave-one-out output (`leave_one_out.csv`, the without-Punjab rows) shows its influence
+  on the associations: without Punjab, H1 is -0.008467741935483872 (main
+  0.01906158357771261), H2 -0.3407258064516129 (main -0.3053519061583578), H3 success
+  0.17973282935525503 (main 0.1778386247214988), H3 died 0.1131492205385424 (main
+  0.09278393179827536) and H3 lost to follow-up -0.20697304365191618 (main
+  -0.19636082000595786). Without Punjab the 2023 "act now" set changes by one unit for the
+  unpaid count (Telangana enters) and by one unit for the need-weighted count (Madhya
+  Pradesh enters).
 
 ### Where people are lost, 2023
 
@@ -258,7 +272,9 @@ every row; printed totals are checked.
   Haveli and Daman and Diu with Gujarat, Lakshadweep with Kerala, Ladakh with Jammu and
   Kashmir).
 - **Recording.** Reporting artefacts are set to NA and listed; a low coverage may reflect
-  recording or definitions.
+  recording or definitions. Punjab's 2023 row (2,796 paid at least once of 55,824 eligible)
+  is probably a source reporting anomaly, to be verified with the programme; its tier rests
+  on the printed value.
 
 ## Repository layout
 
