@@ -4,13 +4,13 @@
 **Author:** Siddalingaiah H S, MD, Professor, Department of Community Medicine, Shridevi Institute of Medical Sciences and Research Hospital, Tumkur 572106, Karnataka, India. ORCID 0000-0002-4771-8285. hssling@yahoo.com. Single author.
 **Repository:** https://github.com/hssling/india-tb-nutrition-support
 **Status:** registered before any estimate was computed. The registration point (the commit SHA and the UTC time of the public push, taken from the GitHub API) is recorded in `docs/registration_event.json`. `verification/check_plan_order.py` checks that the text above §12 is byte-identical at every later commit, and that no file under `src/nutpay/` (the analysis package), `data/extracted/` or `outputs/` was committed before the registration commit. The registration record must name the full 40-character commit SHA and may never be re-pointed.
-**Design:** `docs/superpowers/specs/2026-11-22-tb-nutrition-support-design.md` (approved by the author on 22 November 2026). **Implementation plan:** `docs/superpowers/plans/2026-11-22-tb-nutrition-support.md`, sections "Global Constraints" and "Fixed analysis values". **Data inventory (structure only):** `docs/data_inventory.md`. Where any of these and this plan differ, this plan governs.
+**Data inventory (structure only):** `docs/data_inventory.md`. This plan is self-contained: its rules are stated in full below, and the "Constraint" and "Fixed" paragraphs are the values that were fixed before any estimate.
 
 **Conventions in this plan.**
-- A paragraph marked **Constraint (verbatim)** copies the implementation plan's "Global Constraints" word for word.
-- A paragraph marked **Fixed (verbatim)** copies its "Fixed analysis values" word for word.
+- A paragraph marked **Constraint (verbatim)** states the study's global constraints, fixed before any estimate, word for word.
+- A paragraph marked **Fixed (verbatim)** states the analysis values fixed before any estimate, word for word.
 - A paragraph marked **Decision** records a rule settled from the structure-only inventory, before any estimate. Each is a general rule. None names a State on the basis of its values.
-- **Precedence.** Decision, then Fixed, then Constraint, then the design: the later, more specific text overrides the earlier one where they differ. Every difference is settled in a paragraph marked **Resolution**, and all are listed in §1.4.
+- **Precedence.** Decision overrides Fixed, which overrides Constraint, which overrides the earlier design notes: the more specific text governs where they differ. Every difference is settled in a paragraph marked **Resolution**, and all are listed in §1.4.
 - A paragraph marked **Operational detail** fixes how a value is applied. These details were settled when this plan was written, before any estimate.
 - "Edition" is the report; "data year" is the year its State tables are taken to describe (§3.2). "Unit" is a State or UT after coarsening (§3.5).
 - **Notation.** For unit u and data year t: D the denominator of the chain (§3.3); B the number with bank details available; Q the number paid at least once. In every formula and column name, "paid" means paid at least once; in prose the full phrase is used. A = B/D, P = Q/B, C = Q/D, U = D − Q, U_acc = D − B, U_pay = B − Q. n_u is the NFHS-5 need share and wt_u the relative need weight (§4.3). The number of top places in a priority probability is always written out: P(top-5).
@@ -60,13 +60,13 @@ The users are the Central TB Division (CTD) and the State TB Cells that run DBT,
 | # | Topic | Earlier text | Later text that governs | Settled in |
 |---|---|---|---|---|
 | 1 | Reference year of a table | Fixed: a table whose year cannot be confirmed from its title or footnote is excluded | Decision: no NPY table prints its year; years are assigned from each edition's national DBT table, which prints the same India figure under a stated period | §3.2 |
-| 2 | P in 2023 | Design §5: "P = paid at least once / validated in 2023" | Fixed: P = paid at least once ÷ bank details available in every year; validation is a descriptive sub-step in 2023 only | §5.1 |
-| 3 | Trend, main model | Design §5: a 2023 indicator model "or" 2021–2022 only | Fixed: the main model is the 2021→2022 change; the indicator WLS is the sensitivity | §7 |
+| 2 | P in 2023 | Earlier design notes: "P = paid at least once / validated in 2023" | Fixed: P = paid at least once ÷ bank details available in every year; validation is a descriptive sub-step in 2023 only | §5.1 |
+| 3 | Trend, main model | Earlier design notes: a 2023 indicator model "or" 2021–2022 only | Fixed: the main model is the 2021→2022 change; the indicator WLS is the sensitivity | §7 |
 | 4 | The WLS indicator year | Fixed: tbprio's WLS "with a 2023 indicator" | tbprio's indicator year is fixed at 2021 in the package and cannot be moved; the 2023-indicator model is saturated and is computed from tbprio's own empirical logit | §7.3 |
 | 5 | Seed | tbprio's package constant is 20261121 | Constraint: 20261123. tbprio's constant is not used | §10.1 |
-| 6 | Outcome cohorts | Design §4: cohorts "in ITR 2023 and ITR 2024" | Decision: the 2021 cohort is ITR 2023 Annexure 3.3, the 2022 cohort ITR 2024 Annexure 3.3; the 2020 cohort of TBAR 2022 is not used | §3.4 |
-| 7 | H3 label | Design §5: each association is labelled | Fixed: H3 is labelled, as a secondary ecological association | §8.6 |
-| 8 | Previous-year success | Design §5: used "only where it is published" | Settled here: available only for the 2022 cohort (the 2021 cohort is published; the 2020 cohort is not used) | §8.2 |
+| 6 | Outcome cohorts | Earlier design notes: cohorts "in ITR 2023 and ITR 2024" | Decision: the 2021 cohort is ITR 2023 Annexure 3.3, the 2022 cohort ITR 2024 Annexure 3.3; the 2020 cohort of TBAR 2022 is not used | §3.4 |
+| 7 | H3 label | Earlier design notes: each association is labelled | Fixed: H3 is labelled, as a secondary ecological association | §8.6 |
+| 8 | Previous-year success | Earlier design notes: used "only where it is published" | Settled here: available only for the 2022 cohort (the 2021 cohort is published; the 2020 cohort is not used) | §8.2 |
 | 9 | Merging NFHS sheets | Fixed: silent | Settled here: the member rows' 2022 notified counts weight the NFHS items | §4.2 |
 | 10 | "National number paid" in the benchmark scenario | Fixed: "the national number paid if every unit reached the benchmark C, × ₹6,000" | Settled here: both that figure and its increment over the current number are reported | §9 |
 
@@ -143,7 +143,7 @@ Other inputs:
 ### 3.4 Outcomes and cohorts (H3)
 
 **Fixed (verbatim).** **Outcomes (H3).**
-- DS-TB treatment-outcome cohort of patients notified in year t, paired with payment data year t, for t ∈ {2021, 2022}. The 2021 cohort is in ITR 2023 and the 2022 cohort in ITR 2024.
+- DS-TB treatment-outcome cohort of patients notified in year t, paired with payment data year t, for t ∈ {2021, 2022}. The 2021 cohort is in ITR 2023 and the 2022 cohort in ITR 2024 (process reference omitted).
 - Measures: treatment success, died, lost to follow-up, each ÷ cohort size.
 - If the outcome rows are copied from tb_priority_tool/data/extracted, their provenance is kept and they are re-verified against the printed totals.
 
@@ -262,9 +262,9 @@ In 2023 only, two descriptive sub-steps are added:
 A **draw set** is defined by a data year. The draws do not depend on the benchmark percentile.
 
 **Operational detail.**
-- **Priors.** (α₁, β₁) = `tbprio.shrink.beta_binomial(B, D)` over the units with non-NA A in the year; (α₂, β₂) = `tbprio.shrink.beta_binomial(Q, B)` over the units with non-NA P; (α₃, β₃) = `tbprio.shrink.beta_binomial(U, D)` over the units with non-NA U. If `tbprio.shrink.beta_binomial` raises (fewer than 2 units, or a pooled rate of 0 or 1), the Jeffreys prior `tbprio.shrink.JEFFREYS_BINOMIAL` is used for that year and quantity, with the flag `prior_fallback_jeffreys`.
-- **Posterior means.** Â_u = (α₁ + B_u)/(α₁ + β₁ + D_u); P̂_u = (α₂ + Q_u)/(α₂ + β₂ + B_u); Ĉ_u = 1 − (α₃ + U_u)/(α₃ + β₃ + D_u).
-- **Order.** A fresh `numpy.random.default_rng(20261123)` for each draw set. Units are processed in alphabetical order. For each unit, in this order and where the measure is non-NA: a^(d) = `rng.beta(α₁ + B, β₁ + D − B, size=10000)`; p^(d) = `rng.beta(α₂ + Q, β₂ + B − Q, size=10000)`; the unpaid rate r^(d) = `rng.beta(α₃ + U, β₃ + D − U, size=10000)`, so U^(d) = D·r^(d).
+- **Unpaid-rate draws (tiers).** For each data year, U^(d) comes from `tbprio.harm.estimate(rows, step, year, "p75", True, rng).rate_draws`, on its own fresh `numpy.random.default_rng(20261123)`. `rows` is the year's units in the panel format tbprio requires, as a loss-type step with numerator U and denominator D, over the units with non-NA U. Only `rate_draws` is used (the benchmark of its harm is not); U^(d) = D·rate^(d). tbprio fits the empirical-Bayes prior (`beta_binomial`) and draws the units in alphabetical order. Its edge cases map as follows: if ΣU = 0 (m = 0), tbprio returns zero draws and `no_harm`; every U^(d) is 0 and the year is reported as having no unpaid people. If tbprio raises because the shrinkage cannot be fitted (fewer than 2 units, or a pooled rate of 0 or 1, including a single unit with data), the call is repeated with shrinkage off (the Jeffreys prior `tbprio.shrink.JEFFREYS_BINOMIAL`) and the flag `prior_fallback_jeffreys` is set. The posterior means are `StepYear.post_mean`; Ĉ_u = 1 − post_mean_u.
+- **Chain priors.** (α₁, β₁) = `tbprio.shrink.beta_binomial(B, D)` over the units with non-NA A; (α₂, β₂) = `tbprio.shrink.beta_binomial(Q, B)` over the units with non-NA P, with the same Jeffreys fallback and flag. Â_u = (α₁ + B_u)/(α₁ + β₁ + D_u); P̂_u = (α₂ + Q_u)/(α₂ + β₂ + B_u).
+- **Chain draws (class rule).** A separate stream, `numpy.random.default_rng([20261123, 1])`, fresh for each data year. Units are processed in alphabetical order; for each unit, where the measure is non-NA: a^(d) = `rng.beta(α₁ + B, β₁ + D − B, size=10000)`, then p^(d) = `rng.beta(α₂ + Q, β₂ + B − Q, size=10000)`. The two streams are independent of each other.
 - Each quantity is summarised by `tbprio.harm.summary` (mean, 2.5th and 97.5th percentiles).
 
 ### 5.4 Benchmark, shortfalls and class
@@ -280,14 +280,14 @@ A **draw set** is defined by a data year. The draws do not depend on the benchma
 - "No shortfall" if S_acc + S_pay = 0 in more than 50% of draws.
 
 **Operational detail.**
-- A_bench = the 75th percentile, across the year's units with non-NA A, of Â_u. P_bench = the same for P̂_u. A higher A or P is better, so these are the 75th (main), 50th and 90th percentiles of performance. They are computed once per specification from the posterior means, not redrawn.
+- Draws a^(d) and p^(d) are the chain draws of §5.3. A_bench = the 75th percentile, across the year's units with non-NA A, of Â_u. P_bench = the same for P̂_u. A higher A or P is better, so these are the 75th (main), 50th and 90th percentiles of performance. They are computed once per specification from the posterior means, not redrawn.
 - By construction about a quarter of units lie above the benchmark. A shortfall is therefore a relative statement about the better quarter of units.
 - Observed shortfalls S_acc and S_pay use the observed A and P (`point`). In draw d: S_acc^(d) = D·max(0, A_bench − a^(d)); S_pay^(d) = D·a^(d)·max(0, P_bench − p^(d)). Both are summarised by mean and 95% interval.
-- Share S^(d) = S_acc^(d) ÷ (S_acc^(d) + S_pay^(d)); the payment share is 1 − S^(d). A draw with S_acc + S_pay = 0 counts in neither class.
+- Share S^(d) = S_acc^(d) ÷ (S_acc^(d) + S_pay^(d)); the payment share is 1 − S^(d). A draw with S_acc + S_pay = 0 has no share: it counts toward neither class share, but stays in the denominator of 10,000.
 - Class, in this order, over units with both A and P non-NA:
   1. "no shortfall" if S_acc + S_pay = 0 in more than 50% of the 10,000 draws;
-  2. "account-led" if the share of draws with S ≥ 2/3 is at least 0.95;
-  3. "payment-led" if the share of draws with 1 − S ≥ 2/3 is at least 0.95;
+  2. "account-led" if the number of draws with S ≥ 2/3, divided by all 10,000 draws, is at least 0.95;
+  3. "payment-led" if the number of draws with 1 − S ≥ 2/3, divided by all 10,000 draws, is at least 0.95;
   4. otherwise "mixed".
 - Classes are computed for every data year; headline classes are for 2023. Sensitivities: the 50th and 90th percentile benchmarks.
 - Output: `outputs/chain_class.csv`.
@@ -305,7 +305,7 @@ A **draw set** is defined by a data year. The draws do not depend on the benchma
 **Operational detail.**
 - For each data year and each of the two harms (U; U·wt_u), over the units with a non-NA value: P(top-5) = `tbprio.priority.p_topk({unit: draws}, 5)`, with the units in alphabetical order. Weighted draws are U^(d)·wt_u with the fixed wt_u of §4.3; units with wt_u NA are excluded from the weighted harm and listed.
 - Tier = `tbprio.priority.tier(P(top-5), False)`: "act now" P ≥ 0.80; "probable priority" 0.50 ≤ P < 0.80; "uncertain" 0.20 ≤ P < 0.50; "lower priority" P < 0.20. The rising argument is always False: this study has no "watch: rising" tier. The falling-coverage flag (§7) is reported alongside and never changes a tier.
-- Draws are those of §5.3 (the unpaid-rate draws). Headline tiers are for 2023. The unweighted and the need-weighted tiers are both reported; the need-weighted tiers use the sex-weighted n_u, with the sensitivity weights (women only, men only, simple) alongside.
+- Draws are the unpaid-rate draws of §5.3. Headline tiers are for 2023. The unweighted and the need-weighted tiers are both reported; the need-weighted tiers use the sex-weighted n_u, with the sensitivity weights (women only, men only, simple) alongside.
 - A 2023 unit with U NA is not tiered and is listed. The 2023 act-now set is "units with data" (§3.6).
 - Output: `outputs/priority.csv` with a `spec` column.
 
@@ -321,7 +321,7 @@ A **draw set** is defined by a data year. The draws do not depend on the benchma
 - A "falling coverage" flag is set when the 2021→2022 change interval lies wholly below 0.
 
 **Operational detail.**
-- For each unit with non-NA C in both 2021 and 2022, d_u = C₂₀₂₂ − C₂₀₂₁, with Newcombe's hybrid-score interval from the two Wilson intervals (l, u) of each C: lower = d − √((c₂ − l₂)² + (u₁ − c₁)²), upper = d + √((u₂ − c₂)² + (c₁ − l₁)²), where 1 is 2021 and 2 is 2022 and z = 1.96.
+- For each unit with non-NA C in both 2021 and 2022, d_u = C₂₀₂₂ − C₂₀₂₁, with Newcombe's hybrid-score interval from the two Wilson intervals (l, u) of each C, where c = Q/D is the observed proportion: lower = d − √((c₂ − l₂)² + (u₁ − c₁)²), upper = d + √((u₂ − c₂)² + (c₁ − l₁)²), where 1 is 2021 and 2 is 2022 and z = 1.96.
 - Nationally: C over the sums of Q and D across the units with non-NA C in both years (the number of units is reported), with the same interval.
 - **Falling coverage**: the upper end of the interval < 0. The flag is descriptive and never changes a tier.
 - Both years are on the "total notified" basis. 2023 is shown descriptively next to them and is on the "eligible" basis (§10.4).
@@ -392,15 +392,15 @@ C₂₀₂₃ and its change from 2022 are listed with the Jeffreys intervals of
 ### 8.4 H3: ecological association with outcomes
 
 **Operational detail.**
-- **Observations.** Unit-years (u, t) for t ∈ {2021, 2022} with non-NA C(t) and a valid cohort. A unit may contribute one or both years.
+- **Observations.** Unit-years (u, t) for t ∈ {2021, 2022} with non-NA C(t) and a valid cohort (cohort size > 0 and each of the three counts ≤ cohort size). A unit may contribute one or both years.
 - **Outcomes.** Treatment success, died and lost to follow-up, each as a count out of the cohort size. Each outcome has its own model, grid and label.
 - **Model.** Count_ut ~ quasi-binomial(cohort_ut, π_ut), logit(π_ut) = β₀ + β·logit(C_ut) + γ·[t = 2022] (pooled; no year term for a single year) + the adjustment terms of the grid. logit(C) is the empirical logit log((Q + ½)/(D − Q + ½)), so that C = 0 or 1 does not make it undefined. The private-sector share enters as a proportion (the Annexure 1.2 share of the same year); previous-year success enters as the 2021 cohort's success share.
 - **Prior weights.** a_ut = cohort_ut.
 - **IRLS** (numpy only). Start with μ = (a·y + ½)/(a + 1) and η = logit(μ). Repeat: working weights W = a·μ(1 − μ); working response z = η + (y − μ)/(μ(1 − μ)); β = (XᵀWX)⁻¹XᵀWz; η = Xβ; μ = expit(η). Stop when max |Δβ| < 10⁻¹⁰, after at most 100 iterations. Non-convergence, or a singular XᵀWX, is reported and the estimate is then undefined.
-- **Pearson φ** = Σ a(y − μ)²/(μ(1 − μ)) ÷ (n_obs − n_par), reported with the fit, with the model-based Wald interval β ± 1.96·√(φ·[(XᵀWX)⁻¹]₁₁) as a descriptive comparison. The Wald interval is not used for the label.
+- **Pearson φ** = Σ a(y − μ)²/(μ(1 − μ)) ÷ (n_obs − n_par), reported with the fit, with the model-based Wald interval β ± 1.96·√(φ·(the diagonal element of (XᵀWX)⁻¹ for the slope on logit(C))) as a descriptive comparison. The Wald interval is not used for the label.
 - **H3** = β of the main specification (pooled, no adjustment), per outcome. Null 0.
 - **Interval: cluster bootstrap.** A fresh `numpy.random.default_rng(20261123)` for each outcome. The units with at least one observation are sorted alphabetically; with N_H3 of them, `rng.integers(0, N_H3, size=(10000, N_H3))`. Each drawn unit brings all its unit-years (a unit drawn twice enters twice), and the model is refitted. A draw whose fit is undefined is discarded, and the number discarded is reported. The 95% interval is the 2.5th and 97.5th percentiles of β over the retained draws, for the main specification only.
-- **Kish effective clusters** (Σ_u w_u)² ÷ Σ_u w_u², with w_u = Σ_t a_ut, are reported with the interval.
+- **Kish effective clusters** (Σ_u K_u)² ÷ Σ_u K_u², with K_u = Σ_t a_ut (the unit's total prior weight), are reported with the interval.
 - The model is ecological: β describes units, not patients, and strong programmes may have both high coverage and good outcomes. No causal reading is made.
 
 ### 8.5 Leave-one-out
@@ -409,7 +409,7 @@ C₂₀₂₃ and its change from 2022 are listed with the Jeffreys intervals of
 
 **Operational detail.**
 - **H1 and H2.** The main ρ is recomputed with each unit left out. **H3.** The main β of each outcome is refitted with each unit (all its unit-years) left out. The minimum and maximum, with the unit whose omission gives each, are reported.
-- **Act-now sets.** For each of the two harms (U; U·wt_u) in 2023, each unit is removed in turn and the whole chain is recomputed over the remaining units: the year's priors, n̄ and wt_u (for the weighted harm), a fresh draw set (seed 20261123), P(top-5) and tiers. The number of remaining units whose act-now membership changes is reported, with the omitted unit that causes the most changes.
+- **Act-now sets.** For each of the two harms (U; U·wt_u) in 2023, each unit is removed in turn and the whole chain is recomputed over the remaining units: the year's priors, n̄ and wt_u (for the weighted harm), a fresh draw set (seeds as in §5.3), P(top-5) and tiers. The number of remaining units whose act-now membership changes is reported, with the omitted unit that causes the most changes.
 - Output: `outputs/leave_one_out.csv`.
 
 ### 8.6 Label rule
@@ -478,9 +478,9 @@ The NFHS-5 fact sheets print no confidence interval, so n_u has no sampling inte
 
 **Operational detail.**
 - Python 3.14 with numpy 2.3.5 and scipy 1.16.3; tbprio 1.0.1, pinned in `pyproject.toml`. At the start of every analysis run, the installed tbprio must report version 1.0.1 or the run stops.
-- "Reset per analysis" means a new `numpy.random.default_rng(20261123)` at the start of each draw set (§5.3), each H3 bootstrap (§8.4), each leave-one-out refit of the act-now sets (§8.5) and the perturbation (§8.7). tbprio's own seed constant (20261121) is not used.
+- "Reset per analysis" means a new `numpy.random.default_rng(20261123)` at the start of each draw stream (§5.3; the chain stream is seeded `[20261123, 1]`), each H3 bootstrap (§8.4), each leave-one-out refit of the act-now sets (§8.5) and the perturbation (§8.7). tbprio's own seed constant (20261121) is not used.
 - Reruns with the same inputs must give byte-identical outputs. This is checked.
-- The analysis package is `src/nutpay/`. New code covers the chain, the draw sets, the shortfall and class rules, the IRLS and the budget. The tbprio functions used are imported and never copied: `shrink.beta_binomial`, `shrink.JEFFREYS_BINOMIAL`, `harm.summary`, `priority.p_topk`, `priority.tier`, `trend.transform`, `trend.fit`, `trend.pooled_phi`, `trend.interval`, `validate.spearman`, `validate.fisher_ci`, `validate.label`, `validate.sign`, `validate.n_agree`, `district.winsorised_phi`, `district.widen`.
+- The analysis package is `src/nutpay/`. New code covers the chain, the draw sets, the shortfall and class rules, the IRLS and the budget. The tbprio functions used are imported and never copied: `shrink.beta_binomial`, `shrink.JEFFREYS_BINOMIAL`, `harm.estimate`, `harm.summary`, `priority.p_topk`, `priority.tier`, `trend.transform`, `trend.fit`, `trend.pooled_phi`, `trend.interval`, `validate.spearman`, `validate.fisher_ci`, `validate.label`, `validate.sign`, `validate.n_agree`, `district.winsorised_phi`, `district.widen`.
 
 ### 10.2 Outputs
 
@@ -524,7 +524,10 @@ The NFHS-5 fact sheets print no confidence interval, so n_u has no sampling inte
 6. **National NPY coverage of about 62–66%**, from the literature and news.
 7. **Jeyashree et al. 2024** (BMC Public Health, doi 10.1186/s12889-024-17777-7): patients notified in the private sector more often went unpaid. This is why H2 expects a negative sign.
 8. **NFHS-5 State underweight shares.** These are widely published and had probably been seen by the author. The inventory located the item labels and wrote no value.
-9. **Nothing else.** No file of `src/nutpay/`, `data/extracted/` or `outputs/` existed before the registration commit.
+9. **Companion repositories (public, hssling/india-tb-diabetes-gap and hssling/india-tb-priority-tool).**
+   - The author's diabetes–TB study extracted the ITR 2023 Annexure 1.6 notified counts by sex for each unit and published them, and published the female share f by unit. That f is this study's f_u under the identical definition (female ÷ male + female + transgender, summed over merged units), and the same counts are the notification weights G_u for n̄ and the NFHS merge weights of §4.2. f_u was therefore computed and published before this plan, in that study.
+   - The author's priority-tool study extracted the Annexure 1.2 total notified for TBAR 2022, ITR 2023 and ITR 2024, which are the totals behind the H2 private-sector share. The shares themselves had not been formed.
+10. **Nothing else.** No other values from these tables had been computed by the author, and no file of `src/nutpay/`, `data/extracted/` or `outputs/` existed before the registration commit.
 
 ---
 

@@ -366,3 +366,13 @@ def test_real_plan_has_exactly_one_section12_heading_and_lf_endings():
     assert b"\r" not in data
     assert [ln for ln in data.split(b"\n") if ln == check_plan_order.HEADING] == \
         [check_plan_order.HEADING]
+
+
+def test_registration_record_with_a_utf8_bom_is_read(repo, capsys):
+    reg = commit(repo, {"docs/analysis_plan.md": PLAN}, "plan")
+    p = repo / "docs" / "registration_event.json"
+    p.write_bytes("\ufeff".encode("utf-8") + event(reg).encode("utf-8"))
+    git(repo, "add", "docs/registration_event.json")
+    git(repo, "commit", "-m", "event with BOM")
+    assert check_plan_order.main(repo) == 0
+    assert capsys.readouterr().out.startswith("OK:")

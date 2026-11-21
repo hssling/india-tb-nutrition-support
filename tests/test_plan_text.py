@@ -35,9 +35,22 @@ VERBATIM = [
     "paid at least once",
     "ecological association",
     "## 12. Deviations (dated)",
+    # grids, leave-one-out, rounding rule, funnel
+    "**H1 (12 entries):** weighting {sex-weighted, women, men, simple} × year {2021, 2022, 2023}.",
+    "**H2 (6 entries):** year {2021, 2022, 2023} × {Spearman, Kendall}.",
+    "**H3 (8 entries):** year set {pooled, 2021, 2022} × adjustment {none, private-sector "
+    "share} plus two models adjusting for previous-year success, only where it is published.",
+    "**Leave-one-out:** each unit, for H1–H3 and for the 2023 act-now sets.",
+    "Where a count is back-calculated from a percentage, each such count is moved ±half a "
+    "unit of the last printed digit.",
+    "The rerun must keep every tier, every class and every H label unchanged.",
+    "Multiplicative φ from 10%-winsorised z, the same as the diabetes study.",
+    "95% and 99.8% limits.",
+    "Units below the 99.8% limit are flagged.",
+    "divided by all 10,000 draws",
 ]
 
-FORBIDDEN = [r"\bTask\s*\d", r"\bcontroller\b", r"\bRuling\s*P?\d", r"\bsubagent\b",
+FORBIDDEN = [r"docs/superpowers", r"implementation plan", r"\bTask\s*\d", r"\bcontroller\b", r"\bRuling\s*P?\d", r"\bsubagent\b",
              r"\bSDD\b", r"\bBuilder\b"]
 
 

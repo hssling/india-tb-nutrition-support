@@ -100,7 +100,7 @@ def above_heading(data: bytes, where: str) -> bytes:
 def commit_named(text: str) -> str | None:
     """The registration commit named in the text of a registration_event.json, or None."""
     try:
-        event = json.loads(text)
+        event = json.loads(text.lstrip("\ufeff"))
     except json.JSONDecodeError:
         return None
     if not isinstance(event, dict):
@@ -118,7 +118,7 @@ def registered_commit(repo: Path) -> str:
     f = repo / EVENT
     if not f.exists():
         raise FileNotFoundError(NOT_REGISTERED)
-    text = f.read_text(encoding="utf-8")
+    text = f.read_text(encoding="utf-8-sig")
     try:
         json.loads(text)
     except json.JSONDecodeError as e:
