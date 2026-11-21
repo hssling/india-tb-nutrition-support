@@ -1,0 +1,4 @@
+year,national_table,national_pdf_page,printed_national_paid,state_table_india_paid,equal,source_file
+2021,"TBAR 2022 National Figures, DBT schemes table",45,1326306,1326306,True,data_raw/india_tb_report/TBAnnaulReport2022.pdf
+2022,"ITR 2023 Table 8.1, column 2022",115,1601896,1601896,True,data_raw/india_tb_report/ITR2023.pdf
+2023,"ITR 2024 Table 8.2, column Jan-Dec 2023",88,1875510,1875510,True,data_raw/india_tb_report/ITR2024.pdf

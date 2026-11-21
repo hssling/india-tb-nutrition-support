@@ -1,0 +1,73 @@
+unit,sex,bmi_below_normal_pct,source_file,pdf_page,flag
+Andaman and Nicobar Islands,women,9.4,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,13,sheet_name:Andaman & Nicobar Islands
+Andaman and Nicobar Islands,men,4.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,13,sheet_name:Andaman & Nicobar Islands
+Andhra Pradesh,women,14.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,19,
+Andhra Pradesh,men,16.5,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,19,
+Arunachal Pradesh,women,5.7,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,15,
+Arunachal Pradesh,men,4.9,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,15,
+Assam,women,17.6,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,25,
+Assam,men,13.4,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,25,
+Bihar,women,25.6,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,31,
+Bihar,men,21.5,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,31,
+Chandigarh,women,13.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,81,
+Chandigarh,men,15.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,81,
+Chhattisgarh,women,23.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,21,
+Chhattisgarh,men,17.4,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,21,
+Dadra and Nagar Haveli and Daman and Diu,women,25.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,37,merge_into:Gujarat;sheet_name:Dadra & Nagar Haveli and Daman & Diu
+Dadra and Nagar Haveli and Daman and Diu,men,18.3,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,37,merge_into:Gujarat;sheet_name:Dadra & Nagar Haveli and Daman & Diu
+Delhi,women,10.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,87,sheet_name:NCT Delhi
+Delhi,men,9.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,87,sheet_name:NCT Delhi
+Goa,women,13.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,43,
+Goa,men,12.5,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,43,
+Gujarat,women,25.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,49,
+Gujarat,men,20.9,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,49,
+Haryana,women,15.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,27,
+Haryana,men,14.5,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,27,
+Himachal Pradesh,women,13.9,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,55,
+Himachal Pradesh,men,11.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,55,
+Jammu and Kashmir,women,5.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,61,sheet_name:Jammu & Kashmir
+Jammu and Kashmir,men,4.3,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,61,sheet_name:Jammu & Kashmir
+Jharkhand,women,26.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,33,
+Jharkhand,men,17.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,33,
+Karnataka,women,17.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,67,
+Karnataka,men,14.3,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,67,
+Kerala,women,10.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,73,
+Kerala,men,10.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,73,
+Ladakh,women,4.4,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,85,merge_into:Jammu and Kashmir
+Ladakh,men,2.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,85,merge_into:Jammu and Kashmir
+Lakshadweep,women,8.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,79,merge_into:Kerala
+Lakshadweep,men,5.5,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,79,merge_into:Kerala
+Madhya Pradesh,women,23.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,39,
+Madhya Pradesh,men,20.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,39,
+Maharashtra,women,20.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,91,
+Maharashtra,men,16.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,91,
+Manipur,women,7.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,103,
+Manipur,men,8.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,103,
+Meghalaya,women,10.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,97,
+Meghalaya,men,9.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,97,
+Mizoram,women,5.3,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,109,
+Mizoram,men,5.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,109,
+Nagaland,women,11.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,115,
+Nagaland,men,7.5,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,115,
+Odisha,women,20.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,45,
+Odisha,men,15.3,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,45,
+Puducherry,women,9.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,93,
+Puducherry,men,11.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,93,
+Punjab,women,12.7,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,51,
+Punjab,men,12.5,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,51,
+Rajasthan,women,19.6,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,57,
+Rajasthan,men,14.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,57,
+Sikkim,women,5.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,121,
+Sikkim,men,4.9,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,121,
+Tamil Nadu,women,12.6,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,63,
+Tamil Nadu,men,12.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,63,
+Telangana,women,18.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,127,
+Telangana,men,16.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,127,
+Tripura,women,16.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,133,
+Tripura,men,12.4,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,133,
+Uttar Pradesh,women,19.0,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,69,
+Uttar Pradesh,men,17.9,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,69,
+Uttarakhand,women,13.9,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,75,
+Uttarakhand,men,16.2,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-II.pdf,75,
+West Bengal,women,14.8,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,139,
+West Bengal,men,15.1,data_raw/nfhs5/NFHS-5_India_and_State_Factsheet_Compendium_Phase-I.pdf,139,

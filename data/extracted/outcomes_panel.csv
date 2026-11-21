@@ -1,0 +1,265 @@
+unit,cohort_year,measure,value,source_file,pdf_page,table_id,flag
+Andaman and Nicobar Islands,2021,cohort,480,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Andaman and Nicobar Islands,2021,success,416,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Andaman and Nicobar Islands,2021,died,13,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Andaman and Nicobar Islands,2021,ltfu,12,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Andhra Pradesh,2021,cohort,85200,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Andhra Pradesh,2021,success,79321,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Andhra Pradesh,2021,died,2223,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Andhra Pradesh,2021,ltfu,186,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Arunachal Pradesh,2021,cohort,2726,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Arunachal Pradesh,2021,success,2163,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Arunachal Pradesh,2021,died,73,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Arunachal Pradesh,2021,ltfu,180,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Assam,2021,cohort,37553,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Assam,2021,success,33091,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Assam,2021,died,1649,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Assam,2021,ltfu,732,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Bihar,2021,cohort,133418,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Bihar,2021,success,109250,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Bihar,2021,died,4881,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Bihar,2021,ltfu,5156,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Chandigarh,2021,cohort,3145,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Chandigarh,2021,success,2646,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Chandigarh,2021,died,117,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Chandigarh,2021,ltfu,97,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Chhattisgarh,2021,cohort,32184,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Chhattisgarh,2021,success,27646,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Chhattisgarh,2021,died,1846,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Chhattisgarh,2021,ltfu,627,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Delhi,2021,cohort,82277,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Delhi,2021,success,60991,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Delhi,2021,died,2297,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Delhi,2021,ltfu,4308,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Goa,2021,cohort,1948,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Goa,2021,success,1560,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Goa,2021,died,175,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Goa,2021,ltfu,61,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Gujarat,2021,cohort,138800,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu;cohort_definition_not_stated
+Gujarat,2021,success,123196,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu
+Gujarat,2021,died,6876,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu
+Gujarat,2021,ltfu,2455,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu
+Haryana,2021,cohort,69595,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Haryana,2021,success,58097,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Haryana,2021,died,3065,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Haryana,2021,ltfu,1452,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Himachal Pradesh,2021,cohort,14532,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Himachal Pradesh,2021,success,12731,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Himachal Pradesh,2021,died,891,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Himachal Pradesh,2021,ltfu,150,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Jammu and Kashmir,2021,cohort,11229,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Jammu and Kashmir+Ladakh;cohort_definition_not_stated
+Jammu and Kashmir,2021,success,9656,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Jammu and Kashmir+Ladakh
+Jammu and Kashmir,2021,died,439,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Jammu and Kashmir+Ladakh
+Jammu and Kashmir,2021,ltfu,181,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Jammu and Kashmir+Ladakh
+Jharkhand,2021,cohort,52793,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Jharkhand,2021,success,45672,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Jharkhand,2021,died,1826,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Jharkhand,2021,ltfu,2513,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Karnataka,2021,cohort,69405,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Karnataka,2021,success,57287,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Karnataka,2021,died,5236,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Karnataka,2021,ltfu,1758,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Kerala,2021,cohort,21906,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Kerala+Lakshadweep;cohort_definition_not_stated
+Kerala,2021,success,17412,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Kerala+Lakshadweep
+Kerala,2021,died,1780,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Kerala+Lakshadweep
+Kerala,2021,ltfu,481,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,merged:Kerala+Lakshadweep
+Madhya Pradesh,2021,cohort,166098,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,cohort_definition_not_stated
+Madhya Pradesh,2021,success,140738,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Madhya Pradesh,2021,died,6643,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Madhya Pradesh,2021,ltfu,7336,data_raw/india_tb_report/ITR2023.pdf,251,Annexure 3.3,
+Maharashtra,2021,cohort,182554,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Maharashtra,2021,success,158528,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Maharashtra,2021,died,7809,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Maharashtra,2021,ltfu,2814,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Manipur,2021,cohort,1815,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Manipur,2021,success,1442,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Manipur,2021,died,73,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Manipur,2021,ltfu,61,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Meghalaya,2021,cohort,3916,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Meghalaya,2021,success,3322,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Meghalaya,2021,died,180,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Meghalaya,2021,ltfu,83,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Mizoram,2021,cohort,1670,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Mizoram,2021,success,1477,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Mizoram,2021,died,72,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Mizoram,2021,ltfu,33,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Nagaland,2021,cohort,3636,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Nagaland,2021,success,3122,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Nagaland,2021,died,113,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Nagaland,2021,ltfu,106,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Odisha,2021,cohort,51788,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Odisha,2021,success,46473,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Odisha,2021,died,2973,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Odisha,2021,ltfu,498,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Puducherry,2021,cohort,1369,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Puducherry,2021,success,1103,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Puducherry,2021,died,74,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Puducherry,2021,ltfu,33,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Punjab,2021,cohort,52253,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Punjab,2021,success,44092,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Punjab,2021,died,2619,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Punjab,2021,ltfu,1319,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Rajasthan,2021,cohort,147937,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Rajasthan,2021,success,126018,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Rajasthan,2021,died,4852,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Rajasthan,2021,ltfu,5070,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Sikkim,2021,cohort,1187,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Sikkim,2021,success,1046,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Sikkim,2021,died,47,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Sikkim,2021,ltfu,18,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Tamil Nadu,2021,cohort,82684,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Tamil Nadu,2021,success,68711,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Tamil Nadu,2021,died,4966,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Tamil Nadu,2021,ltfu,2318,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Telangana,2021,cohort,59615,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Telangana,2021,success,54343,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Telangana,2021,died,1759,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Telangana,2021,ltfu,428,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Tripura,2021,cohort,2729,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Tripura,2021,success,2328,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Tripura,2021,died,167,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Tripura,2021,ltfu,58,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Uttar Pradesh,2021,cohort,453494,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Uttar Pradesh,2021,success,391143,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Uttar Pradesh,2021,died,16500,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Uttar Pradesh,2021,ltfu,11327,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Uttarakhand,2021,cohort,23231,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+Uttarakhand,2021,success,20149,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Uttarakhand,2021,died,863,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Uttarakhand,2021,ltfu,566,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+West Bengal,2021,cohort,89277,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,cohort_definition_not_stated
+West Bengal,2021,success,74432,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+West Bengal,2021,died,4963,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+West Bengal,2021,ltfu,1710,data_raw/india_tb_report/ITR2023.pdf,252,Annexure 3.3,
+Andaman and Nicobar Islands,2022,cohort,508,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Andaman and Nicobar Islands,2022,success,432,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Andaman and Nicobar Islands,2022,died,14,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Andaman and Nicobar Islands,2022,ltfu,16,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Andhra Pradesh,2022,cohort,90840,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Andhra Pradesh,2022,success,86004,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Andhra Pradesh,2022,died,1484,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Andhra Pradesh,2022,ltfu,64,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Arunachal Pradesh,2022,cohort,2859,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Arunachal Pradesh,2022,success,2355,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Arunachal Pradesh,2022,died,64,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Arunachal Pradesh,2022,ltfu,214,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Assam,2022,cohort,47404,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Assam,2022,success,42018,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Assam,2022,died,1750,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Assam,2022,ltfu,681,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Bihar,2022,cohort,163263,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Bihar,2022,success,136979,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Bihar,2022,died,5158,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Bihar,2022,ltfu,7389,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Chandigarh,2022,cohort,3687,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Chandigarh,2022,success,3067,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Chandigarh,2022,died,149,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Chandigarh,2022,ltfu,111,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Chhattisgarh,2022,cohort,38788,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Chhattisgarh,2022,success,34256,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Chhattisgarh,2022,died,2096,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Chhattisgarh,2022,ltfu,718,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Delhi,2022,cohort,85017,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Delhi,2022,success,64548,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Delhi,2022,died,1944,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Delhi,2022,ltfu,3985,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Goa,2022,cohort,1996,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Goa,2022,success,1483,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Goa,2022,died,171,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Goa,2022,ltfu,87,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Gujarat,2022,cohort,145580,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu;cohort_definition_dstb_current_facility
+Gujarat,2022,success,131235,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu
+Gujarat,2022,died,5999,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu
+Gujarat,2022,ltfu,1945,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Gujarat+Dadra and Nagar Haveli and Daman and Diu
+Haryana,2022,cohort,76051,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Haryana,2022,success,65898,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Haryana,2022,died,2980,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Haryana,2022,ltfu,1172,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Himachal Pradesh,2022,cohort,16168,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Himachal Pradesh,2022,success,14018,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Himachal Pradesh,2022,died,923,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Himachal Pradesh,2022,ltfu,242,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Jammu and Kashmir,2022,cohort,12145,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Jammu and Kashmir+Ladakh;cohort_definition_dstb_current_facility
+Jammu and Kashmir,2022,success,10505,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Jammu and Kashmir+Ladakh
+Jammu and Kashmir,2022,died,451,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Jammu and Kashmir+Ladakh
+Jammu and Kashmir,2022,ltfu,145,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Jammu and Kashmir+Ladakh
+Jharkhand,2022,cohort,58996,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Jharkhand,2022,success,52627,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Jharkhand,2022,died,1560,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Jharkhand,2022,ltfu,1281,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Karnataka,2022,cohort,76687,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Karnataka,2022,success,64845,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Karnataka,2022,died,5115,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Karnataka,2022,ltfu,1603,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Kerala,2022,cohort,23156,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Kerala+Lakshadweep;cohort_definition_dstb_current_facility
+Kerala,2022,success,18939,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Kerala+Lakshadweep
+Kerala,2022,died,1950,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Kerala+Lakshadweep
+Kerala,2022,ltfu,606,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,merged:Kerala+Lakshadweep
+Madhya Pradesh,2022,cohort,186709,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Madhya Pradesh,2022,success,162931,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Madhya Pradesh,2022,died,6557,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Madhya Pradesh,2022,ltfu,6399,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Maharashtra,2022,cohort,219216,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,cohort_definition_dstb_current_facility
+Maharashtra,2022,success,190484,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Maharashtra,2022,died,8559,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Maharashtra,2022,ltfu,2995,data_raw/india_tb_report/ITR2024.pdf,222,Annexure 3.3,
+Manipur,2022,cohort,2584,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Manipur,2022,success,1849,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Manipur,2022,died,85,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Manipur,2022,ltfu,108,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Meghalaya,2022,cohort,4639,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Meghalaya,2022,success,3858,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Meghalaya,2022,died,197,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Meghalaya,2022,ltfu,139,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Mizoram,2022,cohort,1993,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Mizoram,2022,success,1744,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Mizoram,2022,died,85,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Mizoram,2022,ltfu,38,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Nagaland,2022,cohort,4142,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Nagaland,2022,success,3641,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Nagaland,2022,died,96,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Nagaland,2022,ltfu,196,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Odisha,2022,cohort,59656,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Odisha,2022,success,54308,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Odisha,2022,died,2646,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Odisha,2022,ltfu,490,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Puducherry,2022,cohort,1485,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Puducherry,2022,success,1215,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Puducherry,2022,died,115,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Puducherry,2022,ltfu,40,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Punjab,2022,cohort,57373,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Punjab,2022,success,48131,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Punjab,2022,died,2648,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Punjab,2022,ltfu,1433,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Rajasthan,2022,cohort,166554,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Rajasthan,2022,success,147786,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Rajasthan,2022,died,4571,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Rajasthan,2022,ltfu,3932,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Sikkim,2022,cohort,1232,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Sikkim,2022,success,1120,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Sikkim,2022,died,43,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Sikkim,2022,ltfu,6,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Tamil Nadu,2022,cohort,93657,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Tamil Nadu,2022,success,80353,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Tamil Nadu,2022,died,5234,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Tamil Nadu,2022,ltfu,2386,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Telangana,2022,cohort,71488,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Telangana,2022,success,65586,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Telangana,2022,died,1659,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Telangana,2022,ltfu,345,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Tripura,2022,cohort,3266,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Tripura,2022,success,2836,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Tripura,2022,died,182,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Tripura,2022,ltfu,79,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Uttar Pradesh,2022,cohort,523101,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Uttar Pradesh,2022,success,468159,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Uttar Pradesh,2022,died,15178,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Uttar Pradesh,2022,ltfu,7247,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Uttarakhand,2022,cohort,26875,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+Uttarakhand,2022,success,23515,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Uttarakhand,2022,died,926,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+Uttarakhand,2022,ltfu,617,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+West Bengal,2022,cohort,92921,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,cohort_definition_dstb_current_facility
+West Bengal,2022,success,79661,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+West Bengal,2022,died,4642,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,
+West Bengal,2022,ltfu,1895,data_raw/india_tb_report/ITR2024.pdf,223,Annexure 3.3,

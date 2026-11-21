@@ -6,6 +6,9 @@ endings (`.gitattributes`). The source manifest and the data inventory were prod
 - Windows 11 Pro (64-bit)
 - Python 3.14.0
 - pytest 9.0.0: the tests
+- pdfplumber 0.11.8 (pdfminer.six 20251107): the extraction of the tables from the PDFs
+  (`src/extract/`; `data/extracted/` is reproduced byte for byte by re-running
+  `python -I src/extract/itr_npy.py`, `itr_outcomes.py`, `itr_sector.py` and `nfhs.py`)
 - PyMuPDF 1.27.2.3: locating pages and reading table headers, total rows and the NFHS-5
   indicator lines as text, for the inventory only
 
@@ -20,4 +23,5 @@ pytest). The analysis, once added, will use numpy 2.3.5 and scipy 1.16.3 and wil
 | Operating system | Windows 11 Pro (64-bit) |
 | Python | 3.14.0 |
 | pytest | 9.0.0 |
+| pdfplumber | 0.11.8 |
 | PyMuPDF | 1.27.2.3 |
