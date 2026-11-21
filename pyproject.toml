@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "npychain"
+version = "0.1.0"
+description = "Who misses the TB nutrition payment, and where it matters most: a State-level analysis of the Ni-kshay Poshan Yojana chain (registered analysis plan)"
+requires-python = ">=3.14"
+license = "MIT"
+dependencies = [
+    "tbprio @ git+https://github.com/hssling/india-tb-priority-tool@v1.0.1",
+    "numpy==2.3.5",
+    "scipy==1.16.3",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = []
