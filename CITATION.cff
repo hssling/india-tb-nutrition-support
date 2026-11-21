@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this analysis, its data or its analysis plan, please cite it as below."
+title: "Who misses the TB nutrition payment, and where it matters most: a pre-registered State-level analysis of the Ni-kshay Poshan Yojana payment chain"
+abstract: >-
+  Code, extracted data, outputs and a pre-registered analysis plan for a State-level
+  analysis of the payment chain of India's Ni-kshay Poshan Yojana, the monthly nutrition
+  transfer to notified people with TB. For each State and UT it counts the people not paid
+  at least once, shows whether they are lost before bank details or after, classes each
+  unit's shortfall as account-led, payment-led or mixed, gives tiers rather than ranks
+  (the unpaid count, and the count weighted by a relative need weight from NFHS-5 adult
+  underweight), and reports an illustrative budget. It tests, as associations across
+  units, whether coverage goes with the need weight, with the private-sector share of
+  notifications, and with DS-TB treatment outcomes. It uses published, aggregate India TB
+  Report tables (data years 2021, 2022 and 2023) and NFHS-5 fact sheets. Observational;
+  no causal estimates.
+type: software
+version: "1.0.0"
+# date-released: "YYYY-MM-DD"  # set at release
+authors:
+  - family-names: "Siddalingaiah"
+    given-names: "H S"
+    orcid: "https://orcid.org/0000-0002-4771-8285"
+    affiliation: >-
+      Department of Community Medicine, Shridevi Institute of Medical Sciences and
+      Research Hospital, Tumkur 572106, Karnataka, India
+    email: "hssling@yahoo.com"
+license: MIT
+repository-code: "https://github.com/hssling/india-tb-nutrition-support"
+keywords:
+  - tuberculosis
+  - Ni-kshay Poshan Yojana
+  - nutrition support
+  - direct benefit transfer
+  - India
+  - NFHS-5
+  - empirical Bayes
+  - pre-registration

@@ -331,6 +331,30 @@ def test_zero_denominator_keeps_u_when_q_not_above_d():
     assert t["Goa"]["status"] == "not tiered: D = 0 (U = 0; rate undefined)"
 
 
+def test_na_cells_do_not_list_u_na_for_a_zero_zero_unit(monkeypatch):
+    """A D = Q = 0 unit has C NA but U = 0: na_cells.csv lists a U-NA line only where U is
+    None (a unit whose D is missing keeps its line)."""
+    sys.path.insert(0, str(ROOT))
+    import src.run_all as run_all
+
+    rows = chain.load()
+    for r in rows:      # Goa 2022: D = B = Q = 0
+        if r["unit"] == "Goa" and r["year"] == "2022":
+            r["value"] = "0"
+    monkeypatch.setattr(chain, "load", lambda *a, **k: rows)
+    a = run_all.Analysis()
+    goa = next(r for r in a.chain if r["unit"] == "Goa" and r["year"] == 2022)
+    assert goa["C"] is None and goa["U"] == 0
+    res = {"H1": {"main": {"units": []}}, "H2": {"main": {"units": []}}}
+    res.update({f"H3_{o}": {"main": {"excluded": []}} for o in validate.OUTCOME_NAMES})
+    out = a.na_cells(res, [])
+    mine = [r for r in out if r["unit"] == "Goa" and r["year"] == 2022 and r["measure"] == "U"]
+    assert mine == []
+    kar = [r for r in out if r["unit"] == "Karnataka" and r["year"] == 2023
+           and r["measure"] == "U"]
+    assert len(kar) == 1 and kar[0]["reason"].startswith("NA because C NA")
+
+
 def test_nfhs_merge_raises_on_an_unmatched_sheet():
     nf = _nfhs("Kerala", "20.0", "10.0") + _nfhs("Lakshadweep", "40.0", "30.0")
     sx = [_sex("Kerala", "Kerala", "200", "100", "0")]   # no Lakshadweep row

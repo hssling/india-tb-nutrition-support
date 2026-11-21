@@ -370,6 +370,8 @@ class Analysis:
             na = r["na"]
             for k, steps in (("U", ("C",)), ("U_acc", ("A",)), ("U_pay", ("A", "P")),
                              ("shortfalls and class", ("A", "P"))):
+                if k in r and r[k] is not None:
+                    continue    # the count is valid (U = 0 for D = Q = 0 with C NA)
                 why = [f"{s} NA ({na[s]})" for s in steps if s in na]
                 if why:
                     add("chain (plan 3.6)", r["unit"], r["year"], k,
