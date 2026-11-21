@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/hssling/india-tb-nutrition-support",
+  "registered_document": "docs/analysis_plan.md",
+  "registered_commit": "c1d2f04f1867ac75b322b1bbf031ff63a42bb486",
+  "pushed_at": "2026-11-21T20:28:47Z",
+  "source_of_timestamp": "GitHub REST API, GET /repos/hssling/india-tb-nutrition-support (pushed_at), first push of the repository",
+  "estimates_computed_before": false,
+  "note": "No src/nutpay/ module, no outputs/ file and no data/extracted/ file existed at the registration commit."
+}
