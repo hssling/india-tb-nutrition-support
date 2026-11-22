@@ -325,7 +325,8 @@ every row; printed totals are checked.
 
 ## Citation and licences
 
-Cite as in [`CITATION.cff`](CITATION.cff). Version 1.0.0 is archived on Zenodo:
+Cite as in [`CITATION.cff`](CITATION.cff). Version 1.0.1 (the version used for the manuscript) is archived on Zenodo:
+[10.5281/zenodo.24433709](https://doi.org/10.5281/zenodo.24433709); version 1.0.0:
 [10.5281/zenodo.24432502](https://doi.org/10.5281/zenodo.24432502) (all versions:
 [10.5281/zenodo.24432501](https://doi.org/10.5281/zenodo.24432501)). Author: Siddalingaiah H S (ORCID
 [0000-0002-4771-8285](https://orcid.org/0000-0002-4771-8285)), Department of Community
