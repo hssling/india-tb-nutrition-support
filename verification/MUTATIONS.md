@@ -63,7 +63,7 @@ ran the extraction rerun (reproduced byte for byte before mutation 8).
 `verification/mutate_manuscript.py` breaks one thing at a time in a copy of the private
 manuscript folder and runs `check_manuscript_numbers` and `check_docx_tie` on the copy (the
 anchors it edits quote the manuscript, so they are kept in the private folder). Run on
-22 November 2026: 57 of 57 named mutations caught. They cover numbers changed in the
+22 November 2026: 61 of 61 named mutations caught. They cover numbers changed in the
 Markdown only or in the submission files only (text, title page, Table 1 and supplementary
 cells), the title page (e-mail, running title, a "first" claim), superscript references
 (number, order, placement, a renumbered entry), table cells and signs, figure and
@@ -73,9 +73,10 @@ H3 "supported" without "ecological association"), British spelling, the abstract
 legend and main-text limits, Word's counts, missing alt text, the AI disclosure, caveats, the
 end sections, the figures (another figure, a 150 dpi image, greyscale, a graphical abstract that
 is not 5:2), a second table, the layout (line numbers removed, justified text, automatic
-hyphenation), the release DOI, the cover letter and the file set.
+hyphenation), the release DOI, thousands written with commas, the supplementary methods text, Table 1
+removed from its own file or copied into the manuscript, the cover letter and the file set.
 
-With `--sweep`, the last digit of every number token was bumped in turn: 361 of 361 tokens of
-the manuscript's Markdown were caught by `check_manuscript_numbers`, and 747 of 747 tokens of
+With `--sweep`, the last digit of every number token was bumped in turn: 374 of 374 tokens of
+the manuscript's Markdown were caught by `check_manuscript_numbers`, and 639 of 639 tokens of
 the manuscript's .docx (tables and references included, the release DOI filled in) by
 `check_docx_tie`.

@@ -17,7 +17,7 @@ frozen, and changes after submission go into a new folder.
 
 Needs pandoc on PATH, python-docx, Pillow and PyMuPDF (fitz); Microsoft Word (through PowerShell
 COM) for the word counts unless --no-word. Sources (in the folder): manuscript.md, title_page_src.md,
-cover_letter.md and exhibits/ (tables.md, figure1.pdf to figure4.pdf and graphical_abstract.pdf,
+supplementary_text.md, cover_letter.md and exhibits/ (tables.md, figure1.pdf to figure4.pdf and graphical_abstract.pdf,
 from the committed exhibits/ scripts). Nothing is written outside the folder.
 
 Layout (manuscript/journal_rules.md): A4, 2.5 cm margins, Times New Roman 12 pt, double spacing,
@@ -26,11 +26,13 @@ page numbers at the foot, continuous line numbers in the manuscript, single colu
 bottom rules.
 
   submission/manuscript.docx           title page; abstract and keywords (page 2); main text (new
-                                       page); end sections; references; Table 1; figure legends
+                                       page); end sections; references; figure legends (no table)
+  submission/Table_1.docx              Table 1 as its own editable Word file, with its footnotes
   submission/Figure_1.tif ... _4.tif   Figures 1 to 4: colour TIFF (LZW, 600 dpi) rendered from the
                                        vector PDF exhibits (Arial)
   submission/graphical_abstract.tif    5:2 landscape, 300 dpi (254 x 101.6 mm), no caption
-  submission/Supplementary_data.docx   Tables S1 to S14, landscape
+  submission/Supplementary data.docx   the supplementary methods text (supplementary_text.md) and
+                                       Tables S1 to S15, landscape
   submission/cover_letter.docx
 
 --doi replaces the placeholder 10.5281/zenodo.XXXXXXX in every file; without it the placeholder is
@@ -57,7 +59,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from verification.check_docx_tie import (COVER_DOCX, FIG_DPI, FIGURES, GA, GA_DPI, MANUSCRIPT,  # noqa: E402
-                                         SUPP_NOTE, SUPPLEMENT, render_tiff_bytes)
+                                         SUPP_NOTE, SUPP_TEXT, SUPPLEMENT, TABLE1, render_tiff_bytes)
 
 DEFAULT_MS_DIR = "manuscript"
 MS = ROOT / DEFAULT_MS_DIR
@@ -172,15 +174,18 @@ def manuscript_md() -> str:
     legends = between(ms, "## Figure legends", None)
     parts = [title_page_md().rstrip(), PAGEBREAK, abstract.rstrip(), PAGEBREAK, body.rstrip(), PAGEBREAK,
              escape_refs(refs).rstrip()]
-    for t in tables("## Table 1.", "## Table S1."):
-        parts += [PAGEBREAK, t]
     parts += [PAGEBREAK, legends]
     return "".join(parts)
 
 
+def table1_md() -> str:
+    """Table 1 as its own editable Word file: its title, the table and its footnotes."""
+    return "".join(tables("## Table 1.", "## Table S1."))
+
+
 def supplement_md() -> str:
     title = read("manuscript.md").splitlines()[0]
-    parts = ["# Supplementary data\n\n", title[2:].strip(), "\n\n", SUPP_NOTE, "\n"]
+    parts = ["# Supplementary data\n\n", title[2:].strip(), "\n\n", SUPP_NOTE, "\n\n", read(SUPP_TEXT).strip(), "\n"]
     for t in tables("## Table S1.", None):
         parts += [PAGEBREAK, t]
     return "".join(parts)
@@ -658,7 +663,7 @@ def word_counts(docx: Path) -> dict:
 
 
 def built_names() -> set[str]:
-    return {MANUSCRIPT, SUPPLEMENT, COVER_DOCX, GA} | set(FIGURES.values())
+    return {MANUSCRIPT, TABLE1, SUPPLEMENT, COVER_DOCX, GA} | set(FIGURES.values())
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -690,6 +695,7 @@ def main(argv: list[str] | None = None) -> int:
         make_reference(ref)
         jobs = [
             (MANUSCRIPT, manuscript_md(), dict(line_numbers=True, placeholder=hl)),
+            (TABLE1, table1_md(), dict(table_pt=9)),
             (SUPPLEMENT, supplement_md(), dict(landscape=True, table_pt=8.5)),
             (COVER_DOCX, letter_md("cover_letter.md"), {}),
         ]

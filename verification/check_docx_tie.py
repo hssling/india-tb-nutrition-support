@@ -58,6 +58,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from verification import check_manuscript_numbers as cmn  # noqa: E402
+from exhibits.formats import count  # noqa: E402
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 # The release DOI: the placeholder in the Markdown, the DOI that --doi fills in the .docx. Zenodo DOIs
@@ -72,12 +73,14 @@ MAX_DISPLAY = 5
 MS = cmn.MS_NAME
 TP = cmn.TITLE_PAGE
 MANUSCRIPT = "manuscript.docx"
-SUPPLEMENT = "Supplementary_data.docx"
+SUPPLEMENT = "Supplementary data.docx"  # the journal: the file name contains "Supplementary data"
+TABLE1 = "Table_1.docx"                 # the journal: tables as separate, editable Word files
 COVER_DOCX = "cover_letter.docx"
+SUPP_TEXT = cmn.SUPP_TEXT
 FIGURES = {k: f"Figure_{k}.tif" for k in range(1, 5)}
 GA = "graphical_abstract.tif"
 # The paragraph the build adds to the supplementary data (tools/build_submission.py imports it).
-SUPP_NOTE = ("Tables S1 to S14 are cited in the manuscript in this order. Every cell is generated from the study's "
+SUPP_NOTE = ("Tables S1 to S15 are cited in the manuscript in this order, after the methods below. Every cell is generated from the study's "
              "committed outputs; units are listed alphabetically (tiers, not ranks).")
 
 SPEC: dict[str, list[tuple]] = {
@@ -85,18 +88,19 @@ SPEC: dict[str, list[tuple]] = {
         ("first", MS, "# "),
         ("md", TP, "# Title page", None, "drop-first"),
         ("md", MS, "## Abstract", "## Figure legends"),
-        ("md", "exhibits/tables.md", "## Table 1.", "## Table S1."),
         ("md", MS, "## Figure legends", None),
     ],
+    TABLE1: [("md", "exhibits/tables.md", "## Table 1.", "## Table S1.")],
     SUPPLEMENT: [
         ("builder", "Supplementary data"),
         ("first", MS, "# "),
         ("builder", SUPP_NOTE),
+        ("md", SUPP_TEXT, None, None),
         ("md", "exhibits/tables.md", "## Table S1.", None),
     ],
     COVER_DOCX: [("md", cmn.COVER, "# Cover letter", None, "drop-first")],
 }
-CHECKED_WORDING = (MANUSCRIPT, SUPPLEMENT)
+CHECKED_WORDING = (MANUSCRIPT, SUPPLEMENT, TABLE1)
 SUBMITTED = re.compile(r"SUBMITTED_.*")
 
 
@@ -336,8 +340,8 @@ def word_count_problems(ms_dir: Path, units: list[str]) -> list[str]:
     if own > LIMITS["abstract"]:
         out.append(f"WORDS: the abstract of the manuscript has {own} words, over the limit of {LIMITS['abstract']}")
     flat = " ".join(front(units))
-    for want in (f"abstract {w['abstract']:,} words", f"main text (Introduction to Discussion, headings excluded) "
-                 f"{w['main_text']:,} words"):
+    for want in (f"abstract {count(w['abstract'])} words", f"main text (Introduction to Discussion, headings "
+                 f"excluded) {count(w['main_text'])} words"):
         if want not in flat:
             out.append(f"WORDS: the title page does not quote Word's count {want!r}")
     return out
@@ -356,19 +360,19 @@ def abstract_of(units: list[str]) -> list[str]:
     return out
 
 
-def display_problems(path: Path) -> list[str]:
-    n_tab = docx_tables(path)
+def display_problems(path: Path, table1: Path | None = None) -> list[str]:
+    """No table in the manuscript itself; Table 1 alone in its own file; with the figures, at most five."""
     out = []
+    n_ms = docx_tables(path)
+    if n_ms:
+        out.append(f"DISPLAY: the manuscript holds {n_ms} table(s); tables go in separate files")
+    n_tab = docx_tables(table1) if table1 is not None and table1.exists() else 0
     if n_tab != len(cmn.TABLES):
-        out.append(f"DISPLAY: the manuscript holds {n_tab} tables, the text cites {len(cmn.TABLES)}")
-    if n_tab + len(FIGURES) > MAX_DISPLAY:
-        out.append(f"DISPLAY: {n_tab} tables and {len(FIGURES)} figures, more than {MAX_DISPLAY} display items")
+        out.append(f"DISPLAY: {TABLE1} holds {n_tab} tables, the text cites {len(cmn.TABLES)}")
+    if n_tab + n_ms + len(FIGURES) > MAX_DISPLAY:
+        out.append(f"DISPLAY: {n_tab + n_ms} tables and {len(FIGURES)} figures, more than {MAX_DISPLAY} display items")
     return out
 
-
-# --------------------------------------------------------------------------------------
-# Figures: rendering (shared with tools/build_submission.py) and checks
-# --------------------------------------------------------------------------------------
 def render_tiff_bytes(pdf: Path, dpi: int) -> bytes:
     """The TIFF of the PDF's first page: RGB colour, LZW, at dpi (deterministic)."""
     return _render(hashlib.md5(pdf.read_bytes()).hexdigest(), str(pdf), dpi)
@@ -462,7 +466,7 @@ def problems(ms_dir: Path | None = None, root: Path = ROOT) -> list[str]:
     if MANUSCRIPT in units_of:
         out += title_page_problems(units_of[MANUSCRIPT], ms_dir)
         out += word_count_problems(ms_dir, units_of[MANUSCRIPT])
-        out += display_problems(sub / MANUSCRIPT)
+        out += display_problems(sub / MANUSCRIPT, sub / TABLE1)
         out += layout_problems(sub / MANUSCRIPT)
     out += figure_problems(ms_dir)
     out += doi_problems(ms_dir)

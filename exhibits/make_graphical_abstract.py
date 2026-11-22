@@ -77,7 +77,7 @@ def draw(rows: list[dict], plt):
     fig.text(0.69, 0.66, "\n".join(names), fontsize=12, va="top", linespacing=1.25)
     fig.text(0.69, 0.22, "Punjab's 2023 row: a probable\nreporting anomaly, to be verified", fontsize=12, color=GREY,
              va="center", linespacing=1.2)
-    fig.text(0.02, 0.04, f"Cost of paying them all: about {inr_bn(v['budget'])} (INR 1,000 a month for 6 months; "
+    fig.text(0.02, 0.04, f"Cost of paying them all: about {inr_bn(v['budget'])} (INR {count(1000)} a month for six months; "
              "illustrative)", fontsize=12, color=GREY, va="center")
     return fig
 

@@ -34,11 +34,31 @@ def num(x: float | str, dp: int) -> str:
     return MINUS + s[1:] if s.startswith("-") else s
 
 
+NBSP = "\u00a0"  # the journal's thousands separator: "10 000", never "10,000"
+
+
 def count(x: float | str) -> str:
-    """A whole number with thousands separators ("639,965"); x is rounded half to even."""
+    """A whole number in the journal's style: a no-break space between thousands from five digits
+    up ("639 965"), none in a four-digit number ("2796"); x is rounded half to even."""
     v = round(float(x))
-    s = f"{v:,}"
-    return MINUS + s[1:] if s.startswith("-") else s
+    s = str(abs(v)) if abs(v) < 10000 else f"{abs(v):,}".replace(",", NBSP)
+    return (MINUS + s) if v < 0 else s
+
+
+SMALL = "zero one two three four five six seven eight nine".split()
+
+
+def small(x: float | str) -> str:
+    """A count in words from one to nine (the journal spells these out in text), else count()."""
+    v = round(float(x))
+    return SMALL[v] if 0 < v < 10 else count(v)
+
+
+def pct_n(n: float | str, d: float | str) -> str:
+    """A percentage with its numerator and denominator: "74.0% (1 822 585/2 462 550)"; one
+    decimal when the denominator is above 100, a whole number otherwise."""
+    n, d = float(n), float(d)
+    return f"{pct(n / d, 1 if d > 100 else 0)} ({count(n)}/{count(d)})"
 
 
 def rng(lo: str, hi: str) -> str:
@@ -129,14 +149,15 @@ def national(rows: list[dict], year: str) -> dict:
     return one(rows, f"national {year}", level="national", year=year)
 
 
-# Variable names written with a subscript in the manuscript and its tables (Pandoc's ~...~ syntax);
+# Variable names written in italics with a subscript in the manuscript and its tables (Pandoc's
+# *...* and ~...~ syntax);
 # file names and URLs are never touched (a name preceded by "/", "." or a word character is left).
-SUBSCRIPTS = {"wt_u": "wt~u~", "n_u": "n~u~", "f_u": "f~u~", "w_u": "w~u~", "m_u": "m~u~", "U_acc": "U~acc~",
-              "U_pay": "U~pay~", "S_acc": "S~acc~", "S_pay": "S~pay~"}
+SUBSCRIPTS = {"wt_u": "*wt*~u~", "n_u": "*n*~u~", "f_u": "*f*~u~", "w_u": "*w*~u~", "m_u": "*m*~u~",
+              "U_acc": "*U*~acc~", "U_pay": "*U*~pay~", "S_acc": "*S*~acc~", "S_pay": "*S*~pay~"}
 
 
 def subscripts(text: str) -> str:
-    """Write the variable names of SUBSCRIPTS as Pandoc subscripts: "U_acc" -> "U~acc~"."""
+    """Write the variable names of SUBSCRIPTS as italic Pandoc subscripts: "U_acc" -> "*U*~acc~"."""
     import re
     for a, b in SUBSCRIPTS.items():
         text = re.sub(r"(?<![\w/.~])" + re.escape(a) + r"\b", b, text)

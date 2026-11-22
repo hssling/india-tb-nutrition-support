@@ -20,17 +20,20 @@ ROOT = Path(__file__).resolve().parents[1]
 # Number formats
 # --------------------------------------------------------------------------------------
 def test_formats():
-    assert formats.count("639964.6") == "639,965"
-    assert formats.count(-1234.4) == "−1,234"
+    assert formats.count("639964.6") == "639\u00a0965" and formats.count(2796) == "2796"
+    assert formats.count(-12345.4) == "−12\u00a0345"
+    assert formats.small(8) == "eight" and formats.small(13) == "13"
+    assert formats.pct_n(1822585, 2462550) == "74.0% (1\u00a0822\u00a0585/2\u00a0462\u00a0550)"
+    assert formats.pct_n(27, 32) == "84% (27/32)"
     assert formats.pct("0.74012") == "74.0%"
     assert formats.ratio("-0.3053") == "−0.31"
     assert formats.prob(1.0) == "1" and formats.prob(0.0) == "0"
     assert formats.prob(0.9983) == "0.998" and formats.prob(0.0004) == "<0.001"
-    assert formats.people("639965", "638648.08", "641273.58") == "639,965 (638,648 to 641,274)"
+    assert formats.people("639965", "638648.08", "641273.58") == "639\u00a0965 (638\u00a0648 to 641\u00a0274)"
     assert formats.inr_bn("3839790000") == "INR 3.84 billion"
     assert formats.and_list(["A", "B", "C"]) == "A, B and C" and formats.and_list([]) == "none"
     assert formats.day("2026-11-21T20:28:47Z") == "21 November 2026"
-    assert formats.subscripts("U_acc; wt_u and n_u") == "U~acc~; wt~u~ and n~u~"
+    assert formats.subscripts("U_acc; wt_u and n_u") == "*U*~acc~; *wt*~u~ and *n*~u~"
     url = "https://x.org/TB_AR_2023_n_u.pdf and data/U_acc.csv"
     assert formats.subscripts(url) == url
 
@@ -40,7 +43,8 @@ def test_formats():
 # --------------------------------------------------------------------------------------
 def test_tables_build_from_outputs():
     tables = make_tables.build(ROOT)
-    assert [t.label for t in tables] == ["Table 1"] + [f"Table S{k}" for k in range(1, 15)]
+    assert [t.label for t in tables] == ["Table 1"] + [f"Table S{k}" for k in range(1, 16)]
+    assert [k for k in make_tables.ORDER] == list(make_tables.supplementary_labels())
     for t in tables:
         assert t.rows and t.notes
         for r in t.rows:
@@ -53,10 +57,11 @@ def test_tables_build_from_outputs():
     assert next(r for r in tables[0].rows if r[0] == "H1")[-1].startswith("not established")
 
 
-def test_table_s6_tiers_match_priority_output():
+def test_tier_table_matches_priority_output():
     pr = [r for r in formats.read_csv(ROOT, "outputs/priority.csv")
           if r["spec"] == "unweighted" and r["year"] == "2023" and r["tier"] == "act now"]
-    s6 = next(t for t in make_tables.build(ROOT) if t.label == "Table S6")
+    lab = make_tables.supplementary_labels()["S:tiers"]
+    s6 = next(t for t in make_tables.build(ROOT) if t.label == lab)
     act = sorted(r[0] for r in s6.rows if r[5].endswith("(act now)"))
     assert act == sorted(r["unit"] for r in pr)
 
@@ -77,7 +82,8 @@ def test_figure_and_graphical_abstract_data():
 # --------------------------------------------------------------------------------------
 def test_catalogue_and_claims_hold_on_outputs():
     cat = cmn.catalogue(ROOT)
-    assert cat["nat.U"][0] == "639,965" and cat["H3.label"][0] == "supported"
+    assert cat["nat.U"][0] == "639 965" and cat["H3.label"][0] == "supported"
+    assert cat["vs.V"][0] == "94.3%" and cat["cls.acc.w"][0] == "eight"
     assert cat["H1.label"][0] == "not established" and cat["H3.adj"][0] == "0.03"
     assert cat["date.registration"][0] == "21 November 2026" and cat["reg.commit"][0] == "c1d2f04"
     assert cmn.claims(ROOT) == []
@@ -193,13 +199,22 @@ def test_mutation_sweep_skips_references():
 
 
 def test_guidance_rule_uses_existing_outputs_only():
-    assert make_tables.guidance("account-led", "lower priority", 0.5)[0].startswith("Account seeding")
-    assert make_tables.guidance("payment-led", "act now", 0.7)[1].startswith("Priority for Ni-kshay Mitra")
-    assert make_tables.guidance("mixed", "lower priority", 1.2)[1] == "Need weight above the mean"
-    s14 = next(t for t in make_tables.build(ROOT) if t.label == "Table S14")
+    assert make_tables.guidance("account-led").startswith("Account seeding")
+    assert make_tables.guidance("payment-led").startswith("After validation")
+    assert make_tables.guidance("").startswith("No 2023 data")
+    lab = make_tables.supplementary_labels()["S:guidance"]
+    s14 = next(t for t in make_tables.build(ROOT) if t.label == lab)
     cl = {r["unit"]: r["class"] or make_tables.DASH for r in formats.read_csv(ROOT, "outputs/chain_class.csv")
           if r["spec"] == "p75" and r["year"] == "2023"}
     assert {r[0]: r[1] for r in s14.rows} == cl
+
+
+def test_descriptive_aggregates_sum_the_outputs():
+    vs = make_tables.validated_split(ROOT)
+    assert vs["Q"] / vs["D"] == float(formats.national(formats.read_csv(ROOT, "outputs/chain.csv"), "2023")["C"])
+    cp = make_tables.class_people(ROOT)
+    assert cp["all"]["U"] == sum(cp[k]["U"] for k in make_tables.CLASS_ORDER)
+    assert make_tables.class_people(ROOT, ("Punjab",))["all"]["units"] == cp["all"]["units"] - 1
 
 
 def test_audit_refuses_a_submitted_folder(tmp_path):

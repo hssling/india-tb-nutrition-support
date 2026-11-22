@@ -52,6 +52,9 @@ WEB_PAGES = {
         "official Central TB Division page reproducing the press release of 7 December 2024, read online (not "
         "downloaded); it states that the Ni-kshay Poshan amount was increased from Rs 500 to Rs 1000 per month "
         "for all TB patients; it gives no effective date. The release of 7 October 2024 on pib.gov.in did not open",
+    "https://www.who.int/publications/i/item/9789241506410":
+        "official WHO publication page read online (not downloaded): title \"Nutritional care and support for patients "
+        "with tuberculosis\", published 13 November 2013, ISBN 978-92-4-150641-0",
 }
 # Facts the text cites from a report: (file name, 1-based PDF page, phrase found on the page).
 FACTS = {
@@ -151,7 +154,8 @@ def doi_check(n: int, entry: str, doi: str) -> tuple[str, bool]:
     authors = entry.split(". ", 1)[0]
     k = 3 if authors.endswith("et al") else 6
     fams = [a.get("family", "") for a in (m.get("author") or [])[:k] if a.get("family")]
-    a_ok = all(norm(f) in norm(authors) for f in fams)
+    # a family name Crossref stores with an initial ("J Carter") is matched on its last word
+    a_ok = all(norm(f) in norm(authors) or norm(f).split()[-1] in norm(authors).split() for f in fams)
     ok = t_ok and y_ok and j_ok and v_ok and a_ok
     meta = "; ".join(x for x in [html.unescape(journal), "/".join(str(y) for y in sorted(years(m))),
                                  f"vol {m['volume']}" if m.get("volume") else "no volume (in press)",

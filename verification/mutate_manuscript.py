@@ -52,9 +52,9 @@ from verification import check_manuscript_numbers as cmn  # noqa: E402
 DOC = "word/document.xml"
 SETTINGS = "word/settings.xml"
 S = "submission/"
-M, SUP, COV = (S + n for n in (tie.MANUSCRIPT, tie.SUPPLEMENT, tie.COVER_DOCX))
+M, SUP, COV, T1 = (S + n for n in (tie.MANUSCRIPT, tie.SUPPLEMENT, tie.COVER_DOCX, tie.TABLE1))
 FIG1_TIF, FIG2_TIF, GA_TIF = S + tie.FIGURES[1], S + tie.FIGURES[2], S + tie.GA
-NUMBER = re.compile(r"\d+(?:,\d{3}(?!\d))*(?:\.\d+)?")
+NUMBER = cmn.NUMBER  # space-grouped thousands
 WORK = "_mutations"
 LINKED = (".tif",)
 MS = cmn.MS_NAME
@@ -197,14 +197,14 @@ def edit_csv(rel: str, old: str, new: str) -> Callable[[Path], None]:
 
 
 def second_table(d: Path) -> None:
-    """manuscript.docx: Table 1 duplicated (six display items)."""
+    """Table_1.docx: Table 1 duplicated (six display items)."""
     def fn(xml: str) -> str:
         i, j = xml.find("<w:tbl>"), xml.find("</w:tbl>")
         if i < 0 or j < 0:
-            raise NotApplied("the manuscript has no table")
+            raise NotApplied("Table_1.docx has no table")
         t = xml[i:j + len("</w:tbl>")]
         return xml[:j + len("</w:tbl>")] + t + xml[j + len("</w:tbl>"):]
-    rewrite_part(d / M, DOC, fn)
+    rewrite_part(d / T1, DOC, fn)
 
 
 def no_line_numbers(d: Path) -> None:
@@ -256,6 +256,16 @@ def release_doi_bumped(d: Path) -> None:
     rewrite_part(d / M, DOC, fn)
 
 
+def table_into_manuscript(d: Path) -> None:
+    with zipfile.ZipFile(d / T1) as z:
+        x = z.read(DOC).decode("utf-8")
+    t = x[x.find("<w:tbl>"):x.find("</w:tbl>") + len("</w:tbl>")]
+    if not t:
+        raise NotApplied("Table_1.docx has no table")
+    rewrite_part(d / M, DOC, lambda xml: xml.replace("</w:body>", t + "</w:body>", 1) if "<w:sectPr" not in xml
+                 else xml.replace("<w:sectPr", t + "<w:p/><w:sectPr", 1))
+
+
 def extra_file(d: Path) -> None:
     (d / S / "notes.txt").write_text("x", encoding="utf-8")
 
@@ -284,7 +294,7 @@ MUTATIONS: list[Mutation] = [
     ("4b", "reference number, docx only", "manuscript.docx References: entry 2 renumbered 3", swap(edit_docx, M, "4b")),
     ("4c", "reference placement, markdown", "manuscript.md Introduction: a citation placed before its comma", swap(edit_text, MS, "4c")),
     ("4d", "reference order, markdown", "manuscript.md Introduction: two first citations exchanged", swap(edit_text, MS, "4d")),
-    ("5a", "table cell, docx only", "manuscript.docx Table 1: U_acc changed", change(edit_docx, M, "5a", bumped)),
+    ("5a", "table cell, docx only", "Table_1.docx: U_acc changed", change(edit_docx, T1, "5a", bumped)),
     ("5b", "table cell, markdown only", "tables.md Table S6: an act-now unit moved to lower priority", swap(edit_text, TABLES_MD, "5b")),
     ("5c", "table cell, docx only", "Supplementary_data.docx Table S10: Punjab's z changed", change(edit_docx, SUP, "5c", bumped)),
     ("5d", "figure data, exhibits", "figure2_data.csv: an act-now unit set to lower priority",
@@ -326,7 +336,7 @@ MUTATIONS: list[Mutation] = [
     ("11b", "figure, TIFF", "Figure_1.tif replaced by a 150 dpi image", image(FIG1_TIF, (300, 300), 150)),
     ("11c", "figure, TIFF", "Figure_1.tif converted to greyscale", greyscale_fig1),
     ("11d", "graphical abstract, TIFF", "graphical_abstract.tif replaced by a 2:1 image", image(GA_TIF, (2400, 1200), 300)),
-    ("11e", "display items, docx only", "manuscript.docx: Table 1 duplicated (six display items)", second_table),
+    ("11e", "display items, docx only", "Table_1.docx: Table 1 duplicated (six display items)", second_table),
     ("11f", "layout, docx only", "manuscript.docx: line numbers removed", no_line_numbers),
     ("11g", "layout, docx only", "manuscript.docx: a paragraph justified", justified),
     ("11h", "layout, docx only", "manuscript.docx: automatic hyphenation switched on",
@@ -336,6 +346,13 @@ MUTATIONS: list[Mutation] = [
     ("12c", "cover letter, markdown", "cover_letter.md: a related manuscript removed", swap(edit_text, cmn.COVER, "12c")),
     ("13b", "release DOI, docx only", "manuscript.docx: the release DOI changed in its last digit",
      release_doi_bumped),
+    ("14a", "number style, markdown", "manuscript.md Results: thousands written with commas",
+     swap(edit_text, MS, "14a")),
+    ("14b", "number, supplementary text", "supplementary_text.md: the overdispersion factor changed",
+     change(edit_text, cmn.SUPP_TEXT, "14b", bumped)),
+    ("14c", "file set", "Table_1.docx removed", lambda d: (d / T1).unlink()),
+    ("14d", "table in the manuscript, docx only", "manuscript.docx: Table 1 copied into the manuscript file",
+     table_into_manuscript),
     ("13a", "builder text, docx only", "Supplementary_data.docx: the supplement's note changed", swap(edit_docx, SUP, "13a")),
 ]
 

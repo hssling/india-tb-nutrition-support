@@ -67,8 +67,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from exhibits.formats import (MAIN_YEAR, MINUS, MONTHS, and_list, count, day, inr_bn, national, num,  # noqa: E402
-                              one, people, pct, pp, ratio, read_csv, rng, share_ci, unit_rows)
+from exhibits.formats import (MAIN_YEAR, MINUS, MONTHS, NBSP, and_list, count, day, inr_bn, national,  # noqa: E402
+                              num, one, pct, pct_n, people, pp, ratio, read_csv, rng, share_ci, small,
+                              unit_rows)
 
 DEFAULT_MS_DIR = "manuscript"
 MS_NAME = "manuscript.md"
@@ -76,6 +77,8 @@ PHRASES = "section_phrases.json"
 SKELETON = "number_skeleton.json"
 TITLE_PAGE = "title_page_src.md"
 COVER = "cover_letter.md"
+SUPP_TEXT = "supplementary_text.md"  # the methods text of the supplementary data (checked like the manuscript)
+SUPP_PREFIX = "Supplementary: "
 LIMITS = {"abstract": 200, "main": 3500, "references": 30, "display_items": 5, "keywords": 6, "running_title": 50,
           "legend": 200}
 MAIN_SECTIONS = ("Introduction", "Materials and methods", "Results", "Discussion")
@@ -84,7 +87,7 @@ END_SECTIONS = ("Authors' contributions", "Acknowledgements", "Funding", "Compet
                 "Data availability")
 AI_SENTENCE = ("The author used Claude (Anthropic) to assist with coding, analysis and drafting. The author reviewed and "
                "edited all content and takes full responsibility for the article.")
-STUDY_TYPE = re.compile(r"\bpre-registered\b.*\banalysis\b", re.I)
+STUDY_TYPE = re.compile(r"\ban analysis of published\b", re.I)
 
 
 # --------------------------------------------------------------------------------------
@@ -118,9 +121,10 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     put("reg.time", reg["pushed_at"][11:19] + " UTC", "docs/registration_event.json: pushed_at")
     put("reg.commit", reg["registered_commit"][:7], "docs/registration_event.json: registered_commit")
     ist = datetime.fromisoformat(reg["pushed_at"].replace("Z", "+00:00")) + timedelta(hours=5, minutes=30)
-    put("reg.ist", f"{ist:%H:%M} IST, {ist.day} {MONTHS[ist.month - 1]}",
+    put("reg.ist", f"{ist:%H:%M} India Standard Time on {ist.day} {MONTHS[ist.month - 1]}",
         "docs/registration_event.json: pushed_at in India Standard Time (UTC+5:30)")
-    put("plan.draws", plan_has(root, "10,000", "§5.3, §10.1"), "docs/analysis_plan.md §5.3, §10.1")
+    plan_has(root, "10,000", "§5.3, §10.1")
+    put("plan.draws", count(10000), "docs/analysis_plan.md §5.3, §10.1 (10,000)")
     for lab, s in (("t80", "0.80"), ("t50", "0.50"), ("t20", "0.20")):
         put(f"plan.{lab}", plan_has(root, s, "§6"), "docs/analysis_plan.md §6 tiers")
     put("plan.p95", plan_has(root, "0.95", "§5.4"), "docs/analysis_plan.md §5.4 (class probability)")
@@ -133,7 +137,9 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     plan_has(root, "H3 (8 entries)", "§8.2")
     put("plan.grid", "12 entries for H1, 6 for H2 and 8 for each H3 outcome", "docs/analysis_plan.md §8.2 grids")
     put("plan.z998", plan_has(root, "99.8%", "§8.3"), "docs/analysis_plan.md §8.3 funnel")
-    put("plan.replicates", plan_has(root, "1,000 replicates", "§8.7"), "docs/analysis_plan.md §8.7 perturbation")
+    plan_has(root, "1,000 replicates", "§8.7")
+    put("plan.replicates", f"{count(1000)} replicates", "docs/analysis_plan.md §8.7 perturbation (1,000 replicates)")
+    put("plan.n1000", count(1000), "docs/analysis_plan.md §8.7 (1,000 replicates)")
     plan_has(root, "U(0.8, 1.2)", "§8.7")
     put("plan.pert", "between 0.8 and 1.2", "docs/analysis_plan.md §8.7 (U(0.8, 1.2))")
     put("plan.age", plan_has(root, "15–49", "§4.1"), "docs/analysis_plan.md §4.1, §4.3")
@@ -141,12 +147,15 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     put("plan.bmi", "18.5 kg/m²", "docs/analysis_plan.md §4.3")
     plan_has(root, "₹500 a month from April 2018, ₹1,000 a month from November 2024", "§1.1")
     put("plan.inr500", "INR 500", "docs/analysis_plan.md §1.1, §9 (₹500)")
-    put("plan.inr1000", "INR 1,000", "docs/analysis_plan.md §1.1, §9 (₹1,000)")
-    put("plan.inr6000", "INR " + plan_has(root, "₹6,000", "§9").lstrip("₹"), "docs/analysis_plan.md §9")
+    put("plan.n500", "500", "docs/analysis_plan.md §1.1 (₹500)")
+    put("plan.inr1000", f"INR {count(1000)}", "docs/analysis_plan.md §1.1, §9 (₹1,000)")
+    plan_has(root, "₹6,000", "§9")
+    put("plan.inr6000", f"INR {count(6000)}", "docs/analysis_plan.md §9 (₹6,000)")
     plan_has(root, "× 6 months", "§9")
     plan_has(root, "8 months", "§9")
     put("plan.m6", "6 months", "docs/analysis_plan.md §9 (main)")
     put("plan.m68", "from 6 to 8 months", "docs/analysis_plan.md §9 (range)")
+    put("plan.m6w", "six months", "docs/analysis_plan.md §9 (main, in words)")
     put("plan.wins", plan_has(root, "10%-winsorised", "§8.3").split("-")[0], "docs/analysis_plan.md §8.3 funnel")
     put("lit.jey761", "76.1%", "literature: Jeyashree et al. 2024 (ref 9), abstract via Crossref: 76.1% received at least one "
         "instalment in 2022")
@@ -264,7 +273,106 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
     put("bud.cbench", pct(inc["C_bench"]), "outputs/budget.csv: p75 C_bench")
     put("bud.inc", count(inc["count"]), "outputs/budget.csv: p75 increment count")
     put("bud.inc.cost", inr_bn(inc["cost"]), "outputs/budget.csv: p75 increment cost")
+    strengthen_catalogue(root, put)
     return c
+
+
+def strengthen_catalogue(root: Path, put) -> None:
+    """Values of the strengthened text: n/N forms, spelled-out small counts, the validated split and the
+    class totals in people (computed by the exhibit code from outputs/), and the size of the counts."""
+    from exhibits import make_tables as mt
+    ch = read_csv(root, "outputs/chain.csv")
+    n23 = national(ch, MAIN_YEAR)
+    vs = mt.validated_split(root)
+    src_vs = "exhibits/make_tables.py validated_split() from outputs/chain.csv (Table S4 national row)"
+    put("nat.C.n", pct_n(vs["Q"], vs["D"]), src_vs)
+    put("nat.A.n", pct_n(vs["B"], vs["D"]), src_vs)
+    put("vs.V.n", pct_n(vs["Vd"], vs["B"]), src_vs)
+    put("vs.PV.n", pct_n(vs["Q"], vs["Vd"]), src_vs)
+    put("vs.V", pct(vs["V"]), src_vs)
+    put("vs.PV", pct(vs["PV"]), src_vs)
+    for y in ("2021", "2022"):
+        us = [r for r in unit_rows(ch, y) if r["C"]]
+        q, d = (sum(int(r[k]) for r in us) for k in ("Q_paid_at_least_once", "D_denominator"))
+        if pct(q / d) != pct(national(ch, y)["C"]):
+            raise ValueError(f"{y}: summed C differs from the national C")
+        put(f"nat.C.{y}.n", pct_n(q, d), f"outputs/chain.csv: {y} unit rows summed (= national C)")
+    st = {r["unit"]: r for r in unit_rows(ch, MAIN_YEAR)}
+
+    def unit_n(u, num="Q_paid_at_least_once", den="D_denominator", year=MAIN_YEAR):
+        r = one(unit_rows(ch, year), f"{u} {year}", unit=u)
+        return pct_n(r[num], r[den])
+    srt = sorted((r for r in st.values() if r["C"]), key=lambda r: float(r["C"]))
+    lo, hi = srt[1], srt[-1]
+    put("c.range2.n", f"{pct_n(lo['Q_paid_at_least_once'], lo['D_denominator'])[:-1]}; {lo['unit']}) to "
+        f"{pct_n(hi['Q_paid_at_least_once'], hi['D_denominator'])[:-1]}; {hi['unit']})",
+        "outputs/chain.csv: 2023 second-lowest and highest C with Q/D")
+    put("c.range.round", f"about {pct(lo['C'], 0)} to {pct(hi['C'], 0)}", "outputs/chain.csv: 2023 C range, whole per cent")
+    put("pb.C.n", unit_n("Punjab"), "outputs/chain.csv: Punjab 2023 Q/D")
+    put("pb.C.2021.n", unit_n("Punjab", year="2021"), "outputs/chain.csv: Punjab 2021 Q/D")
+    put("pb.C.2022.n", unit_n("Punjab", year="2022"), "outputs/chain.csv: Punjab 2022 Q/D")
+    up = st["Uttar Pradesh"]
+    put("up.U", count(up["U"]), "outputs/chain.csv: Uttar Pradesh 2023 U")
+    put("up.C.n", unit_n("Uttar Pradesh"), "outputs/chain.csv: Uttar Pradesh 2023 Q/D")
+    put("tg.V.n", unit_n("Telangana", "bank_validated", "B_bank_available"), "outputs/chain.csv: Telangana 2023 V")
+    put("tg.PV.n", unit_n("Telangana", "Q_paid_at_least_once", "bank_validated"), "outputs/chain.csv: Telangana 2023 Q/validated")
+    put("ap.PV.n", unit_n("Andhra Pradesh", "Q_paid_at_least_once", "bank_validated"),
+        "outputs/chain.csv: Andhra Pradesh 2023 Q/validated")
+    tr = read_csv(root, "outputs/trend.csv")
+    fall = one(tr, "falling", level="summary", spec="main_newcombe_2021_2022")
+    n_tr = sum(r["level"] == "unit" and r["spec"] == "main_newcombe_2021_2022" and r["estimate"] != "" for r in tr)
+    put("trend.falling.w", f"{small(fall['estimate'])} of {count(n_tr)}", "outputs/trend.csv: units with falling coverage")
+    put("falling.n.w", small(fall["estimate"]), "outputs/trend.csv: number of units with falling coverage")
+    xp = {k: v for k, v in (("all", mt.class_people(root)), ("noPb", mt.class_people(root, ("Punjab",))))}
+    src_cp = "exhibits/make_tables.py class_people() from outputs/shortfall.csv and outputs/chain.csv (Table S8)"
+    put("noPb.split", f"{count(xp['noPb']['all']['U_acc'])} and {count(xp['noPb']['all']['U_pay'])}", src_cp)
+    cl = xp["all"]
+    put("cls.w", f"{small(cl['account-led']['units'])} units were account-led, {small(cl['payment-led']['units'])} "
+        f"payment-led and {small(cl['mixed']['units'])} mixed, and {small(cl['no shortfall']['units'])} had no shortfall",
+        "outputs/chain_class.csv via class_people(): units by class")
+    put("cls.people", f"{count(cl['account-led']['U'])}, {count(cl['payment-led']['U'])}, {count(cl['mixed']['U'])} and "
+        f"{count(cl['no shortfall']['U'])}", src_cp)
+    put("cls.acc.U", count(cl["account-led"]["U"]), src_cp)
+    put("cls.pay.U", count(cl["payment-led"]["U"]), src_cp)
+    put("cls.mixed.U", count(cl["mixed"]["U"]), src_cp)
+    put("cls.acc.w", small(cl["account-led"]["units"]), src_cp)
+    put("cls.pay.n", count(cl["payment-led"]["units"]), src_cp)
+    put("S.all", f"{count(cl['all']['S_acc'])} people before bank details and {count(cl['all']['S_pay'])} after", src_cp)
+    put("S.noPb", f"{count(xp['noPb']['all']['S_acc'])} and {count(xp['noPb']['all']['S_pay'])} without Punjab", src_cp)
+    sf = {r["unit"]: r for r in read_csv(root, "outputs/shortfall.csv") if r["year"] == MAIN_YEAR and r["spec"] == "p75"}
+    put("sf.examples", f"Maharashtra ({count(sf['Maharashtra']['S_acc'])}) and Delhi ({count(sf['Delhi']['S_acc'])}); "
+        f"among payment-led units outside Punjab, the largest payment shortfalls were in Telangana "
+        f"({count(sf['Telangana']['S_pay'])}) and Andhra Pradesh ({count(sf['Andhra Pradesh']['S_pay'])})",
+        "outputs/shortfall.csv: 2023 p75 S_acc and S_pay of the named units")
+    pr = {r["unit"]: r for r in read_csv(root, "outputs/priority.csv") if r["year"] == MAIN_YEAR and r["spec"] == "unweighted"}
+    act = [u for u, r in pr.items() if r["tier"] == "act now"]
+    usum = sum(float(pr[u]["U_observed"]) for u in act)
+    tot = sum(float(r["U_observed"]) for r in pr.values() if r["U_observed"])
+    put("act.share.n", pct_n(usum, tot), "outputs/priority.csv: 2023 act-now U sum / total")
+    us = [float(r["U_observed"]) for r in pr.values() if r["U_observed"]]
+    put("fold.U", f"about {count(round(max(us) / min(us), -2))}-fold between units ({count(min(us))} to {count(max(us))})",
+        "outputs/priority.csv: 2023 U, max/min rounded to the hundred")
+    nw = [float(r["wt_u_relative_need_weight"]) for r in read_csv(root, "outputs/need_weight.csv") if r["spec"] == "sex_weighted"]
+    put("fold.wt", f"about {small(round(max(nw) / min(nw)))}-fold ({ratio(min(nw))} to {ratio(max(nw))})",
+        "outputs/need_weight.csv: sex-weighted wt_u, max/min")
+    pt = {r["unit"]: r for r in read_csv(root, "outputs/perturbation.csv")}
+    put("pert.n", f"{count(pt['Punjab']['n_unchanged'])} and {count(pt['Rajasthan']['n_unchanged'])} of "
+        f"{count(pt['Punjab']['n_replicates'])}", "outputs/perturbation.csv: Punjab and Rajasthan n_unchanged")
+    put("rate.examples", f"Manipur ({count(pr['Manipur']['harm_per_100000'])}) and Telangana "
+        f"({count(pr['Telangana']['harm_per_100000'])}) had more unpaid people than any act-now unit except Punjab "
+        f"({count(pr['Punjab']['harm_per_100000'])} as printed)", "outputs/priority.csv: 2023 harm_per_100000")
+    ka = one(unit_rows(ch, "2022"), "Karnataka 2022", unit="Karnataka")
+    put("ka.U2022", count(ka["U"]), "outputs/chain.csv: Karnataka 2022 U")
+    put("act.min", count(min(usum for usum in (float(pr[u]["U_observed"]) for u in act))),
+        "outputs/priority.csv: smallest 2023 act-now U")
+    put("pay.share.n", pct_n(n23["U"], vs["Q"]), "outputs/chain.csv: national 2023 U / summed Q")
+    put("H2.entries.n", count(one(read_csv(root, "outputs/headline.csv"), "H2", hypothesis="H2")["n_entries"]),
+        "outputs/headline.csv: H2 n_entries")
+    hl = {r["hypothesis"]: r for r in read_csv(root, "outputs/headline.csv")}
+    put("H3.kish.s", num(hl["H3_success"]["kish_effective_clusters"], 1), "outputs/headline.csv: H3_success Kish")
+    fu = read_csv(root, "outputs/funnel.csv")
+    put("fun.limits", f"{num(fu[0]['widen'], 1)}; 95% limits ±{num(fu[0]['upper_95'], 1)} and 99.8% limits "
+        f"±{num(fu[0]['upper_998'], 1)}", "outputs/funnel.csv: widen, upper_95, upper_998")
 
 
 @lru_cache(maxsize=4)
@@ -336,6 +444,44 @@ def claims(root: Path) -> list[str]:
     b = one(lo, "U_wt without Punjab", analysis="act-now set 2023, harm U_wt_sex_weighted", omitted="Punjab")
     need(a["changed_units"] == "Telangana", "without Punjab, Telangana enters the act-now set for the unpaid count")
     need(b["changed_units"] == "Madhya Pradesh", "without Punjab, Madhya Pradesh enters the need-weighted act-now set")
+    # ---- claims of the strengthened text
+    from exhibits import make_tables as mt
+    for spec in ("unweighted", "need_weighted_sex_weighted", "need_weighted_women", "need_weighted_men",
+                 "need_weighted_simple"):
+        got = {r["unit"] for r in pri if r["spec"] == spec and r["tier"] == "act now"}
+        need({"Bihar", "Maharashtra", "Uttar Pradesh"} <= got, f"Bihar, Maharashtra and Uttar Pradesh act now under {spec}")
+    top5 = sorted(un, key=lambda u: -float(un[u]["U_observed"] or -1))[:5]
+    need(set(top5) == five, "the act-now set equals the five largest unpaid counts")
+    vs = mt.validated_split(root)
+    need(vs["Vd"] - vs["Q"] > vs["B"] - vs["Vd"], "more people were lost after validation than at it (2023)")
+    upr = st["Uttar Pradesh"]
+    need(max((r for r in st.values() if r["U"]), key=lambda r: int(r["U"]))["unit"] == "Uttar Pradesh"
+         and float(upr["C"]) > float(n23["C"]), "Uttar Pradesh has the most unpaid people and above-national coverage")
+    falling = sorted(r["unit"] for r in read_csv(root, "outputs/trend.csv") if r["level"] == "unit"
+                     and r["spec"] == "main_newcombe_2021_2022" and r["falling_coverage"] == "True")
+    need(falling == ["Andaman and Nicobar Islands", "Andhra Pradesh", "Goa", "Gujarat", "Himachal Pradesh",
+                     "Madhya Pradesh", "Odisha", "Tamil Nadu", "Uttarakhand"], "the nine units with falling coverage named")
+    sf = {r["unit"]: r for r in read_csv(root, "outputs/shortfall.csv") if r["year"] == MAIN_YEAR and r["spec"] == "p75"}
+    acc = sorted((u for u in sf if cl.get(u) == "account-led"), key=lambda u: -float(sf[u]["S_acc"]))
+    pay = sorted((u for u in sf if cl.get(u) == "payment-led" and u != "Punjab"), key=lambda u: -float(sf[u]["S_pay"]))
+    need(acc[:2] == ["Maharashtra", "Delhi"], "Maharashtra and Delhi have the largest account shortfalls of account-led units")
+    need(pay[:2] == ["Telangana", "Andhra Pradesh"],
+         "Telangana and Andhra Pradesh have the largest payment shortfalls of payment-led units outside Punjab")
+    rate = {u: float(r["harm_per_100000"]) for u, r in un.items() if r["harm_per_100000"]}
+    need(all(rate[x] > rate[u] for x in ("Manipur", "Telangana") for u in five - {"Punjab"}) and
+         all(rate["Punjab"] > rate[x] for x in ("Manipur", "Telangana")),
+         "Manipur and Telangana have higher rates than every act-now unit except Punjab")
+    ka = one(unit_rows(ch, "2022"), "Karnataka 2022", unit="Karnataka")
+    need(int(ka["U"]) < min(float(un[u]["U_observed"]) for u in five), "Karnataka's 2022 count is below the act-now counts")
+    need(all(r["agrees_with_main"] == "True" for r in sc if r["hypothesis"] == "H3_success" and r["entry"] in ("7", "8")),
+         "the two adjusted H3 success entries agree in sign")
+    nac = read_csv(root, "outputs/na_cells.csv")
+    need(any(r["unit"] == "Himachal Pradesh" and r["year"] == "2021" and "bank_available_exceeds_denominator" in r["reason"]
+             for r in nac) and any(r["unit"] == "Meghalaya" and r["year"] == "2023" and "paid_exceeds_bank_validated"
+                                   in r["reason"] for r in nac), "the two data-quality flags are in na_cells.csv")
+    env = (root / "ENVIRONMENT.md").read_text(encoding="utf-8")
+    need(all(x in env for x in ("| Python | 3.14.0 |", "| numpy | 2.3.5 |", "| scipy | 1.16.3 |", "| tbprio | 1.0.1 |")),
+         "the software versions stated are those of ENVIRONMENT.md")
     nd = read_csv(root, "data/extracted/npy_national_check.csv")
     need(all(r["equal"] == "True" for r in nd), "each NPY table's India paid-at-least-once figure equals the national DBT table")
     tc = [r for r in read_csv(root, "data/extracted/total_checks.csv") if r["table_key"] == "ITR2024_NPY"]
@@ -362,7 +508,7 @@ def section_phrases(ms_dir: Path) -> dict[str, list[str]]:
 # --------------------------------------------------------------------------------------
 # Fixed (non-result) number patterns
 # --------------------------------------------------------------------------------------
-SUPPLEMENT = [f"S{k}" for k in range(1, 15)]
+SUPPLEMENT = [f"S{k}" for k in range(1, 16)]
 TABLES = [1]
 FIGURES = [1, 2, 3, 4]
 FIXED: list[tuple[str, str]] = [
@@ -372,13 +518,15 @@ FIXED: list[tuple[str, str]] = [
     ("name", r"\b[H][1-3]\b|\bNFHS-5\b|\bP\(top-5\)"),
     ("ci_level", r"\b95%"),
     ("plan_section", r"\bplan section 1[12]\b"),
-    ("formula", r"\(1 − f~u~\)|\bbelow 0\b|\bexcluding 0\b|\bnear 0 or 1\b|\bper 100,000\b"),
+    ("formula", r"\(1 − \*f\*~u~\)|\bbelow 0\b|\bexcluding 0\b|\bnear 0 or 1\b|\bper 100\u00a0000\b|\b1 or near 0\b"),
+    ("formula", r"1\.06/\(n − 3\)"),
+    ("software", r"\bPython 3\.14\b|\bNumPy 2\.3\.5\b|\bSciPy 1\.16\.3\b|\btbprio 1\.0\.1\b"),
     ("date", r"\b\d{1,2} (?:" + "|".join(MONTHS) + r") 20\d\d\b"),
     ("years", r"\b20(?:1[7-9]|2[0-6])–(?:20)?(?:1[7-9]|2[0-6])\b"),
     ("year", r"(?<![\d.,])20(?:1[7-9]|2[0-6])(?![\d]|[.,]\d)"),
     ("doi", r"10\.5281/zenodo\.(?:\d+|X+)"),
 ]
-NUMBER = re.compile(r"\d+(?:,\d{3}(?!\d))*(?:\.\d+)?")
+NUMBER = re.compile(r"\d+(?:\u00a0\d{3}(?!\d))*(?:\.\d+)?")
 
 
 def sections(text: str) -> dict[str, str]:
@@ -395,7 +543,8 @@ def sections(text: str) -> dict[str, str]:
             out[cur] = []
         elif cur is not None:
             out[cur].append(ln)
-    return {k: re.sub(r"\s+", " ", "\n".join(v)).strip() for k, v in out.items() if k != "References"}
+    # whitespace collapsed, but a no-break space (the thousands separator) is kept
+    return {k: re.sub(r"[ \t\r\n]+", " ", "\n".join(v)).strip() for k, v in out.items() if k != "References"}
 
 
 def fill(template: str, cat: dict) -> tuple[str, list[tuple[int, int, str]]]:
@@ -459,9 +608,18 @@ def assign(name: str, body: str, cat: dict, required: list[str]) -> tuple[list[d
     return entries, probs
 
 
-def skeleton(text: str, root: Path, required: dict[str, list[str]]) -> tuple[dict[str, list[dict]], list[str]]:
-    cat = catalogue_cached(root)
+def all_sections(text: str, supp: str | None) -> dict[str, str]:
+    """The manuscript's sections and, prefixed, the '## ' sections of the supplementary methods text."""
     secs = sections(text)
+    if supp is not None:
+        secs.update({SUPP_PREFIX + k: v for k, v in sections("# Supplementary data\n" + supp).items() if k != "Title"})
+    return secs
+
+
+def skeleton(text: str, root: Path, required: dict[str, list[str]],
+             supp: str | None = None) -> tuple[dict[str, list[dict]], list[str]]:
+    cat = catalogue_cached(root)
+    secs = all_sections(text, supp)
     out, probs = {}, []
     for name in required:
         if name not in secs:
@@ -654,6 +812,7 @@ def reference_problems(text: str) -> list[str]:
 # Lengths: abstract, keywords, main text, structure
 # --------------------------------------------------------------------------------------
 def words(s: str) -> int:
+    """Words as Word counts them (a no-break space separates words, as in Word)."""
     return len(re.findall(r"\S+", re.sub(r"[*_#|]", " ", re.sub(r"\^[^^]*\^", "", s))))
 
 
@@ -819,8 +978,8 @@ def cover_problems(cover: str | None, required: list[str]) -> list[str]:
     return [f"COVER LETTER: does not name the related manuscript {r!r}" for r in required if r not in cover]
 
 
-def caveat_problems(text: str, caveats: dict[str, list[str]]) -> list[str]:
-    secs = sections(text)
+def caveat_problems(text: str, caveats: dict[str, list[str]], supp: str | None = None) -> list[str]:
+    secs = all_sections(text, supp)
     return [f"CAVEAT missing in {name}: {c!r}" for name, cs in caveats.items() for c in cs
             if c not in secs.get(name, "")]
 
@@ -863,7 +1022,10 @@ def problems(root: Path, ms_dir: Path, text: str | None = None, gold: dict | Non
     if not required:
         return [f"PHRASES: no section phrases ({PHRASES} missing or empty)"]
     pf = load_phrase_file(ms_dir)
-    now, out = skeleton(text, root, required)
+    supp = read_opt(ms_dir, SUPP_TEXT)
+    if supp is None:
+        return [f"MISSING: {SUPP_TEXT}"]
+    now, out = skeleton(text, root, required, supp)
     out += skeleton_problems(now, gold, root)
     out += claims(root)
     out += exhibit_problems(text)
@@ -872,11 +1034,12 @@ def problems(root: Path, ms_dir: Path, text: str | None = None, gold: dict | Non
     caveats = pf.get("caveats", {})
     if not caveats:
         out.append(f"CAVEAT: no caveats listed in {PHRASES}")
-    out += caveat_problems(text, caveats)
+    out += caveat_problems(text, caveats, supp)
     out += reference_problems(text)
     out += length_problems(text)
     out += label_problems(text, root)
     out += wording_problems(MS_NAME, text)
+    out += wording_problems(SUPP_TEXT, supp)
     tables = read_opt(ms_dir, "exhibits/tables.md")
     if tables is not None:
         out += wording_problems("exhibits/tables.md", tables)
@@ -896,8 +1059,8 @@ def problems(root: Path, ms_dir: Path, text: str | None = None, gold: dict | Non
     return out
 
 
-def golden(text: str, root: Path, required: dict) -> dict:
-    now, probs = skeleton(text, root, required)
+def golden(text: str, root: Path, required: dict, supp: str | None = None) -> dict:
+    now, probs = skeleton(text, root, required, supp)
     if probs:
         raise SystemExit("cannot regenerate the skeleton while phrases or numbers fail:\n" + "\n".join(probs))
     return {"about": "Golden numeric skeleton of manuscript.md: for each section, every number token in reading order "
@@ -934,7 +1097,7 @@ def main(root: Path = ROOT, argv: list[str] | None = None) -> int:
         return 1
     text = ms.read_text(encoding="utf-8")
     if "--regenerate" in rest:
-        g = golden(text, root, required)
+        g = golden(text, root, required, read_opt(ms_dir, SUPP_TEXT))
         (ms_dir / SKELETON).write_text(json.dumps(g, indent=1, ensure_ascii=False) + "\n", encoding="utf-8",
                                        newline="\n")
         print(f"wrote {name}/{SKELETON}: {sum(len(v) for v in g['sections'].values())} number tokens")
