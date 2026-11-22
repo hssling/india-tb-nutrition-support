@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "npychain"
-version = "1.0.0"
+version = "1.0.1"
 description = "Who misses the TB nutrition payment, and where it matters most: a pre-registered State-level analysis of the Ni-kshay Poshan Yojana payment chain"
 requires-python = ">=3.14"
 license = "MIT"
