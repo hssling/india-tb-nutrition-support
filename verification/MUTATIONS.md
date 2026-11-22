@@ -76,7 +76,7 @@ is not 5:2), a second table, the layout (line numbers removed, justified text, a
 hyphenation), the release DOI, thousands written with commas, the supplementary methods text, Table 1
 removed from its own file or copied into the manuscript, the cover letter and the file set.
 
-With `--sweep`, the last digit of every number token was bumped in turn: 374 of 374 tokens of
-the manuscript's Markdown were caught by `check_manuscript_numbers`, and 639 of 639 tokens of
-the manuscript's .docx (tables and references included, the release DOI filled in) by
+With `--sweep`, the last digit of every number token was bumped in turn: 372 of 372 tokens of
+the manuscript's Markdown were caught by `check_manuscript_numbers`, and 633 of 633 tokens of
+the manuscript's .docx (tables and references included; built with the release DOI placeholder) by
 `check_docx_tie`.

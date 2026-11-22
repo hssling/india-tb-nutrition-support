@@ -33,7 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from exhibits.formats import (MAIN_YEAR, and_list, count, inr_bn, national, num, one, people, pct,  # noqa: E402
+from exhibits.formats import (MAIN_YEAR, and_list, count, inr_bn, national, num, one, people, pct, pct_n,  # noqa: E402
                               prob, ratio, ratio_ci, read_csv, rng, share_ci, subscripts, unit_rows)
 
 N10K = count(10000)   # "10 000" (no-break space)
@@ -150,10 +150,21 @@ def class_people(root: Path, omit: tuple[str, ...] = ()) -> dict[str, dict]:
     return out
 
 
+def one_step_fraction(cp: dict) -> float:
+    """Share of the people not paid at least once who were in units where one step dominated
+    (account-led or payment-led)."""
+    return (cp["account-led"]["U"] + cp["payment-led"]["U"]) / cp["all"]["U"]
+
+
+def one_step_share(cp: dict) -> str:
+    return pct_n(cp["account-led"]["U"] + cp["payment-led"]["U"], cp["all"]["U"])
+
+
 def tables_classes(root: Path) -> Table:
-    rows = []
+    rows, shares = [], []
     for omit, lab in (((), "All units with data"), (("Punjab",), "Without Punjab")):
         cp = class_people(root, omit)
+        shares.append(one_step_share(cp))
         rows.append([f"**{lab}**", "", "", "", "", "", ""])
         for k in CLASS_ORDER + ["all"]:
             c = cp[k]
@@ -163,7 +174,9 @@ def tables_classes(root: Path) -> Table:
              "not paid at least once are the printed counts: U_acc = eligible − bank details available, U_pay = bank "
              "details available − paid at least once. S_acc and S_pay are the observed shortfalls against the benchmark "
              "(people). Sums computed from the study outputs by the exhibit code; they are descriptive and carry no "
-             "interval. Punjab's 2023 row is reported as printed (a probable reporting anomaly)."]
+             "interval. Punjab's 2023 row is reported as printed (a probable reporting anomaly).",
+             f"Units where one step dominated (account-led or payment-led) held {shares[0]} of the people not paid at "
+             f"least once, and {shares[1]} without Punjab."]
     return Table("S:classes", "People not paid at least once and benchmark shortfalls by class, 2023, with and without "
                  "Punjab", ["Class", "Units", "Not paid at least once (U)", "Lost before bank details (U_acc)",
                             "Lost after bank details (U_pay)", "Account shortfall S_acc", "Payment shortfall S_pay"],

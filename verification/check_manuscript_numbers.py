@@ -235,6 +235,8 @@ def catalogue(root: Path) -> dict[str, tuple[str, str]]:
         put(f"{h}.ci", rng(ratio(r["lo"]), ratio(r["hi"])), f"outputs/headline.csv: {key} lo, hi")
         put(f"{h}.label", r["label"], f"outputs/headline.csv: {key} label")
         put(f"{h}.agree", f"{count(r['n_agree'])} of {count(r['n_entries'])}", f"outputs/headline.csv: {key} n_agree, n_entries")
+        put(f"{h}.agree.w", f"{small(r['n_agree'])} of {small(r['n_entries'])}",
+            f"outputs/headline.csv: {key} n_agree, n_entries (one to nine in words)")
     put("H2.entries", count(hl["H2"]["n_entries"]), "outputs/headline.csv: H2 n_entries")
     put("H3.nobs", count(hl["H3_success"]["n_obs"]), "outputs/headline.csv: H3_success n_obs")
     put("H3.kish", num(hl["H3_success"]["kish_effective_clusters"], 1), "outputs/headline.csv: H3_success kish_effective_clusters")
@@ -291,6 +293,7 @@ def strengthen_catalogue(root: Path, put) -> None:
     put("vs.PV.n", pct_n(vs["Q"], vs["Vd"]), src_vs)
     put("vs.V", pct(vs["V"]), src_vs)
     put("vs.PV", pct(vs["PV"]), src_vs)
+    put("vs.B", count(vs["B"]), src_vs)
     for y in ("2021", "2022"):
         us = [r for r in unit_rows(ch, y) if r["C"]]
         q, d = (sum(int(r[k]) for r in us) for k in ("Q_paid_at_least_once", "D_denominator"))
@@ -337,6 +340,12 @@ def strengthen_catalogue(root: Path, put) -> None:
     put("cls.mixed.U", count(cl["mixed"]["U"]), src_cp)
     put("cls.acc.w", small(cl["account-led"]["units"]), src_cp)
     put("cls.pay.n", count(cl["payment-led"]["units"]), src_cp)
+    one_step = [mt.one_step_share(xp[k]) for k in ("all", "noPb")]
+    put("cls.onestep", f"{one_step[0]} and {one_step[1]} without Punjab", src_cp)
+    if not all(0.4 < mt.one_step_fraction(xp[k]) < 0.6 for k in ("all", "noPb")):
+        raise ValueError("the one-step share is no longer about half")
+    if not all(xp[k]["mixed"]["U"] > max(xp[k]["account-led"]["U"], xp[k]["payment-led"]["U"]) for k in ("all", "noPb")):
+        raise ValueError("the mixed class is no longer the largest group of unpaid people")
     put("S.all", f"{count(cl['all']['S_acc'])} people before bank details and {count(cl['all']['S_pay'])} after", src_cp)
     put("S.noPb", f"{count(xp['noPb']['all']['S_acc'])} and {count(xp['noPb']['all']['S_pay'])} without Punjab", src_cp)
     sf = {r["unit"]: r for r in read_csv(root, "outputs/shortfall.csv") if r["year"] == MAIN_YEAR and r["spec"] == "p75"}
@@ -366,6 +375,8 @@ def strengthen_catalogue(root: Path, put) -> None:
     put("act.min", count(min(usum for usum in (float(pr[u]["U_observed"]) for u in act))),
         "outputs/priority.csv: smallest 2023 act-now U")
     put("pay.share.n", pct_n(n23["U"], vs["Q"]), "outputs/chain.csv: national 2023 U / summed Q")
+    put("H2.entries.w", small(one(read_csv(root, "outputs/headline.csv"), "H2", hypothesis="H2")["n_entries"]),
+        "outputs/headline.csv: H2 n_entries (in words)")
     put("H2.entries.n", count(one(read_csv(root, "outputs/headline.csv"), "H2", hypothesis="H2")["n_entries"]),
         "outputs/headline.csv: H2 n_entries")
     hl = {r["hypothesis"]: r for r in read_csv(root, "outputs/headline.csv")}
