@@ -200,14 +200,18 @@ def facts_state(path: Path) -> str:
 def non_doi_check(n: int, entry: str, root: Path) -> tuple[str, bool]:
     with open(root / "data" / "source_manifest.csv", newline="", encoding="utf-8") as f:
         man = list(csv.DictReader(f))
-    url = re.search(r"Available at: (https?://\S+) \[accessed (\d{1,2} \w+ \d{4})\]\.$", entry)
+    url = re.search(r"Available at: (https?://\S+(?: and https?://\S+)*) \[accessed (\d{1,2} \w+ \d{4})\]\.$", entry)
     if not url:
         return f"| {n} | none | {entry[:70]} | no DOI, no URL with an [accessed ...] date | — | NO |", False
-    hit = [r for r in man if ("upstream " + url.group(1)) in r["origin"]]
-    if not hit and url.group(1) in WEB_PAGES:
-        return (f"| {n} | none | {url.group(1)} | {WEB_PAGES[url.group(1)]}; accessed {url.group(2)} | — | yes |"), True
-    if not hit:
-        return f"| {n} | none | {entry[:70]} | URL not in data/source_manifest.csv | — | NO |", False
+    urls = url.group(1).split(" and ")
+    if len(urls) == 1 and urls[0] in WEB_PAGES:
+        return (f"| {n} | none | {urls[0]} | {WEB_PAGES[urls[0]]}; accessed {url.group(2)} | — | yes |"), True
+    hit = []
+    for u in urls:
+        rows = [r for r in man if re.search("upstream " + re.escape(u) + r"(?:\s|$)", r["origin"])]
+        if len(rows) != 1:
+            return f"| {n} | none | {u} | URL not (exactly once) in data/source_manifest.csv | — | NO |", False
+        hit += rows
     states = []
     ok = True
     for r in hit:

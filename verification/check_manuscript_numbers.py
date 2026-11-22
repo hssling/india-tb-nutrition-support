@@ -372,7 +372,7 @@ FIXED: list[tuple[str, str]] = [
     ("name", r"\b[H][1-3]\b|\bNFHS-5\b|\bP\(top-5\)"),
     ("ci_level", r"\b95%"),
     ("plan_section", r"\bplan section 1[12]\b"),
-    ("formula", r"\(1 − f_u\)|\bbelow 0\b|\bexcluding 0\b|\bnear 0 or 1\b|\bper 100,000\b"),
+    ("formula", r"\(1 − f~u~\)|\bbelow 0\b|\bexcluding 0\b|\bnear 0 or 1\b|\bper 100,000\b"),
     ("date", r"\b\d{1,2} (?:" + "|".join(MONTHS) + r") 20\d\d\b"),
     ("years", r"\b20(?:1[7-9]|2[0-6])–(?:20)?(?:1[7-9]|2[0-6])\b"),
     ("year", r"(?<![\d.,])20(?:1[7-9]|2[0-6])(?![\d]|[.,]\d)"),

@@ -19,7 +19,8 @@ Figure 1  the payment chain by unit, 2023: A (bank details available), P (paid a
           those with bank details) and C (paid at least once of eligible), with Jeffreys
           intervals, the 75th-percentile benchmarks and the national value; marker by class
 Figure 2  people not paid at least once by unit, 2023, split into those lost before bank
-          details (U_acc) and after (U_pay), with the need-weighted count and the tiers
+          details (U_acc) and after (U_pay), with the need-weighted count and the tiers; variable names
+          are set as subscripts with matplotlib mathtext in Arial
 Figure 3  (A) C (2023) against the need share n_u (H1); (B) the overdispersed funnel of C
           against the number of eligible beneficiaries
 Figure 4  treatment success share of the 2021 and 2022 DS-TB cohorts against C of the same
@@ -136,6 +137,8 @@ def setup():
         "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": 7, "axes.linewidth": 0.6,
         "xtick.major.width": 0.5, "ytick.major.width": 0.5, "pdf.fonttype": 42, "svg.hashsalt": "nutpay",
         "axes.spines.top": False, "axes.spines.right": False,
+        "mathtext.fontset": "custom", "mathtext.rm": FONT, "mathtext.it": f"{FONT}:italic",
+        "mathtext.bf": f"{FONT}:bold", "mathtext.default": "regular",
     })
     return plt
 
@@ -217,7 +220,7 @@ def draw2(rows: list[dict], plt):
     from matplotlib.lines import Line2D
     from matplotlib.patches import Patch
     h = [Patch(color=SKY), Patch(color=ORANGE), Line2D([], [], marker="D", ls="", ms=3.4, mfc="white", mec=DARK, mew=0.8)]
-    ax.legend(h, ["lost before bank details (U_acc)", "lost after bank details (U_pay)",
+    ax.legend(h, ["lost before bank details ($U_{acc}$)", "lost after bank details ($U_{pay}$)",
                   "need-weighted count (U × relative need weight)"], loc="center right", frameon=False)
     fig.subplots_adjust(left=0.235, right=0.985, top=0.985, bottom=0.07)
     return fig
@@ -233,7 +236,7 @@ def draw3(rows: list[dict], plt):
         if flagged:
             a.annotate(r["unit"] + (" (as printed)" if r["unit"] == ANOMALY else ""), (x, y), xytext=(4, 0),
                        textcoords="offset points", va="center", fontsize=6.5)
-    a.set_xlabel("Need share n_u: adults aged 15–49 with BMI <18.5 kg/m² (%)")
+    a.set_xlabel("Need share $n_u$: adults aged 15–49 with BMI <18.5 kg/m² (%)")
     a.set_ylabel("C: paid at least once of eligible, 2023 (%)")
     a.set_ylim(0, 100)
     a.set_title("A  Coverage and need (H1)", loc="left", fontweight="bold")

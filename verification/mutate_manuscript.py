@@ -24,7 +24,8 @@ missing or not found counts as NOT APPLIED and fails the run.
 
 --sweep also bumps the last digit of every number token (a) of manuscript.md outside the
 References, which check_manuscript_numbers must catch, and (b) of the text of manuscript.docx,
-tables and references included, which check_docx_tie must catch.
+tables and references included, which check_docx_tie must catch (the text tie, and the release
+DOI against the DOI the build recorded).
 
 Prints a table of the results; exits 1 if any mutation is not applied or not caught. Prints
 "SKIPPED" and exits 0 when DIR/ or DIR/submission/ is absent.
@@ -243,6 +244,18 @@ def long_legend(d: Path) -> None:
     edit_text(d / MS, a, a + " " + " ".join(["filler"] * 200))
 
 
+def release_doi_bumped(d: Path) -> None:
+    """manuscript.docx: the first release DOI (or placeholder) changed."""
+    def fn(xml: str) -> str:
+        m = re.search(r"10\.5281/zenodo\.(?!24411057)(\d+|X+)", xml)
+        if not m:
+            raise NotApplied("no release DOI in the manuscript")
+        tok = m.group(1)
+        new = bump(tok) if tok.isdigit() else "1234567"
+        return xml[:m.start(1)] + new + xml[m.end(1):]
+    rewrite_part(d / M, DOC, fn)
+
+
 def extra_file(d: Path) -> None:
     (d / S / "notes.txt").write_text("x", encoding="utf-8")
 
@@ -321,6 +334,8 @@ MUTATIONS: list[Mutation] = [
     ("12a", "file set", "an extra file in submission/", extra_file),
     ("12b", "file set", "cover_letter.docx removed", drop_file),
     ("12c", "cover letter, markdown", "cover_letter.md: a related manuscript removed", swap(edit_text, cmn.COVER, "12c")),
+    ("13b", "release DOI, docx only", "manuscript.docx: the release DOI changed in its last digit",
+     release_doi_bumped),
     ("13a", "builder text, docx only", "Supplementary_data.docx: the supplement's note changed", swap(edit_docx, SUP, "13a")),
 ]
 
@@ -429,7 +444,7 @@ def sweep_md(ms: Path) -> tuple[int, int, list[str]]:
     return caught, len(spans), escaped
 
 
-def sweep_docx(path: Path, want: list[str]) -> tuple[int, int, list[str]]:
+def sweep_docx(path: Path, want: list[str], doi: str | None = None) -> tuple[int, int, list[str]]:
     with zipfile.ZipFile(path) as z:
         xml = z.read(DOC).decode("utf-8")
     spans = []
@@ -441,7 +456,7 @@ def sweep_docx(path: Path, want: list[str]) -> tuple[int, int, list[str]]:
         for a, b in spans:
             shutil.copyfile(path, tmp)
             rewrite_part(tmp, DOC, lambda _x, a=a, b=b: xml[:a] + bump(xml[a:b]) + xml[b:])
-            if tie.compare(path.name, tie.docx_units(tmp), want):
+            if tie.compare(path.name, tie.docx_units(tmp), want) or (doi and tie.wrong_dois(tmp, doi)):
                 caught += 1
             else:
                 escaped.append(xml[max(0, a - 40):b + 10])
@@ -476,7 +491,7 @@ def main(argv: list[str] | None = None, root: Path = ROOT) -> int:
         for x in e:
             print("  UNCAUGHT", x)
         p = ms / M
-        c2, t2, e2 = sweep_docx(p, tie.expected(ms, p.name))
+        c2, t2, e2 = sweep_docx(p, tie.expected(ms, p.name), tie.release_doi(ms))
         print(f"sweep, {p.name} number tokens (check_docx_tie): caught {c2} of {t2}")
         for x in e2:
             print("  UNCAUGHT", x)

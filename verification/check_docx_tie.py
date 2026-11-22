@@ -18,7 +18,7 @@ ElementTree; the figure checks use PyMuPDF and Pillow.
 1. Text tie. Each .docx's units (paragraphs outside tables; table rows as their cells joined by
    " | ") equal, in order, the units of its Markdown source(s): headings, paragraphs, list items,
    table rows and reference entries, normalised the same way on both sides (emphasis markers and
-   escapes removed, superscripts written ^...^, whitespace collapsed, the Zenodo DOI read as one
+   escapes removed, superscripts written ^...^ and subscripts ~...~, whitespace collapsed, the Zenodo DOI read as one
    token). Every file of the set is present and no other file is in submission/ (except a
    SUBMITTED_* record and the _render folder).
 2. Title page. The manuscript's first page gives a running title of at most 50 characters and
@@ -32,7 +32,9 @@ ElementTree; the figure checks use PyMuPDF and Pillow.
    five display items.
 6. Layout: the manuscript has continuous line numbers; every paragraph style is double spaced in
    the manuscript; no paragraph is justified; automatic hyphenation is off.
-7. Figures: each Figure_k.tif equals the TIFF rendered now from exhibits/figurek.pdf (colour, at
+7. The release DOI: every one in the .docx files equals the DOI the build recorded in
+   <folder>/release_doi.txt (or the placeholder when the build had no --doi).
+8. Figures: each Figure_k.tif equals the TIFF rendered now from exhibits/figurek.pdf (colour, at
    least 300 dpi), and the PDF's text is set in Arial; graphical_abstract.tif equals its rendering,
    is 5:2 landscape, at least 127 x 50 mm and 300 to 600 dpi.
 
@@ -172,8 +174,9 @@ def para_text(p: ET.Element) -> str:
     for r in p.iter(f"{W}r"):
         va = r.find(f"{W}rPr/{W}vertAlign")
         sup = va is not None and va.get(f"{W}val") == "superscript"
+        sub = va is not None and va.get(f"{W}val") == "subscript"
         txt = "".join((t.text or "") if t.tag == f"{W}t" else " " for t in r if t.tag in (f"{W}t", f"{W}tab", f"{W}br"))
-        parts.append(f"^{txt}^" if sup and txt.strip() else txt)
+        parts.append(f"^{txt}^" if sup and txt.strip() else f"~{txt}~" if sub and txt.strip() else txt)
     return "".join(parts)
 
 
@@ -462,7 +465,35 @@ def problems(ms_dir: Path | None = None, root: Path = ROOT) -> list[str]:
         out += display_problems(sub / MANUSCRIPT)
         out += layout_problems(sub / MANUSCRIPT)
     out += figure_problems(ms_dir)
+    out += doi_problems(ms_dir)
     return out
+
+
+RELEASE_DOI = "release_doi.txt"  # written by the build when --doi is given
+
+
+def doi_problems(ms_dir: Path) -> list[str]:
+    """The release DOI is read as one token by the text tie, so it is checked here: every release DOI
+    in the .docx files equals the DOI recorded by the build (release_doi.txt), or every one is the
+    placeholder when no DOI was given."""
+    want = release_doi(ms_dir)
+    out = []
+    for name in SPEC:
+        p = ms_dir / "submission" / name
+        if p.exists():
+            out += [f"DOI: {name} holds {d}, the build recorded {want}" for d in wrong_dois(p, want)]
+    return out
+
+
+def release_doi(ms_dir: Path) -> str:
+    rec = ms_dir / RELEASE_DOI
+    return rec.read_text(encoding="utf-8").strip() if rec.exists() else "10.5281/zenodo.XXXXXXX"
+
+
+def wrong_dois(path: Path, want: str) -> list[str]:
+    """Release DOIs in one .docx that differ from `want`."""
+    text = " ".join(" ".join(para_text(e) for e in part(path, "word/document.xml").iter(f"{W}p")).split())
+    return [m.group() for m in DOI.finditer(text) if m.group() != want]
 
 
 def notes(ms_dir: Path) -> list[str]:

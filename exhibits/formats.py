@@ -127,3 +127,17 @@ def unit_rows(rows: list[dict], year: str | None = None) -> list[dict]:
 
 def national(rows: list[dict], year: str) -> dict:
     return one(rows, f"national {year}", level="national", year=year)
+
+
+# Variable names written with a subscript in the manuscript and its tables (Pandoc's ~...~ syntax);
+# file names and URLs are never touched (a name preceded by "/", "." or a word character is left).
+SUBSCRIPTS = {"wt_u": "wt~u~", "n_u": "n~u~", "f_u": "f~u~", "w_u": "w~u~", "m_u": "m~u~", "U_acc": "U~acc~",
+              "U_pay": "U~pay~", "S_acc": "S~acc~", "S_pay": "S~pay~"}
+
+
+def subscripts(text: str) -> str:
+    """Write the variable names of SUBSCRIPTS as Pandoc subscripts: "U_acc" -> "U~acc~"."""
+    import re
+    for a, b in SUBSCRIPTS.items():
+        text = re.sub(r"(?<![\w/.~])" + re.escape(a) + r"\b", b, text)
+    return text

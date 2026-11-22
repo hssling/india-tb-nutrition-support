@@ -30,6 +30,9 @@ def test_formats():
     assert formats.inr_bn("3839790000") == "INR 3.84 billion"
     assert formats.and_list(["A", "B", "C"]) == "A, B and C" and formats.and_list([]) == "none"
     assert formats.day("2026-11-21T20:28:47Z") == "21 November 2026"
+    assert formats.subscripts("U_acc; wt_u and n_u") == "U~acc~; wt~u~ and n~u~"
+    url = "https://x.org/TB_AR_2023_n_u.pdf and data/U_acc.csv"
+    assert formats.subscripts(url) == url
 
 
 # --------------------------------------------------------------------------------------
@@ -176,6 +179,7 @@ def test_docx_tie_normalisation_and_md_units():
     units = check_docx_tie.md_units("## Results\n\n**H1** was 0.02\n(95% CI).^3^\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n"
                                     "1. Ref one.\n2. Ref two.\n")
     assert units == ["Results", "H1 was 0.02 (95% CI).^3^", "a | b", "1 | 2", "1. Ref one.", "2. Ref two."]
+    assert check_docx_tie.norm("U~acc~ (wt~u~)") == "U~acc~ (wt~u~)"
     assert check_docx_tie.norm("doi 10.5281/zenodo.123") == check_docx_tie.norm("doi 10.5281/zenodo.XXXXXXX")
     assert check_docx_tie.norm("10.5281/zenodo.24411057") != check_docx_tie.norm("10.5281/zenodo.XXXXXXX")
 

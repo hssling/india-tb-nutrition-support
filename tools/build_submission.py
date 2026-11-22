@@ -34,7 +34,8 @@ bottom rules.
   submission/cover_letter.docx
 
 --doi replaces the placeholder 10.5281/zenodo.XXXXXXX in every file; without it the placeholder is
-highlighted in yellow. Word's own counts of the manuscript go to <folder>/word_counts_word.json
+highlighted in yellow; with it, the DOI is recorded in <folder>/release_doi.txt for the docx tie. Word's own
+counts of the manuscript go to <folder>/word_counts_word.json
 (tools/word_count_word.ps1); the title page must quote them (verification/check_docx_tie.py checks
 it, and ties every .docx to its source).
 """
@@ -68,7 +69,7 @@ DOI_PLACEHOLDER = "10.5281/zenodo.XXXXXXX"
 DOI_RE = re.compile(r"^10\.5281/zenodo\.\d+$")
 SUBMITTED = re.compile(r"^SUBMITTED_")
 PAGEBREAK = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n'
-PANDOC_FROM = ("markdown+pipe_tables+superscript+fenced_divs+raw_attribute-smart-subscript-citations"
+PANDOC_FROM = ("markdown+pipe_tables+superscript+fenced_divs+raw_attribute+subscript-smart-citations"
                "-tex_math_dollars-raw_html-auto_identifiers-implicit_figures-link_attributes")
 
 
@@ -678,6 +679,11 @@ def main(argv: list[str] | None = None) -> int:
                          f"put post-submission changes in a new folder (for example a _v2 folder)")
     OUT.mkdir(exist_ok=True)
     hl = not a.doi
+    rec = MS / "release_doi.txt"  # the DOI filled in, for verification/check_docx_tie.py
+    if a.doi:
+        rec.write_text(a.doi + "\n", encoding="utf-8", newline="\n")
+    elif rec.exists():
+        rec.unlink()
     with tempfile.TemporaryDirectory() as td:
         tmp = Path(td)
         ref = tmp / "reference.docx"
